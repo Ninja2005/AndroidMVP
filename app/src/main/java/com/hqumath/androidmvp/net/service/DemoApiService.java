@@ -7,7 +7,7 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
- * Created by 曾宪泽 on 2017/6/15.
+ *
  */
 
 public interface DemoApiService {

@@ -1,8 +1,7 @@
 package com.hqumath.androidmvp.bean;
 
 /**
- * Created by goldze on 2017/5/10.
- * 该类仅供参考，实际业务返回的固定字段, 根据需求来定义，
+ * 网络请求统一返回格式
  */
 public class BaseResponse<T> {
     private int code;

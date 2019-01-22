@@ -1,13 +1,10 @@
 package com.hqumath.androidmvp.net;
 
-import android.text.TextUtils;
-import android.widget.ImageView;
-import com.hqumath.androidmvp.net.service.DemoApiService;
+import com.hqumath.androidmvp.BuildConfig;
 import com.hqumath.androidmvp.utils.LogUtil;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -15,89 +12,90 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.util.Map;
+import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by goldze on 2017/5/10.
- * RetrofitClient封装单例类, 实现网络请求
+ * ****************************************************************
+ * 文件名称: RetrofitClient
+ * 作    者: Created by gyd
+ * 创建时间: 2019/1/22 14:47
+ * 文件描述: RetrofitClient封装单例类, 实现网络请求
+ * 注意事项:
+ * 版权声明:
+ * ****************************************************************
  */
 public class RetrofitClient {
-    //超时时间
-    private static final int DEFAULT_TIMEOUT = 20;
-    //缓存时间
-    //private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
-    //服务端根路径
-    public static String baseUrl = "https://www.oschina.net/";
+    private volatile static RetrofitClient INSTANCE;
 
-    private static OkHttpClient okHttpClient;
-    private static Retrofit retrofit;
-
-    private static class SingletonHolder {
-        private static RetrofitClient INSTANCE = new RetrofitClient();
-    }
-
-    public static RetrofitClient getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-
+    //构造方法私有
     private RetrofitClient() {
-        this(baseUrl, null);
     }
 
-    private RetrofitClient(String url, Map<String, String> headers) {
+    //获取单例
+    public static RetrofitClient getInstance() {
+        if (INSTANCE == null) {
+            synchronized (RetrofitClient.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new RetrofitClient();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
-        if (TextUtils.isEmpty(url)) {
-            url = baseUrl;
+    /**
+     * 处理http请求
+     *
+     * @param basePar 封装的请求数据
+     */
+    public void sendHttpRequest(BaseApi basePar) {
+        //手动创建一个OkHttpClient并设置超时时间缓存等设置
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
+        //builder.addInterceptor(new CookieInterceptor(basePar.isCache(), basePar.getUrl()));
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    LogUtil.i("RxRetrofit", "Retrofit====Message:" + message);
+                }
+            }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
         }
 
-        okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                    @Override
-                    public void log(String message) {
-                        LogUtil.i("1027", "OkHttp====Message:" + message);
-                    }
-                }).setLevel(HttpLoggingInterceptor.Level.BODY))//打印的等级
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .build();
-        retrofit = new Retrofit.Builder()
-                .client(okHttpClient)
+        /*创建retrofit对象*/
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(url)
+                .baseUrl(AppNetConfig.baseUrl)
                 .build();
-    }
 
-    /**
-     * create you ApiService
-     * Create an implementation of the API endpoints defined by the {@code service} interface.
-     */
-    public <T> T create(final Class<T> service) {
-        if (service == null) {
-            throw new RuntimeException("Api service is null!");
-        }
-        return retrofit.create(service);
-    }
-
-    /**
-     * /**
-     * execute your customer API
-     * For example:
-     * MyApiService service =
-     * RetrofitClient.getInstance(MainActivity.this).create(MyApiService.class);
-     * <p>
-     * RetrofitClient.getInstance(MainActivity.this)
-     * .execute(service.lgon("name", "password"), subscriber)
-     * * @param subscriber
-     */
-
-    public static <T> T execute(Observable<T> observable, Observer<T> subscriber) {
-        observable.subscribeOn(Schedulers.io())
+        /*rx处理*/
+        ProgressSubscriber subscriber = new ProgressSubscriber(basePar);
+        Observable observable = basePar.getObservable(retrofit)
+                /*失败后的retry配置*/
+                /*.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
+                        basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))*/
+                /*生命周期管理*/
+                .compose(basePar.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE))
+                /*http请求线程*/
+                .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
+                /*回调线程*/
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                /*结果判断*/
+                .map(basePar);
 
-        return null;
+
+        /*链接式对象返回*/
+        SoftReference<HttpOnNextListener> httpOnNextListener = basePar.getListener();
+        if (httpOnNextListener != null && httpOnNextListener.get() != null) {
+            httpOnNextListener.get().onNext(observable);
+        }
+
+        /*数据回调*/
+        observable.subscribe(subscriber);
+
     }
 }
