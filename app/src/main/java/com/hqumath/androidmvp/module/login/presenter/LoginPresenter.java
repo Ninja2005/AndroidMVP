@@ -3,6 +3,8 @@ package com.hqumath.androidmvp.module.login.presenter;
 import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.module.login.model.LoginModel;
+import com.hqumath.androidmvp.net.HttpOnNextListener;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
  * ****************************************************************
@@ -18,8 +20,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     LoginModel model;
 
-    public LoginPresenter(){
-        model = new LoginModel();
+    public LoginPresenter(RxAppCompatActivity activity){
+        model = new LoginModel(activity);
     }
 
     @Override
@@ -28,7 +30,17 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         if (!isViewAttached()) {
             return;
         }
-        mView.showLoading();
-        model.login(userCode, userCode);
+        model.login(userCode, userCode, new HttpOnNextListener(){
+
+            @Override
+            public void onNext(Object o) {
+                mView.onSuccess(o);
+            }
+
+            @Override
+            public  void onError(Throwable e){
+                mView.onError(e.getMessage());
+            }
+        });
     }
 }

@@ -5,33 +5,33 @@ package com.hqumath.androidmvp.bean;
  */
 public class BaseResultEntity<T> {
     //判断标示
-    private int ret;
+    private int code;
     //提示信息
-    private String msg;
+    private String message;
     //显示数据（用户需要关心的数据）
-    private T data;
+    private T result;
 
-    public String getMsg() {
-        return msg;
+    public int getCode() {
+        return code;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public T getData() {
-        return data;
+    public String getMessage() {
+        return message;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public int getRet() {
-        return ret;
+    public T getResult() {
+        return result;
     }
 
-    public void setRet(int ret) {
-        this.ret = ret;
+    public void setResult(T result) {
+        this.result = result;
     }
 }

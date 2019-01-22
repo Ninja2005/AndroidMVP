@@ -1,12 +1,13 @@
 package com.hqumath.androidmvp.module.login.model;
 
-import com.hqumath.androidmvp.bean.BaseResponse;
-import com.hqumath.androidmvp.bean.DemoEntity;
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
-import com.hqumath.androidmvp.net.RetrofitClientOld;
+import com.hqumath.androidmvp.net.BaseApi;
+import com.hqumath.androidmvp.net.HttpOnNextListener;
+import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.service.DemoApiService;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import io.reactivex.Observable;
+import retrofit2.Retrofit;
 
 /**
  * ****************************************************************
@@ -19,13 +20,25 @@ import io.reactivex.disposables.Disposable;
  * ****************************************************************
  */
 public class LoginModel implements LoginContract.Model {
+    private RxAppCompatActivity activity;
+
+    public LoginModel(RxAppCompatActivity activity){
+        this.activity = activity;
+    }
 
     @Override
-    public void login(String userCode, String passWord) {
+    public void login(String userCode, String passWord, HttpOnNextListener listener) {
 
-//        final ProgressDialog pd = new ProgressDialog();
+        BaseApi baseApi = new BaseApi(listener, activity) {
+            @Override
+            public Observable getObservable(Retrofit retrofit) {
+                return retrofit.create(DemoApiService.class).demoGet();
+            }
+        };
+        RetrofitClient.getInstance().sendHttpRequest(baseApi);
 
-        Observer observer = new Observer<BaseResponse<DemoEntity>>() {
+
+        /*Observer observer = new Observer<BaseResponse<DemoEntity>>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -57,7 +70,7 @@ public class LoginModel implements LoginContract.Model {
         };
 
         DemoApiService service = RetrofitClientOld.getInstance().create(DemoApiService.class);
-        RetrofitClientOld.execute(service.demoGet(), observer);
+        RetrofitClientOld.execute(service.demoGet(), observer);*/
 
     }
 

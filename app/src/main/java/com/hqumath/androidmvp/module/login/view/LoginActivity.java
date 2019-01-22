@@ -1,10 +1,12 @@
 package com.hqumath.androidmvp.module.login.view;
 
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
+import com.hqumath.androidmvp.bean.DemoEntity;
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.module.login.presenter.LoginPresenter;
 
@@ -48,23 +50,19 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initData() {
-        mPresenter = new LoginPresenter();
+        mPresenter = new LoginPresenter(this);
         mPresenter.attachView(this);
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
+    public void onSuccess(Object object) {
+        DemoEntity o = (DemoEntity)object;
     }
 
     @Override
     public void onError(String msg) {
 
     }
+
 
 }

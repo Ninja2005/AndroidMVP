@@ -46,7 +46,6 @@ public class ProgressSubscriber<T> implements Observer<T> {
         }
     }
 
-
     /**
      * 初始化加载框
      */
@@ -69,7 +68,6 @@ public class ProgressSubscriber<T> implements Observer<T> {
         }
     }
 
-
     /**
      * 显示加载框
      */
@@ -81,7 +79,6 @@ public class ProgressSubscriber<T> implements Observer<T> {
             pd.show();
         }
     }
-
 
     /**
      * 隐藏

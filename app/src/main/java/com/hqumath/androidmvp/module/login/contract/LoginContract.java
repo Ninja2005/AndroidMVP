@@ -1,5 +1,7 @@
 package com.hqumath.androidmvp.module.login.contract;
 
+import com.hqumath.androidmvp.net.HttpOnNextListener;
+
 /**
  * ****************************************************************
  * 文件名称: LoginContract
@@ -12,7 +14,7 @@ package com.hqumath.androidmvp.module.login.contract;
  */
 public interface LoginContract {
     interface Model {
-        void login(String userCode, String passWord);
+        void login(String userCode, String passWord, HttpOnNextListener listener);
 
         String getToken();
 
@@ -26,13 +28,9 @@ public interface LoginContract {
     }
 
     interface View {
-        void showLoading();
-
-        void hideLoading();
-
         void onError(String msg);
 
-//        void onSuccess(LoginResponse bean);
+        void onSuccess(Object object);
     }
 
     interface Presenter {

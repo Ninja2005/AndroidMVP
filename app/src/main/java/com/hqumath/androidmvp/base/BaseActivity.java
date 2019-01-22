@@ -2,7 +2,7 @@ package com.hqumath.androidmvp.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
  * ****************************************************************
@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
  * 版权声明:
  * ****************************************************************
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity {
     protected final String TAG = getClass().getSimpleName();
 
     @Override

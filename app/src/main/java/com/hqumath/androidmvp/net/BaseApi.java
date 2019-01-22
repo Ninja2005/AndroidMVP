@@ -52,7 +52,7 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
         setListener(listener);
         setRxAppCompatActivity(rxAppCompatActivity);
         setShowProgress(true);
-        setCache(true);
+        setCache(false);
     }
 
     public abstract Observable getObservable(Retrofit retrofit);
@@ -178,10 +178,10 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
 
     @Override
     public T apply(BaseResultEntity<T> httpResult) {
-        if (httpResult.getRet() == 0) {
-            throw new HttpTimeException(httpResult.getMsg());
+        if (httpResult.getCode() == 0) {
+            throw new HttpTimeException(httpResult.getMessage());
         }
-        return httpResult.getData();
+        return httpResult.getResult();
     }
 
     public String getCacheUrl() {
