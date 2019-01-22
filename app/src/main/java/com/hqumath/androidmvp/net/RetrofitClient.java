@@ -1,10 +1,13 @@
 package com.hqumath.androidmvp.net;
 
 import android.text.TextUtils;
+import android.widget.ImageView;
+import com.hqumath.androidmvp.net.service.DemoApiService;
 import com.hqumath.androidmvp.utils.LogUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
