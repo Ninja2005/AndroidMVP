@@ -1,5 +1,6 @@
 package com.hqumath.androidmvp.net;
 
+import android.text.TextUtils;
 import com.hqumath.androidmvp.bean.BaseResultEntity;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observable;
@@ -178,10 +179,11 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
 
     @Override
     public T apply(BaseResultEntity<T> httpResult) {
-        if (httpResult.getCode() == 0) {
-            throw new HttpTimeException(httpResult.getMessage());
+        String type = httpResult.getType();
+        if (TextUtils.isEmpty(type) || !type.equals(AppNetConfig.SUCCESS)) {
+            throw new HttpTimeException(httpResult.getResultMsg());
         }
-        return httpResult.getResult();
+        return httpResult.getData();
     }
 
     public String getCacheUrl() {

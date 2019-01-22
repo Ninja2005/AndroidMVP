@@ -10,7 +10,7 @@ import android.content.Context;
  * 创建时间: 2019/1/22 15:31
  * 文件描述:
  * 注意事项:
- * 版权声明: Copyright (C) 2016-2026 浙商国际金融资产交易中心
+ * 版权声明:
  * ****************************************************************
  */
 public class AndroidMvpApp extends Application {

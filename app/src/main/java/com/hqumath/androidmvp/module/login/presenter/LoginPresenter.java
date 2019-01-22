@@ -6,6 +6,8 @@ import com.hqumath.androidmvp.module.login.model.LoginModel;
 import com.hqumath.androidmvp.net.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
+import java.util.Map;
+
 /**
  * ****************************************************************
  * 文件名称: LoginPresenter
@@ -25,21 +27,21 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void login(String userCode, String passWord) {
+    public void login(Map<String, Object> maps, final int tag) {
         //View是否绑定 如果没有绑定，就不执行网络请求
         if (!isViewAttached()) {
             return;
         }
-        model.login(userCode, userCode, new HttpOnNextListener(){
+        model.login(maps, new HttpOnNextListener(){
 
             @Override
             public void onNext(Object o) {
-                mView.onSuccess(o);
+                mView.onSuccess(o, tag);
             }
 
             @Override
             public  void onError(Throwable e){
-                mView.onError(e.getMessage());
+                mView.onError(e.getMessage(), tag);
             }
         });
     }

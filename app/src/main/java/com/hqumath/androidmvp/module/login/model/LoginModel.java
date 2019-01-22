@@ -4,10 +4,12 @@ import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HttpOnNextListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
-import com.hqumath.androidmvp.net.service.DemoApiService;
+import com.hqumath.androidmvp.net.service.LoginService;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
+
+import java.util.Map;
 
 /**
  * ****************************************************************
@@ -27,51 +29,15 @@ public class LoginModel implements LoginContract.Model {
     }
 
     @Override
-    public void login(String userCode, String passWord, HttpOnNextListener listener) {
+    public void login(final Map<String, Object> maps, HttpOnNextListener listener) {
 
         BaseApi baseApi = new BaseApi(listener, activity) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                return retrofit.create(DemoApiService.class).demoGet();
+                return retrofit.create(LoginService.class).userLogin(maps);
             }
         };
         RetrofitClient.getInstance().sendHttpRequest(baseApi);
-
-
-        /*Observer observer = new Observer<BaseResponse<DemoEntity>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(BaseResponse<DemoEntity> response) {
-                //请求成功
-                if (response.getCode() == 1) {
-                    //将实体赋给LiveData
-                    for (DemoEntity.ItemsEntity entity : response.getResult().getItems()) {
-                        String name = entity.getName();
-                    }
-                } else {
-                    //code错误时也可以定义Observable回调到View层去处理
-                    String msg = "数据错误";
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                String error = "eror";
-            }
-
-            @Override
-            public void onComplete() {
-                String result = "result";
-            }
-        };
-
-        DemoApiService service = RetrofitClientOld.getInstance().create(DemoApiService.class);
-        RetrofitClientOld.execute(service.demoGet(), observer);*/
-
     }
 
     @Override

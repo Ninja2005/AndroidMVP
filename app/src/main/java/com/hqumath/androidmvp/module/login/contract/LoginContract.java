@@ -2,6 +2,8 @@ package com.hqumath.androidmvp.module.login.contract;
 
 import com.hqumath.androidmvp.net.HttpOnNextListener;
 
+import java.util.Map;
+
 /**
  * ****************************************************************
  * 文件名称: LoginContract
@@ -14,7 +16,7 @@ import com.hqumath.androidmvp.net.HttpOnNextListener;
  */
 public interface LoginContract {
     interface Model {
-        void login(String userCode, String passWord, HttpOnNextListener listener);
+        void login(final Map<String, Object> maps, HttpOnNextListener listener);
 
         String getToken();
 
@@ -28,12 +30,12 @@ public interface LoginContract {
     }
 
     interface View {
-        void onError(String msg);
+        void onSuccess(Object object, int tag);
 
-        void onSuccess(Object object);
+        void onError(String msg, int tag);
     }
 
     interface Presenter {
-        void login(String userCode, String passWord);
+        void login(Map<String, Object> maps, final int tag);
     }
 }

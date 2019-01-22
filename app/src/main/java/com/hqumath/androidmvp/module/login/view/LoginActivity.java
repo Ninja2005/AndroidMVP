@@ -1,14 +1,17 @@
 package com.hqumath.androidmvp.module.login.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
-import com.hqumath.androidmvp.bean.DemoEntity;
+import com.hqumath.androidmvp.bean.LoginResponse;
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.module.login.presenter.LoginPresenter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ****************************************************************
@@ -21,6 +24,7 @@ import com.hqumath.androidmvp.module.login.presenter.LoginPresenter;
  * ****************************************************************
  */
 public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements LoginContract.View {
+    private static final int LOGIN_TAG = 1;//登录 ZS0100003
 
     private EditText mEdtUserCode, mEdtPwd;
     private Button mBtnLogin;
@@ -42,8 +46,11 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.login(mEdtUserCode.getText().toString().trim(),
-                        mEdtPwd.getText().toString().trim());
+                Map<String, Object> maps = new HashMap<>();
+                maps.put("appKey", "mobile");
+                maps.put("loginAccount", "17777777775");
+                maps.put("userPsw", "9CFB01956645C78A59E172D1846089C3");
+                mPresenter.login(maps, LOGIN_TAG);
             }
         });
     }
@@ -55,12 +62,15 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     }
 
     @Override
-    public void onSuccess(Object object) {
-        DemoEntity o = (DemoEntity)object;
+    public void onSuccess(Object object, int tag) {
+        if(tag == LOGIN_TAG){
+            String name = ((LoginResponse)object).getName();
+            Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    public void onError(String msg) {
+    public void onError(String msg, int tag) {
 
     }
 
