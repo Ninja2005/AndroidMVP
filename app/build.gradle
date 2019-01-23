@@ -8,16 +8,15 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
-            buildConfigField("boolean", "LOG_DEBUG", "true")//禁止日志的打印
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            buildConfigField("boolean", "LOG_DEBUG", "false")//禁止日志的打印
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -27,7 +26,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -38,17 +36,14 @@ dependencies {
     //rx系列与View生命周期同步
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-    //rxbinding
-    //"rxbinding"   "com.jakewharton.rxbinding2:rxbinding:2.1.1",
-    //rx 6.0权限请求
-    //"rxpermissions"  "com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar",
     //network
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'//数据解析器
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'//网络请求适配器
-
+    // MultiDex的依赖
+    implementation 'org.robolectric:shadows-multidex:3.4-rc2'
 
 
 

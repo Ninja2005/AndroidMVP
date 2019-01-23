@@ -13,7 +13,7 @@ import com.hqumath.androidmvp.BuildConfig;
  */
 public class LogUtil {
 
-    private static boolean isDebug = BuildConfig.LOG_DEBUG;//是否需要打印bug，buildTypes.debug中配置
+    private static boolean isDebug = BuildConfig.DEBUG;//是否需要打印bug，buildTypes.debug中配置
 
     public static boolean isDebug() {
         return isDebug;
