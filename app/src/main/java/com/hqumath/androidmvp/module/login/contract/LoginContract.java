@@ -17,22 +17,12 @@ import java.util.Map;
 public interface LoginContract {
     interface Model {
         void login(final Map<String, Object> maps, HttpOnNextListener listener);
-
-        String getToken();
-
-        String getUserName();
-
-        void clearData();//清空个人数据本地缓存
-
-        void getCache();//获取个人数据本地缓存
-
-        void getAppConfig();//获取配置
     }
 
     interface View {
         void onSuccess(Object object, int tag);
 
-        void onError(String msg, int tag);
+        void onError(String errorMsg, String code, int tag);
     }
 
     interface Presenter {

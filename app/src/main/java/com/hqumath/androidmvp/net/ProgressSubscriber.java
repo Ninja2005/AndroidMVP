@@ -171,7 +171,7 @@ public class ProgressSubscriber<T> implements Observer<T> {
     /*错误统一处理*/
     private void errorDo(Throwable e) {
         if (mSubscriberOnNextListener.get() != null) {
-            mSubscriberOnNextListener.get().onError(e);
+            mSubscriberOnNextListener.get().onError(HandlerException.handleException(e));
         }
     }
 

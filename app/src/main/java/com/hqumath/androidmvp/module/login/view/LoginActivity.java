@@ -70,9 +70,8 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     }
 
     @Override
-    public void onError(String msg, int tag) {
-        toast(msg);
+    public void onError(String errorMsg, String code, int tag){
+        toast(errorMsg);
     }
-
 
 }

@@ -39,29 +39,4 @@ public class LoginModel implements LoginContract.Model {
         };
         RetrofitClient.getInstance().sendHttpRequest(baseApi);
     }
-
-    @Override
-    public String getToken() {
-        return null;
-    }
-
-    @Override
-    public String getUserName() {
-        return null;
-    }
-
-    @Override
-    public void clearData() {
-
-    }
-
-    @Override
-    public void getCache() {
-
-    }
-
-    @Override
-    public void getAppConfig() {
-
-    }
 }

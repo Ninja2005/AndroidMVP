@@ -34,7 +34,7 @@ public abstract class HttpOnNextListener<T> {
      * 主动调用，更加灵活
      * @param e
      */
-    public  void onError(Throwable e){
+    public void onError(HandlerException.ResponseThrowable e){
 
     }
 
