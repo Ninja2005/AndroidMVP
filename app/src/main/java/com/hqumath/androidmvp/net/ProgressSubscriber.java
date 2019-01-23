@@ -170,15 +170,6 @@ public class ProgressSubscriber<T> implements Observer<T> {
 
     /*错误统一处理*/
     private void errorDo(Throwable e) {
-        Context context = mActivity.get();
-        if (context == null) return;
-        if (e instanceof SocketTimeoutException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else if (e instanceof ConnectException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "错误" + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
         if (mSubscriberOnNextListener.get() != null) {
             mSubscriberOnNextListener.get().onError(e);
         }

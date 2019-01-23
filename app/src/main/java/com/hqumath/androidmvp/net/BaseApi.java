@@ -101,7 +101,7 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     }*/
 
     /*public String getUrl() {
-        *//*在没有手动设置url情况下，简单拼接*//*
+     *//*在没有手动设置url情况下，简单拼接*//*
         if (null == getCacheUrl() || "".equals(getCacheUrl())) {
             return getBaseUrl() + getMethod();
         }
@@ -181,7 +181,17 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     public T apply(BaseResultEntity<T> httpResult) {
         String type = httpResult.getType();
         if (TextUtils.isEmpty(type) || !type.equals(AppNetConfig.SUCCESS)) {
-            throw new HttpTimeException(httpResult.getResultMsg());
+            String resultCode = httpResult.getResultCode();
+            String resultMsg = httpResult.getResultMsg();
+            //处理特殊错误号
+            switch (resultCode) {
+                case HandleMessageCode.HMC_LOGIN:
+                    throw new HandlerException.ResponseThrowable("请先登录", resultCode);
+                case HandleMessageCode.HMC_LOGIN_OUT:
+                    throw new HandlerException.ResponseThrowable("您的账户已在其他设备登录,请重新登陆！", resultCode);
+                default:
+                    throw new HandlerException.ResponseThrowable(resultMsg, resultCode);
+            }
         }
         return httpResult.getData();
     }
