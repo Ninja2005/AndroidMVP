@@ -16,7 +16,7 @@ import java.net.SocketTimeoutException;
  * 用于在Http请求开始时，自动显示一个ProgressDialog
  * 在Http请求结束是，关闭ProgressDialog
  * 调用者自己对请求数据进行处理
- * Created by WZG on 2016/7/16.
+ * 注意事项: https://github.com/wzgiceman/RxjavaRetrofitDemo-master
  */
 public class ProgressSubscriber<T> implements Observer<T> {
     /*是否弹框*/
@@ -98,7 +98,7 @@ public class ProgressSubscriber<T> implements Observer<T> {
     public void onSubscribe(Disposable d) {
         showProgressDialog();
         /*缓存并且有网*/
-        /*if (api.isCache() && AppUtil.isNetworkAvailable(AndroidMvpApp.getContext())) {
+        /*if (api.isCache() && AppUtil.isNetworkAvailable(App.getContext())) {
          *//*获取缓存数据*//*
             CookieResulte cookieResulte = CookieDbUtil.getInstance().queryCookieBy(api.getUrl());
             if (cookieResulte != null) {

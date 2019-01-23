@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
 
-    LoginModel model;
+    private LoginModel model;
 
     public LoginPresenter(RxAppCompatActivity activity){
         model = new LoginModel(activity);

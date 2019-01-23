@@ -48,8 +48,8 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
             public void onClick(View v) {
                 Map<String, Object> maps = new HashMap<>();
                 maps.put("appKey", "mobile");
-                maps.put("loginAccount", "17777777775");
-                maps.put("userPsw", "9CFB01956645C78A59E172D1846089C3");
+                maps.put("loginAccount", mEdtUserCode.getText().toString().trim());
+                maps.put("userPsw", mEdtPwd.getText().toString().trim());
                 mPresenter.login(maps, LOGIN_TAG);
             }
         });
@@ -65,7 +65,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     public void onSuccess(Object object, int tag) {
         if(tag == LOGIN_TAG){
             String name = ((LoginResponse)object).getName();
-            Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+            toast(name + "已登录");
         }
     }
 

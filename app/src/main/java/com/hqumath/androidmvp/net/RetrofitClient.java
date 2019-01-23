@@ -21,7 +21,8 @@ import java.util.concurrent.TimeUnit;
  * 作    者: Created by gyd
  * 创建时间: 2019/1/22 14:47
  * 文件描述: RetrofitClient封装单例类, 实现网络请求
- * 注意事项:
+ * 注意事项: https://github.com/wzgiceman/RxjavaRetrofitDemo-master
+ *           每次发送请求，new Retrofit,以便动态更改baseUrl
  * 版权声明:
  * ****************************************************************
  */

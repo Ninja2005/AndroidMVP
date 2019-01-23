@@ -14,6 +14,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:text="17777777775"
             android:hint="账户"/>
 
     <EditText
@@ -21,6 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="20dp"
+            android:text="9CFB01956645C78A59E172D1846089C3"
+            android:inputType="textPassword"
             android:hint="密码"/>
 
     <Button

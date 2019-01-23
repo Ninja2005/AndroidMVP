@@ -2,6 +2,8 @@ package com.hqumath.androidmvp.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import com.hqumath.androidmvp.app.AppManager;
+import com.hqumath.androidmvp.utils.ToastUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
@@ -15,14 +17,18 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  * ****************************************************************
  */
 public abstract class BaseActivity extends RxAppCompatActivity {
-    protected final String TAG = getClass().getSimpleName();
+    protected BaseActivity mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.getLayoutId());
+
+        mContext = this;
+        AppManager.getInstance().addActivity(this);
         initView();
         initListener();
+        initTitle();
         initData();
     }
 
@@ -36,6 +42,12 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().removeActivity(this);
+    }
+
     public abstract int getLayoutId();
 
     public abstract void initView();
@@ -43,6 +55,13 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void initListener() {
     }
 
+    protected void initTitle() {
+    }
+
     protected void initData() {
+    }
+
+    protected void toast(String s) {
+        ToastUtil.toast(this, s);
     }
 }

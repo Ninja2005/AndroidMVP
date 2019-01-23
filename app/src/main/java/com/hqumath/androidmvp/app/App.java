@@ -6,7 +6,7 @@ import android.support.multidex.MultiDex;
 
 /**
  * ****************************************************************
- * 文件名称: AndroidMvpApp
+ * 文件名称: App
  * 作    者: Created by gyd
  * 创建时间: 2019/1/22 15:31
  * 文件描述:
@@ -14,7 +14,7 @@ import android.support.multidex.MultiDex;
  * 版权声明:
  * ****************************************************************
  */
-public class AndroidMvpApp extends Application {
+public class App extends Application {
     private static Context context;
 
     @Override
