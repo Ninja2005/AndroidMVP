@@ -1,5 +1,11 @@
 package com.hqumath.androidmvp.net.service;
 
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+
+import java.util.Map;
+
 /**
  * ****************************************************************
  * 文件名称: MainService
@@ -11,4 +17,8 @@ package com.hqumath.androidmvp.net.service;
  * ****************************************************************
  */
 public interface MainService {
+    //产品列表
+    @FormUrlEncoded
+    @POST("ZS0200001")
+    Observable<BaseHttpResultEntry<RecProductInfo>> getProductList(@FieldMap Map<String, Object> maps);
 }

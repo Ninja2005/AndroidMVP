@@ -3,7 +3,6 @@ package com.hqumath.androidmvp.module.login.view;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.LoginResponse;
@@ -63,14 +62,14 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     public void onSuccess(Object object, int tag) {
-        if(tag == LOGIN_TAG){
-            String name = ((LoginResponse)object).getName();
+        if (tag == LOGIN_TAG) {
+            String name = ((LoginResponse) object).getName();
             toast(name + "已登录");
         }
     }
 
     @Override
-    public void onError(String errorMsg, String code, int tag){
+    public void onError(String errorMsg, String code, int tag) {
         toast(errorMsg);
     }
 

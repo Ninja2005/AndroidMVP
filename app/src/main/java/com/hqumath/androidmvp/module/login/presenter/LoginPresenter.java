@@ -23,7 +23,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     private LoginModel model;
 
-    public LoginPresenter(RxAppCompatActivity activity){
+    public LoginPresenter(RxAppCompatActivity activity) {
         model = new LoginModel(activity);
     }
 
@@ -33,7 +33,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         if (!isViewAttached()) {
             return;
         }
-        model.login(maps, new HttpOnNextListener(){
+        model.login(maps, new HttpOnNextListener() {
 
             @Override
             public void onNext(Object o) {
@@ -41,7 +41,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             }
 
             @Override
-            public  void onError(HandlerException.ResponseThrowable e){
+            public void onError(HandlerException.ResponseThrowable e) {
                 mView.onError(e.getMessage(), e.getCode(), tag);
             }
         });
