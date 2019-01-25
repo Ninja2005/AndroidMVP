@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface MainService {
     //产品列表
-    @FormUrlEncoded
-    @POST("ZS0200001")
-    Observable<BaseHttpResultEntry<RecProductInfo>> getProductList(@FieldMap Map<String, Object> maps);
+    //@FormUrlEncoded
+    //@POST("ZS0200001")
+    //Observable<BaseHttpResultEntry<RecProductInfo>> getProductList(@FieldMap Map<String, Object> maps);
 }

@@ -1,6 +1,5 @@
 package com.hqumath.androidmvp.module.login.view;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.hqumath.androidmvp.R;
@@ -8,9 +7,11 @@ import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.LoginResponse;
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.module.login.presenter.LoginPresenter;
+import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ****************************************************************
@@ -42,16 +43,16 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initListener() {
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String, Object> maps = new HashMap<>();
-                maps.put("appKey", "mobile");
-                maps.put("loginAccount", mEdtUserCode.getText().toString().trim());
-                maps.put("userPsw", mEdtPwd.getText().toString().trim());
-                mPresenter.login(maps, LOGIN_TAG);
-            }
-        });
+        RxView.clicks(mBtnLogin)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .compose(this.bindToLifecycle())
+                .subscribe(o -> {
+                    Map<String, Object> maps = new HashMap<>();
+                    maps.put("appKey", "mobile");
+                    maps.put("loginAccount", mEdtUserCode.getText().toString().trim());
+                    maps.put("userPsw", mEdtPwd.getText().toString().trim());
+                    mPresenter.login(maps, LOGIN_TAG);
+                });
     }
 
     @Override

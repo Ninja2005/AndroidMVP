@@ -3,14 +3,11 @@ package com.hqumath.androidmvp.net;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.Toast;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 import java.lang.ref.SoftReference;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 
 /**
  * 用于在Http请求开始时，自动显示一个ProgressDialog

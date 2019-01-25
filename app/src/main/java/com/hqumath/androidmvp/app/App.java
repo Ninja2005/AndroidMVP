@@ -2,7 +2,6 @@ package com.hqumath.androidmvp.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
 /**
  * ****************************************************************
@@ -27,9 +26,9 @@ public class App extends Application {
         return context;
     }
 
-    @Override
+    /*@Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);//方法数超过65k
-    }
+    }*/
 }
