@@ -1,6 +1,7 @@
 package com.hqumath.androidmvp.module.main.presenter;
 
 import android.content.Context;
+import android.view.View;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseRecyclerViewHolder;
@@ -29,6 +30,9 @@ public class MyRecyclerAdapter extends BaseRecyclerAdapter<ProductInfo> {
 
     @Override
     public void convert(BaseRecyclerViewHolder holder, int position) {
-        holder.setText(R.id.tv_item, mDatas.get(position).getProductName());
+        if (position == 0)
+            holder.getView(R.id.ll_header).setVisibility(View.GONE);
+        holder.setText(R.id.tv_name, mDatas.get(position).getProductName());
+        holder.setText(R.id.tv_value, mDatas.get(position).getProductProfit() + "%");
     }
 }

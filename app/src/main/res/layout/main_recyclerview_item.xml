@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="#FFFFFF">
+
+    <View
+            android:id="@+id/ll_header"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="#F5F5F5"/>
 
     <TextView
-            android:id="@+id/tv_item"
+            android:id="@+id/tv_name"
+            android:layout_marginTop="5dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="浙江国际基建D65理财计划"
+            android:textColor="#4A4A4A"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:text="6.30%"
+            android:textColor="#F76B1C"
+            android:textSize="24sp"/>
 </LinearLayout>
