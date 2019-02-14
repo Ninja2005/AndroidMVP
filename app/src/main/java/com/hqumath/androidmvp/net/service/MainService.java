@@ -1,5 +1,9 @@
 package com.hqumath.androidmvp.net.service;
 
+import com.hqumath.androidmvp.bean.BaseResultEntity;
+import com.hqumath.androidmvp.bean.LoginResponse;
+import com.hqumath.androidmvp.bean.ProductListResponse;
+import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -18,7 +22,7 @@ import java.util.Map;
  */
 public interface MainService {
     //产品列表
-    //@FormUrlEncoded
-    //@POST("ZS0200001")
-    //Observable<BaseHttpResultEntry<RecProductInfo>> getProductList(@FieldMap Map<String, Object> maps);
+    @FormUrlEncoded
+    @POST("ZS0200001")
+    Observable<BaseResultEntity<ProductListResponse>> getProductList(@FieldMap Map<String, Object> maps);
 }

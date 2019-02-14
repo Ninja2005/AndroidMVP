@@ -5,6 +5,7 @@ import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HttpOnNextListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.service.LoginService;
+import com.hqumath.androidmvp.net.service.MainService;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
@@ -34,7 +35,7 @@ public class MainModel implements MainContract.Model {
         BaseApi baseApi = new BaseApi(listener, activity) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                return retrofit.create(LoginService.class).userLogin(maps);
+                return retrofit.create(MainService.class).getProductList(maps);
             }
         };
         RetrofitClient.getInstance().sendHttpRequest(baseApi);
