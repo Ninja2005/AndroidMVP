@@ -4,6 +4,7 @@ import android.content.Context;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseRecyclerViewHolder;
+import com.hqumath.androidmvp.bean.ProductInfo;
 
 import java.util.List;
 
@@ -17,17 +18,17 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class MyRecyclerAdapter extends BaseRecyclerAdapter<String> {
+public class MyRecyclerAdapter extends BaseRecyclerAdapter<ProductInfo> {
 
-    private List<String> mDatas;
+    private List<ProductInfo> mDatas;
 
-    public MyRecyclerAdapter(Context context, List<String> mDatas, int layoutId) {
+    public MyRecyclerAdapter(Context context, List<ProductInfo> mDatas, int layoutId) {
         super(context, mDatas, layoutId);
         this.mDatas = mDatas;
     }
 
     @Override
     public void convert(BaseRecyclerViewHolder holder, int position) {
-        holder.setText(R.id.tv_item, mDatas.get(position));
+        holder.setText(R.id.tv_item, mDatas.get(position).getProductName());
     }
 }

@@ -1,31 +1,46 @@
 package com.hqumath.androidmvp.module.main.view;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
+import com.hqumath.androidmvp.bean.ProductInfo;
+import com.hqumath.androidmvp.bean.ProductListResponse;
 import com.hqumath.androidmvp.module.main.contract.MainContract;
 import com.hqumath.androidmvp.module.main.presenter.MainPresenter;
 import com.hqumath.androidmvp.module.main.presenter.MyRecyclerAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ****************************************************************
  * 文件名称: MainActivity
  * 作    者: Created by gyd
  * 创建时间: 2019/1/23 11:12
- * 文件描述: 列表下拉刷新，上拉加载更多
+ * 文件描述: 产品列表界面
  * 注意事项:
  * 版权声明:
  * ****************************************************************
  */
 public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.View {
+    private static final int PRODUCT_TAG = 1;//产品列表 ZS0200001
 
     private RefreshLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
+
+    MyRecyclerAdapter recyclerAdapter;
+
+    private List<ProductInfo> mDatas = new ArrayList<ProductInfo>();
+    private boolean isPullUp = true;//true表示下拉，false表示上拉
+    private int itemCount = 1;//记录上拉加载更多的条目数偏移值
 
 
     @Override
@@ -40,59 +55,94 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     }
 
     protected void initListener() {
-        List<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        MyRecyclerAdapter recyclerAdapter = new MyRecyclerAdapter(mContext, list, R.layout.main_recyclerview_item);
+
+        recyclerAdapter = new MyRecyclerAdapter(mContext, mDatas, R.layout.main_recyclerview_item);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(recyclerAdapter);
 
-        /*mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.refresh(initData1());
-                        refreshLayout.finishRefresh();
-                        refreshLayout.resetNoMoreData();//setNoMoreData(false);
-                    }
-                }, 2000);
+                isPullUp = true;
+                itemCount = 1;
+                Map<String, Object> maps = new HashMap<>();
+                maps.put("appKey", "mobile");
+                maps.put("perpage", "10");
+                maps.put("offset", "1");
+                maps.put("productCycleStatus", "buying");
+                mPresenter.getProductList(maps, PRODUCT_TAG, false);
             }
-        });*/
-        /*mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+        });
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mAdapter.getItemCount() > 30) {
-                            toast("数据全部加载完毕");
-                            refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
-                        } else {
-                            mAdapter.loadMore(initData1());
-                            refreshLayout.finishLoadMore();
-                        }
-                    }
-                }, 2000);
+                isPullUp = false;
+                Map<String, Object> maps = new HashMap<>();
+                maps.put("appKey", "mobile");
+                maps.put("perpage", "10");
+                maps.put("offset", itemCount + "");
+                maps.put("productCycleStatus", "buying");
+                mPresenter.getProductList(maps, PRODUCT_TAG, false);
             }
-        });*/
+        });
     }
 
 
     @Override
     protected void initData() {
+        mPresenter = new MainPresenter(this);
+        mPresenter.attachView(this);
+
         //触发自动刷新
-        //mRefreshLayout.autoRefresh();
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
     public void onSuccess(Object object, int tag) {
+        if (tag == PRODUCT_TAG) {
+            //下拉刷新，清空历史数据
+            if (isPullUp) {
+                mDatas.clear();
+            }
+            List<ProductInfo> list = (((ProductListResponse) object).getSubscribeProductBo());
+            if (list.size() == 0) {
+                if (isPullUp) {
+                    toast("没有数据");
+                } else {
+                    toast("没有更多数据了");
+                    mRefreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+                    recyclerAdapter.notifyDataSetChanged();
+                    return;
+                }
+            }
+            //上拉刷新 偏移量+1
+            if (!isPullUp) {
+                itemCount += 1;
+            } else {
+                itemCount = 2;
+            }
+            mDatas.addAll(list);
+            recyclerAdapter.notifyDataSetChanged();
+        }
 
+        if (mRefreshLayout.getState() == RefreshState.Refreshing) {
+            mRefreshLayout.finishRefresh();
+            mRefreshLayout.resetNoMoreData();
+        }
+        if (mRefreshLayout.getState() == RefreshState.Loading) {
+            mRefreshLayout.finishLoadMore();
+        }
     }
 
     @Override
     public void onError(String errorMsg, String code, int tag) {
+        toast(errorMsg);
 
+        if (mRefreshLayout.getState() == RefreshState.Refreshing) {
+            mRefreshLayout.finishRefresh(false);
+        }
+        if (mRefreshLayout.getState() == RefreshState.Loading) {
+            mRefreshLayout.finishLoadMore(false);
+        }
     }
 }

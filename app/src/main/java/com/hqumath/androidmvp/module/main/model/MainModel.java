@@ -30,7 +30,7 @@ public class MainModel implements MainContract.Model {
     }
 
     @Override
-    public void getProductList(final Map<String, Object> maps, HttpOnNextListener listener) {
+    public void getProductList(final Map<String, Object> maps, HttpOnNextListener listener, boolean isShowProgress) {
 
         BaseApi baseApi = new BaseApi(listener, activity) {
             @Override
@@ -38,6 +38,7 @@ public class MainModel implements MainContract.Model {
                 return retrofit.create(MainService.class).getProductList(maps);
             }
         };
+        baseApi.setShowProgress(isShowProgress);
         RetrofitClient.getInstance().sendHttpRequest(baseApi);
     }
 }

@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface MainContract {
     interface Model {
-        void getProductList(final Map<String, Object> maps, HttpOnNextListener listener);
+        void getProductList(final Map<String, Object> maps, HttpOnNextListener listener, boolean isShowProgress);
     }
 
     interface View {
@@ -26,6 +26,6 @@ public interface MainContract {
     }
 
     interface Presenter {
-        void getProductList(Map<String, Object> maps, final int tag);
+        void getProductList(Map<String, Object> maps, final int tag, boolean isShowProgress);
     }
 }
