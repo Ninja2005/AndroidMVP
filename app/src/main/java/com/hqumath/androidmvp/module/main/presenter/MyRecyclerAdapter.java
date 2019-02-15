@@ -30,8 +30,12 @@ public class MyRecyclerAdapter extends BaseRecyclerAdapter<ProductInfo> {
 
     @Override
     public void convert(BaseRecyclerViewHolder holder, int position) {
+        View mLlHeader = holder.getView(R.id.ll_header);
         if (position == 0)
-            holder.getView(R.id.ll_header).setVisibility(View.GONE);
+            mLlHeader.setVisibility(View.GONE);
+        else if(mLlHeader.getVisibility() == View.GONE)
+            mLlHeader.setVisibility(View.VISIBLE);
+
         holder.setText(R.id.tv_name, mDatas.get(position).getProductName());
         holder.setText(R.id.tv_value, mDatas.get(position).getProductProfit() + "%");
     }
