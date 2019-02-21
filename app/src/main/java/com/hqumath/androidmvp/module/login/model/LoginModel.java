@@ -2,7 +2,7 @@ package com.hqumath.androidmvp.module.login.model;
 
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.net.BaseApi;
-import com.hqumath.androidmvp.net.HttpOnNextListener;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.service.LoginService;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;

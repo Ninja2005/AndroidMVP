@@ -1,6 +1,6 @@
 package com.hqumath.androidmvp.module.main.contract;
 
-import com.hqumath.androidmvp.net.HttpOnNextListener;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 
 import java.util.Map;
 

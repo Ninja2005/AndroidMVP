@@ -1,11 +1,10 @@
 package com.hqumath.androidmvp.module.main.presenter;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.module.main.contract.MainContract;
 import com.hqumath.androidmvp.module.main.model.MainModel;
 import com.hqumath.androidmvp.net.HandlerException;
-import com.hqumath.androidmvp.net.HttpOnNextListener;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.Map;

@@ -2,6 +2,7 @@ package com.hqumath.androidmvp.net;
 
 import android.text.TextUtils;
 import com.hqumath.androidmvp.bean.BaseResultEntity;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;

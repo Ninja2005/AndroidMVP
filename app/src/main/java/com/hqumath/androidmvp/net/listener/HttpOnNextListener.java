@@ -1,6 +1,7 @@
-package com.hqumath.androidmvp.net;
+package com.hqumath.androidmvp.net.listener;
 
 
+import com.hqumath.androidmvp.net.HandlerException;
 import io.reactivex.Observable;
 
 /**
@@ -45,5 +46,13 @@ public abstract class HttpOnNextListener<T> {
 
     }
 
+    /**
+     * 下载进度
+     * @param readLength
+     * @param countLength
+     */
+    public void updateProgress(long readLength, long countLength){
+
+    }
 
 }

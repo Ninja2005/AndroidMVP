@@ -1,22 +1,26 @@
 package com.hqumath.androidmvp.net;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import com.hqumath.androidmvp.BuildConfig;
+import com.hqumath.androidmvp.app.App;
+import com.hqumath.androidmvp.net.download.DownloadInterceptor;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+import com.hqumath.androidmvp.net.subscribers.ProgressDownSubscriber;
+import com.hqumath.androidmvp.net.subscribers.ProgressSubscriber;
 import com.hqumath.androidmvp.utils.LogUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
@@ -133,5 +137,104 @@ public class RetrofitClient {
 
         /*数据回调*/
         observable.subscribe(subscriber);
+    }
+
+    /**
+     * 处理http下载请求
+     *
+     * @param basePar 封装的请求数据
+     */
+    public void sendHttpDownloadRequest(BaseApi basePar, Handler handler) {
+        //手动创建一个OkHttpClient并设置超时时间缓存等设置
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    LogUtil.i("RxRetrofit", "Retrofit====Message:" + message);
+                }
+            }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
+        }
+
+        //下载拦截器
+        ProgressDownSubscriber subscriber = new ProgressDownSubscriber(basePar, handler);
+        builder.addInterceptor(new DownloadInterceptor(subscriber));
+
+        /*创建retrofit对象*/
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(builder.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(AppNetConfig.baseUrl)
+                .build();
+
+        /*rx处理*/
+        Observable observable = basePar.getObservable(retrofit)
+                /*失败后的retry配置*/
+                /*.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
+                        basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))*/
+                /*生命周期管理*/
+                .compose(basePar.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE))
+                /*http请求线程*/
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                /*回调线程*/
+                .observeOn(AndroidSchedulers.mainThread())
+                /*结果判断*/
+                .map(new Function<ResponseBody, File>() {
+                    @Override
+                    public File apply(ResponseBody responseBody) throws Exception {
+                        //文件存储位置 new File(info.getSavePath())
+                        InputStream inputStream = responseBody.byteStream();
+                        return saveApk(inputStream);
+                    }
+                });
+
+        /*数据回调*/
+        observable.subscribe(subscriber);
+    }
+
+    static File saveApk(InputStream is) {
+        File file = new File(App.getContext().getExternalFilesDir("我的apk升级目录"), "我的应用.apk");
+
+        if (writeFile(file, is)) {
+            return file;
+        } else {
+            return null;
+        }
+    }
+
+    static boolean writeFile(File file, InputStream is) {
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(file);
+            byte data[] = new byte[1024];
+            int length = -1;
+            while ((length = is.read(data)) != -1) {
+                os.write(data, 0, length);
+            }
+            os.flush();
+            return true;
+        } catch (Exception e) {
+            if (file != null && file.exists()) {
+                file.deleteOnExit();
+            }
+            e.printStackTrace();
+        } finally {
+            closeStream(os);
+            closeStream(is);
+        }
+        return false;
+    }
+
+    static void closeStream(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

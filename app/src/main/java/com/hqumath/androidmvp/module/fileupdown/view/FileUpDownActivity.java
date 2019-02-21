@@ -1,5 +1,7 @@
 package com.hqumath.androidmvp.module.fileupdown.view;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import com.daimajia.numberprogressbar.NumberProgressBar;
@@ -7,8 +9,8 @@ import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HandlerException;
-import com.hqumath.androidmvp.net.HttpOnNextListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.hqumath.androidmvp.net.service.FileUpDownService;
 import com.hqumath.androidmvp.net.upload.ProgressRequestBody;
 import com.hqumath.androidmvp.net.upload.UploadProgressListener;
@@ -37,6 +39,9 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
     private Button btnUpload, btnDownload;
     private NumberProgressBar progressBar;
 
+    private Handler handler = new Handler(Looper.getMainLooper());
+
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_fileupdown;
@@ -60,7 +65,7 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
         if (v == btnUpload) {
             upload();
         } else if (v == btnDownload) {
-
+            download();
         }
     }
 
@@ -100,11 +105,44 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
         }, mContext) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                FileUpDownService fileUpDownService = retrofit.create(FileUpDownService.class);
-                return fileUpDownService.uploadFile(part);
+                return retrofit.create(FileUpDownService.class).uploadFile(part);
             }
         };
         baseapi.setShowProgress(false);
         RetrofitClient.getInstance().sendHttpRequest(baseapi);
+    }
+
+    private void download() {
+        //
+        String url = "https://staticuat.zifae.com/apk/android/ZSExchange_V1.1.6_20181212_tencent.apk";
+        //String url1 = "https://static.zifae.com/static-resource/file/arguments.pdf";
+
+        BaseApi baseapi = new BaseApi(new HttpOnNextListener() {
+            @Override
+            public void onNext(Object o) {
+                //mView.onSuccess(o, tag);
+                toast("下载成功");
+            }
+
+            @Override
+            public void onError(HandlerException.ResponseThrowable e) {
+                //mView.onError(e.getMessage(), e.getCode(), tag);
+                toast("下载失败");
+            }
+
+            @Override
+            public void updateProgress(long readLength, long countLength) {
+                progressBar.setMax((int) countLength);
+                progressBar.setProgress((int) readLength);
+            }
+        }, mContext) {
+            @Override
+            public Observable getObservable(Retrofit retrofit) {
+                return retrofit.create(FileUpDownService.class).download(url);
+            }
+        };
+        baseapi.setShowProgress(false);
+        RetrofitClient.getInstance().sendHttpDownloadRequest(baseapi, handler);
+
     }
 }

@@ -4,6 +4,7 @@ import com.hqumath.androidmvp.bean.BaseResultEntity;
 import com.hqumath.androidmvp.bean.LoginResponse;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.*;
 
 import java.util.Map;
@@ -24,4 +25,7 @@ public interface FileUpDownService {
     @POST("ZS0100093?appKey=mobile")
     Observable<BaseResultEntity> uploadFile(@Part MultipartBody.Part img);
 
+    @Streaming/*大文件需要加入这个判断，防止下载过程中写入到内存中*/
+    @GET
+    Observable<ResponseBody> download(@Url String url);
 }

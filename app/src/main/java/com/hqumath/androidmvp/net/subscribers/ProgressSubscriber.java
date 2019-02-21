@@ -1,8 +1,11 @@
-package com.hqumath.androidmvp.net;
+package com.hqumath.androidmvp.net.subscribers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import com.hqumath.androidmvp.net.BaseApi;
+import com.hqumath.androidmvp.net.HandlerException;
+import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -19,7 +22,7 @@ public class ProgressSubscriber<T> implements Observer<T> {
     /*是否弹框*/
     private boolean showPorgress = true;
     /* 软引用回调接口*/
-    private SoftReference<HttpOnNextListener> mSubscriberOnNextListener;
+    protected SoftReference<HttpOnNextListener> mSubscriberOnNextListener;
     /*软引用反正内存泄露*/
     private SoftReference<RxAppCompatActivity> mActivity;
     /*加载框可自己定义*/
