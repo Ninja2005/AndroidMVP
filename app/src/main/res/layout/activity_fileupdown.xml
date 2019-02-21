@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".module.login.view.LoginActivity"
+        android:background="@color/background">
+
+    <Button
+            android:id="@+id/btn_upload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文件上传"/>
+
+    <Button
+            android:id="@+id/btn_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文件下载"/>
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/number_progress_bar"
+            custom:progress_text_size="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_progress"
+            android:text="100%"/>-->
+
+</LinearLayout>

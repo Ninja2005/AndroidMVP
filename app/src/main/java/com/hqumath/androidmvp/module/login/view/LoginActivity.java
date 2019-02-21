@@ -6,6 +6,7 @@ import android.widget.EditText;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.LoginResponse;
+import com.hqumath.androidmvp.module.fileupdown.view.FileUpDownActivity;
 import com.hqumath.androidmvp.module.login.contract.LoginContract;
 import com.hqumath.androidmvp.module.login.presenter.LoginPresenter;
 import com.hqumath.androidmvp.module.main.view.MainActivity;
@@ -68,7 +69,9 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
         if (tag == LOGIN_TAG) {
             String name = ((LoginResponse) object).getName();
             toast(name + "已登录");
-            mContext.startActivity(new Intent(mContext, MainActivity.class));
+            //mContext.startActivity(new Intent(mContext, MainActivity.class));
+            mContext.startActivity(new Intent(mContext, FileUpDownActivity.class));
+
         }
     }
 

@@ -39,7 +39,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     MyRecyclerAdapter recyclerAdapter;
 
     private List<ProductInfo> mDatas = new ArrayList<ProductInfo>();
-    private boolean isPullUp = true;//true表示下拉，false表示上拉
+    private boolean isPullDown = true;//true表示下拉，false表示上拉
     private int itemCount = 1;//记录上拉加载更多的条目数偏移值
 
 
@@ -63,7 +63,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                isPullUp = true;
+                isPullDown = true;
                 itemCount = 1;
                 Map<String, Object> maps = new HashMap<>();
                 maps.put("appKey", "mobile");
@@ -76,7 +76,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                isPullUp = false;
+                isPullDown = false;
                 Map<String, Object> maps = new HashMap<>();
                 maps.put("appKey", "mobile");
                 maps.put("perpage", "10");
@@ -101,12 +101,12 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     public void onSuccess(Object object, int tag) {
         if (tag == PRODUCT_TAG) {
             //下拉刷新，清空历史数据
-            if (isPullUp) {
+            if (isPullDown) {
                 mDatas.clear();
             }
             List<ProductInfo> list = (((ProductListResponse) object).getSubscribeProductBo());
             if (list.size() == 0) {
-                if (isPullUp) {
+                if (isPullDown) {
                     toast("没有数据");
                 } else {
                     toast("没有更多数据了");
@@ -116,7 +116,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                 }
             }
             //上拉刷新 偏移量+1
-            if (!isPullUp) {
+            if (!isPullDown) {
                 itemCount += 1;
             } else {
                 itemCount = 2;

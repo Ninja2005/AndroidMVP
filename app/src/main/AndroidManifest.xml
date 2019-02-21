@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.main.view.MainActivity"/>
+        <activity android:name=".module.fileupdown.view.FileUpDownActivity"/>
     </application>
 
 </manifest>

@@ -1,17 +1,22 @@
 package com.hqumath.androidmvp.net;
 
+import android.text.TextUtils;
 import com.hqumath.androidmvp.BuildConfig;
 import com.hqumath.androidmvp.utils.LogUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
@@ -22,12 +27,13 @@ import java.util.concurrent.TimeUnit;
  * 创建时间: 2019/1/22 14:47
  * 文件描述: RetrofitClient封装单例类, 实现网络请求
  * 注意事项: https://github.com/wzgiceman/RxjavaRetrofitDemo-master
- *           每次发送请求，new Retrofit,以便动态更改baseUrl
+ * 每次发送请求，new Retrofit,以便动态更改baseUrl
  * 版权声明:
  * ****************************************************************
  */
 public class RetrofitClient {
     private volatile static RetrofitClient INSTANCE;
+    private String JSESSIONID;//登录成功后的标识，用来保持登录状态
 
     //构造方法私有
     private RetrofitClient() {
@@ -54,7 +60,6 @@ public class RetrofitClient {
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
-        //builder.addInterceptor(new CookieInterceptor(basePar.isCache(), basePar.getUrl()));
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
@@ -63,6 +68,37 @@ public class RetrofitClient {
                 }
             }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
         }
+
+        ///////////////////////////////为了保持登录状态，读取登录成功后的Cookie/////////////////////////////////
+        builder.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response response = chain.proceed(chain.request());
+                String header = response.header("Set-Cookie");
+                String url = chain.request().url().url().toString();
+                //只保存登录的cookie
+                if (url.contains("ZS0100003") && !TextUtils.isEmpty(header)) {
+                    JSESSIONID = header;
+                }
+
+                return response;
+            }
+        });
+        //为每个请求写入JSESSIONID
+        builder.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request.Builder builder = chain.request().newBuilder();
+                builder.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                        .header("Connection", "keep-alive");
+
+                if (!TextUtils.isEmpty(JSESSIONID)) {
+                    builder.header("Cookie", JSESSIONID);
+                }
+                return chain.proceed(builder.build());
+            }
+        });
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*创建retrofit对象*/
         Retrofit retrofit = new Retrofit.Builder()
@@ -97,6 +133,5 @@ public class RetrofitClient {
 
         /*数据回调*/
         observable.subscribe(subscriber);
-
     }
 }
