@@ -3,4 +3,36 @@
 
     <string name="item_example_number_title">第%02d条数据</string>
     <string name="item_example_number_abstract">这是测试的第%02d条数据</string>
+
+    <!--进度条-->
+    <declare-styleable name="MyProgressBar">
+        <attr format="enum" name="bga_pb_mode">
+            <enum name="system" value="0"/>
+            <enum name="horizontal" value="1"/>
+            <enum name="circle" value="2"/>
+            <enum name="comet" value="3"/>
+            <enum name="wave" value="4"/>
+        </attr>
+        <attr format="reference|color" name="bga_pb_textColor"/>
+        <attr format="dimension" name="bga_pb_textSize"/>
+        <attr format="dimension" name="bga_pb_textMargin"/>
+        <attr format="reference|color" name="bga_pb_reachedColor"/>
+        <attr format="dimension" name="bga_pb_reachedHeight"/>
+        <attr format="reference|color" name="bga_pb_unReachedColor"/>
+        <attr format="dimension" name="bga_pb_unReachedHeight"/>
+        <attr format="boolean" name="bga_pb_isCapRounded"/>
+        <attr format="boolean" name="bga_pb_isHiddenText"/>
+        <attr format="dimension" name="bga_pb_radius"/>
+    </declare-styleable>
+
+    <!--权限获取-->
+    <string name="permission_always_failed_message">我们需要的一些权限被您拒绝，请您到设置页面手动授权，否则功能无法正常使用！\n\n%1$s</string>
+    <string name="permission_always_failed_title">权限申请失败</string>
+    <string name="permission_always_failed_setting">去设置</string>
+    <string name="permission_always_failed_cancel">取消</string>
+
+
+
+
+
 </resources>

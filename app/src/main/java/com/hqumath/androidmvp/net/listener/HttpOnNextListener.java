@@ -47,6 +47,20 @@ public abstract class HttpOnNextListener<T> {
     }
 
     /**
+     * 开始下载
+     */
+    public void onStart(){
+
+    }
+
+    /**
+     * 完成下载
+     */
+    public void onComplete(){
+
+    }
+
+    /**
      * 下载进度
      * @param readLength
      * @param countLength

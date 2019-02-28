@@ -96,6 +96,9 @@ public class ProgressSubscriber<T> implements Observer<T> {
      */
     @Override
     public void onSubscribe(Disposable d) {
+        if (mSubscriberOnNextListener.get() != null) {
+            mSubscriberOnNextListener.get().onStart();
+        }
         showProgressDialog();
         /*缓存并且有网*/
         /*if (api.isCache() && AppUtil.isNetworkAvailable(App.getContext())) {
@@ -119,6 +122,9 @@ public class ProgressSubscriber<T> implements Observer<T> {
      */
     @Override
     public void onComplete() {
+        if(mSubscriberOnNextListener.get()!=null){
+            mSubscriberOnNextListener.get().onComplete();
+        }
         dismissProgressDialog();
     }
 

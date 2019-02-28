@@ -1,5 +1,6 @@
 package com.hqumath.androidmvp.module.fileupdown.view;
 
+import android.Manifest;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -14,9 +15,12 @@ import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.hqumath.androidmvp.net.service.FileUpDownService;
 import com.hqumath.androidmvp.net.upload.ProgressRequestBody;
 import com.hqumath.androidmvp.net.upload.UploadProgressListener;
+import com.hqumath.androidmvp.utils.PermissionUtils;
+import com.hqumath.androidmvp.widget.DownloadingDialog;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.runtime.Permission;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,6 +42,8 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
 
     private Button btnUpload, btnDownload;
     private NumberProgressBar progressBar;
+
+    private DownloadingDialog mDownloadingDialog;
 
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -63,9 +69,25 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == btnUpload) {
-            upload();
+            AndPermission.with(mContext)
+                    .runtime()
+                    .permission(Permission.Group.STORAGE)
+                    .onGranted((permissions) -> upload())
+                    .onDenied((permissions) -> {
+                        if (AndPermission.hasAlwaysDeniedPermission(mContext, permissions)) {
+                            PermissionUtils.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
+                        }
+                    }).start();
         } else if (v == btnDownload) {
-            download();
+            AndPermission.with(mContext)
+                    .runtime()
+                    .permission(Permission.Group.STORAGE)
+                    .onGranted((permissions) -> download())
+                    .onDenied((permissions) -> {
+                        if (AndPermission.hasAlwaysDeniedPermission(mContext, permissions)) {
+                            PermissionUtils.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
+                        }
+                    }).start();
         }
     }
 
@@ -78,14 +100,10 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
                     public void onProgress(long currentBytesCount, long totalBytesCount) {
                         //Log.d("进度", (float) currentBytesCount / totalBytesCount * 100 + "%");
                         /*回到主线程中，可通过timer等延迟或者循环避免快速刷新数据*/
-                        Observable.just(currentBytesCount).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-
-                            @Override
-                            public void accept(Long aLong) {
-                                //tvMsg.setText("提示:上传中");
-                                progressBar.setMax((int) totalBytesCount);
-                                progressBar.setProgress((int) currentBytesCount);
-                            }
+                        Observable.just(currentBytesCount).observeOn(AndroidSchedulers.mainThread()).subscribe((aLong) -> {
+                            //tvMsg.setText("提示:上传中");
+                            progressBar.setMax((int) totalBytesCount);
+                            progressBar.setProgress((int) currentBytesCount);
                         });
                     }
                 }));
@@ -114,35 +132,69 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
 
     private void download() {
         //
-        String url = "https://staticuat.zifae.com/apk/android/ZSExchange_V1.1.6_20181212_tencent.apk";
-        //String url1 = "https://static.zifae.com/static-resource/file/arguments.pdf";
+        String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
+        String url1 = "https://static.zifae.com/static-resource/file/arguments.pdf";
 
-        BaseApi baseapi = new BaseApi(new HttpOnNextListener() {
+        BaseApi baseapi = new BaseApi(new HttpOnNextListener<File>() {
+
             @Override
-            public void onNext(Object o) {
-                //mView.onSuccess(o, tag);
-                toast("下载成功");
+            public void onStart() {
+                //toast("下载开始");
+                showDownloadingDialog();
+            }
+
+            public void onComplete() {
+                //toast("下载完成");
+                dismissDownloadingDialog();
+            }
+
+            @Override
+            public void onNext(File file) {
+                //打开文件
+                //UpgradeUtil.installApk(file);
             }
 
             @Override
             public void onError(HandlerException.ResponseThrowable e) {
-                //mView.onError(e.getMessage(), e.getCode(), tag);
-                toast("下载失败");
+                //toast("下载失败");
+                dismissDownloadingDialog();
             }
 
             @Override
             public void updateProgress(long readLength, long countLength) {
-                progressBar.setMax((int) countLength);
-                progressBar.setProgress((int) readLength);
+                //progressBar.setMax((int) countLength);
+                //progressBar.setProgress((int) readLength);
+
+                if (mDownloadingDialog != null && mDownloadingDialog.isShowing()) {
+                    mDownloadingDialog.setProgress(readLength, countLength);
+                }
             }
         }, mContext) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                return retrofit.create(FileUpDownService.class).download(url);
+                return retrofit.create(FileUpDownService.class).download(url1);
             }
         };
         baseapi.setShowProgress(false);
         RetrofitClient.getInstance().sendHttpDownloadRequest(baseapi, handler);
+    }
 
+    /**
+     * 显示下载对话框
+     */
+    private void showDownloadingDialog() {
+        if (mDownloadingDialog == null) {
+            mDownloadingDialog = new DownloadingDialog(this);
+        }
+        mDownloadingDialog.show();
+    }
+
+    /**
+     * 隐藏下载对话框
+     */
+    private void dismissDownloadingDialog() {
+        if (mDownloadingDialog != null) {
+            mDownloadingDialog.dismiss();
+        }
     }
 }
