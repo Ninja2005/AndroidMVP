@@ -18,7 +18,7 @@ import com.hqumath.androidmvp.R;
  * 版权声明:
  * ****************************************************************
  */
-public class MyProgressBar extends ProgressBar {
+public class DownloadingProgressBar extends ProgressBar {
 
     private Paint mPaint;
     private Mode mMode;
@@ -45,15 +45,15 @@ public class MyProgressBar extends ProgressBar {
 
     private String mText;
 
-    public MyProgressBar(Context context) {
+    public DownloadingProgressBar(Context context) {
         this(context, null);
     }
 
-    public MyProgressBar(Context context, AttributeSet attrs) {
+    public DownloadingProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.progressBarStyle);
     }
 
-    public MyProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DownloadingProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initDefaultAttrs(context);
         initCustomAttrs(context, attrs);
@@ -80,7 +80,7 @@ public class MyProgressBar extends ProgressBar {
     }
 
     private void initCustomAttrs(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyProgressBar);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DownloadingProgressBar);
         final int N = typedArray.getIndexCount();
         for (int i = 0; i < N; i++) {
             initAttr(typedArray.getIndex(i), typedArray);
@@ -89,31 +89,31 @@ public class MyProgressBar extends ProgressBar {
     }
 
     protected void initAttr(int attr, TypedArray typedArray) {
-        if (attr == R.styleable.MyProgressBar_bga_pb_mode) {
+        if (attr == R.styleable.DownloadingProgressBar_bga_pb_mode) {
             int ordinal = typedArray.getInt(attr, Mode.System.ordinal());
             mMode = Mode.values()[ordinal];
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_textColor) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_textColor) {
             mTextColor = typedArray.getColor(attr, mTextColor);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_textSize) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_textSize) {
             mTextSize = typedArray.getDimensionPixelOffset(attr, mTextSize);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_textMargin) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_textMargin) {
             mTextMargin = typedArray.getDimensionPixelOffset(attr, mTextMargin);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_reachedColor) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_reachedColor) {
             mReachedColor = typedArray.getColor(attr, mReachedColor);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_reachedHeight) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_reachedHeight) {
             mReachedHeight = typedArray.getDimensionPixelOffset(attr, mReachedHeight);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_unReachedColor) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_unReachedColor) {
             mUnReachedColor = typedArray.getColor(attr, mUnReachedColor);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_unReachedHeight) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_unReachedHeight) {
             mUnReachedHeight = typedArray.getDimensionPixelOffset(attr, mUnReachedHeight);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_isCapRounded) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_isCapRounded) {
             mIsCapRounded = typedArray.getBoolean(attr, mIsCapRounded);
             if (mIsCapRounded) {
                 mPaint.setStrokeCap(Paint.Cap.ROUND);
             }
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_isHiddenText) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_isHiddenText) {
             mIsHiddenText = typedArray.getBoolean(attr, mIsHiddenText);
-        } else if (attr == R.styleable.MyProgressBar_bga_pb_radius) {
+        } else if (attr == R.styleable.DownloadingProgressBar_bga_pb_radius) {
             mRadius = typedArray.getDimensionPixelOffset(attr, mRadius);
         }
     }
@@ -151,10 +151,8 @@ public class MyProgressBar extends ProgressBar {
 
             setMeasuredDimension(expectSize, expectSize);
         } else if (mMode == Mode.Comet) {
-            // TODO
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         } else if (mMode == Mode.Wave) {
-            // TODO
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
@@ -168,10 +166,8 @@ public class MyProgressBar extends ProgressBar {
         } else if (mMode == Mode.Circle) {
             onDrawCircle(canvas);
         } else if (mMode == Mode.Comet) {
-            // TODO
             super.onDraw(canvas);
         } else if (mMode == Mode.Wave) {
-            // TODO
             super.onDraw(canvas);
         }
     }

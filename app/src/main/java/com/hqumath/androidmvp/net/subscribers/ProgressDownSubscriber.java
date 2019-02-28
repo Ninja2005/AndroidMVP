@@ -1,7 +1,6 @@
 package com.hqumath.androidmvp.net.subscribers;
 
 
-import android.os.Handler;
 import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.download.DownloadProgressListener;
 
@@ -14,26 +13,17 @@ import com.hqumath.androidmvp.net.download.DownloadProgressListener;
  */
 public class ProgressDownSubscriber<T> extends ProgressSubscriber<T> implements DownloadProgressListener {
 
-    private Handler handler;
-
-
     /**
      * 构造
      *
      * @param api
      */
-    public ProgressDownSubscriber(BaseApi api, Handler handler) {
+    public ProgressDownSubscriber(BaseApi api) {
         super(api);
-        this.handler = handler;
     }
 
     @Override
     public void update(long read, long count, boolean done) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                mSubscriberOnNextListener.get().updateProgress(read, count);
-            }
-        });
+        mSubscriberOnNextListener.get().updateProgress(read, count);
     }
 }

@@ -144,7 +144,7 @@ public class RetrofitClient {
      *
      * @param basePar 封装的请求数据
      */
-    public void sendHttpDownloadRequest(BaseApi basePar, Handler handler) {
+    public void sendHttpDownloadRequest(BaseApi basePar) {
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
@@ -158,7 +158,7 @@ public class RetrofitClient {
         }
 
         //下载拦截器
-        ProgressDownSubscriber subscriber = new ProgressDownSubscriber(basePar, handler);
+        ProgressDownSubscriber subscriber = new ProgressDownSubscriber(basePar);
         builder.addInterceptor(new DownloadInterceptor(subscriber));
 
         /*创建retrofit对象*/

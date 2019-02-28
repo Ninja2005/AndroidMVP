@@ -5,15 +5,15 @@ import android.support.v7.app.AppCompatDialog;
 import com.hqumath.androidmvp.R;
 
 /**
- * 下载进度对话框
+ * 上传下载进度对话框
  */
 public class DownloadingDialog extends AppCompatDialog {
-    private MyProgressBar mProgressBar;
+    private DownloadingProgressBar mProgressBar;
 
     public DownloadingDialog(Context context) {
         super(context, R.style.AppDialogTheme);
         setContentView(R.layout.dialog_downloading);
-        mProgressBar = (MyProgressBar) findViewById(R.id.pb_downloading_content);
+        mProgressBar = findViewById(R.id.pb_downloading_content);
         setCancelable(false);
     }
 

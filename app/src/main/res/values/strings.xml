@@ -4,8 +4,8 @@
     <string name="item_example_number_title">第%02d条数据</string>
     <string name="item_example_number_abstract">这是测试的第%02d条数据</string>
 
-    <!--进度条-->
-    <declare-styleable name="MyProgressBar">
+    <!--上传下载进度条-->
+    <declare-styleable name="DownloadingProgressBar">
         <attr format="enum" name="bga_pb_mode">
             <enum name="system" value="0"/>
             <enum name="horizontal" value="1"/>

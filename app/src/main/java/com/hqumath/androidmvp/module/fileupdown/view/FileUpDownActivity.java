@@ -1,11 +1,7 @@
 package com.hqumath.androidmvp.module.fileupdown.view;
 
-import android.Manifest;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
-import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.net.BaseApi;
@@ -41,12 +37,8 @@ import java.io.File;
 public class FileUpDownActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btnUpload, btnDownload;
-    private NumberProgressBar progressBar;
 
     private DownloadingDialog mDownloadingDialog;
-
-    private Handler handler = new Handler(Looper.getMainLooper());
-
 
     @Override
     public int getLayoutId() {
@@ -57,7 +49,6 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
     public void initView() {
         btnUpload = findViewById(R.id.btn_upload);
         btnDownload = findViewById(R.id.btn_download);
-        progressBar = findViewById(R.id.number_progress_bar);
     }
 
     @Override
@@ -98,27 +89,35 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
                 new ProgressRequestBody(requestBody, new UploadProgressListener() {
                     @Override
                     public void onProgress(long currentBytesCount, long totalBytesCount) {
-                        //Log.d("进度", (float) currentBytesCount / totalBytesCount * 100 + "%");
-                        /*回到主线程中，可通过timer等延迟或者循环避免快速刷新数据*/
-                        Observable.just(currentBytesCount).observeOn(AndroidSchedulers.mainThread()).subscribe((aLong) -> {
-                            //tvMsg.setText("提示:上传中");
-                            progressBar.setMax((int) totalBytesCount);
-                            progressBar.setProgress((int) currentBytesCount);
+                        //回到主线程
+                        Observable.just(currentBytesCount).observeOn(AndroidSchedulers.mainThread()).subscribe((current) -> {
+                            if (mDownloadingDialog != null && mDownloadingDialog.isShowing()) {
+                                mDownloadingDialog.setProgress(current, totalBytesCount);
+                            }
                         });
                     }
                 }));
 
         BaseApi baseapi = new BaseApi(new HttpOnNextListener() {
+
+            @Override
+            public void onStart() {
+                showDownloadingDialog();
+            }
+
+            public void onComplete() {
+                dismissDownloadingDialog();
+            }
+
             @Override
             public void onNext(Object o) {
-                //mView.onSuccess(o, tag);
                 toast("上传成功");
             }
 
             @Override
             public void onError(HandlerException.ResponseThrowable e) {
-                //mView.onError(e.getMessage(), e.getCode(), tag);
                 toast("上传失败");
+                dismissDownloadingDialog();
             }
         }, mContext) {
             @Override
@@ -139,12 +138,10 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
 
             @Override
             public void onStart() {
-                //toast("下载开始");
                 showDownloadingDialog();
             }
 
             public void onComplete() {
-                //toast("下载完成");
                 dismissDownloadingDialog();
             }
 
@@ -162,12 +159,12 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
 
             @Override
             public void updateProgress(long readLength, long countLength) {
-                //progressBar.setMax((int) countLength);
-                //progressBar.setProgress((int) readLength);
-
-                if (mDownloadingDialog != null && mDownloadingDialog.isShowing()) {
-                    mDownloadingDialog.setProgress(readLength, countLength);
-                }
+                //回到主线程
+                Observable.just(readLength).observeOn(AndroidSchedulers.mainThread()).subscribe((current) -> {
+                    if (mDownloadingDialog != null && mDownloadingDialog.isShowing()) {
+                        mDownloadingDialog.setProgress(current, countLength);
+                    }
+                });
             }
         }, mContext) {
             @Override
@@ -176,7 +173,7 @@ public class FileUpDownActivity extends BaseActivity implements View.OnClickList
             }
         };
         baseapi.setShowProgress(false);
-        RetrofitClient.getInstance().sendHttpDownloadRequest(baseapi, handler);
+        RetrofitClient.getInstance().sendHttpDownloadRequest(baseapi);
     }
 
     /**
