@@ -1,13 +1,12 @@
 package com.hqumath.androidmvp.net;
 
-import android.os.Handler;
 import android.text.TextUtils;
 import com.hqumath.androidmvp.BuildConfig;
-import com.hqumath.androidmvp.app.App;
 import com.hqumath.androidmvp.net.download.DownloadInterceptor;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.hqumath.androidmvp.net.subscribers.ProgressDownSubscriber;
 import com.hqumath.androidmvp.net.subscribers.ProgressSubscriber;
+import com.hqumath.androidmvp.utils.FileUtils;
 import com.hqumath.androidmvp.utils.LogUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import io.reactivex.Observable;
@@ -20,7 +19,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
@@ -144,7 +144,7 @@ public class RetrofitClient {
      *
      * @param basePar 封装的请求数据
      */
-    public void sendHttpDownloadRequest(BaseApi basePar) {
+    public void sendHttpDownloadRequest(BaseApi basePar, File file) {
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
@@ -185,56 +185,12 @@ public class RetrofitClient {
                 .map(new Function<ResponseBody, File>() {
                     @Override
                     public File apply(ResponseBody responseBody) throws Exception {
-                        //文件存储位置 new File(info.getSavePath())
-                        InputStream inputStream = responseBody.byteStream();
-                        return saveApk(inputStream);
+                        FileUtils.writeFile(responseBody, file);
+                        return file;
                     }
                 });
 
         /*数据回调*/
         observable.subscribe(subscriber);
-    }
-
-    static File saveApk(InputStream is) {
-        File file = new File(App.getContext().getExternalFilesDir("我的apk升级目录"), "我的应用.apk");
-
-        if (writeFile(file, is)) {
-            return file;
-        } else {
-            return null;
-        }
-    }
-
-    static boolean writeFile(File file, InputStream is) {
-        OutputStream os = null;
-        try {
-            os = new FileOutputStream(file);
-            byte data[] = new byte[1024];
-            int length = -1;
-            while ((length = is.read(data)) != -1) {
-                os.write(data, 0, length);
-            }
-            os.flush();
-            return true;
-        } catch (Exception e) {
-            if (file != null && file.exists()) {
-                file.deleteOnExit();
-            }
-            e.printStackTrace();
-        } finally {
-            closeStream(os);
-            closeStream(is);
-        }
-        return false;
-    }
-
-    static void closeStream(Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

@@ -10,6 +10,8 @@ import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 
+import java.io.File;
+
 /**
  * ****************************************************************
  * 文件名称: FileUpDownModel
@@ -40,7 +42,7 @@ public class FileUpDownModel implements FileUpDownContract.Model {
     }
 
     @Override
-    public void download(String url, HttpOnNextListener listener) {
+    public void download(String url, File file, HttpOnNextListener listener) {
         BaseApi baseApi = new BaseApi(listener, activity) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
@@ -48,6 +50,6 @@ public class FileUpDownModel implements FileUpDownContract.Model {
             }
         };
         baseApi.setShowProgress(false);
-        RetrofitClient.getInstance().sendHttpDownloadRequest(baseApi);
+        RetrofitClient.getInstance().sendHttpDownloadRequest(baseApi, file);
     }
 }

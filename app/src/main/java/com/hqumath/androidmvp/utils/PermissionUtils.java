@@ -1,14 +1,17 @@
 package com.hqumath.androidmvp.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import com.hqumath.androidmvp.R;
+import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.runtime.Permission;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -53,15 +56,31 @@ public class PermissionUtils {
         String message = activity.getString(R.string.permission_always_failed_message, TextUtils.join("\n",
                 permissionNames));
         new AlertDialog.Builder(activity).setCancelable(false)
-                .setTitle(R.string.permission_always_failed_title)
+                .setTitle(R.string.permission_failed_title)
                 .setMessage(message)
-                .setPositiveButton(R.string.permission_always_failed_setting,
+                .setPositiveButton(R.string.permission_failed_setting,
                         ((dialog, which) -> {
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             intent.setData(Uri.fromParts("package", activity.getPackageName(), null));
                             activity.startActivity(intent);
                         }))
-                .setNegativeButton(R.string.permission_always_failed_cancel, null).show();
+                .setNegativeButton(R.string.permission_failed_cancel, null).show();
+    }
+
+    /**
+     * 弹窗，允许安装应用
+     */
+    public static void showInstallDialog(Context context, File data, RequestExecutor executor) {
+        new AlertDialog.Builder(context).setCancelable(false)
+                .setTitle(R.string.permission_failed_title)
+                .setMessage(R.string.permission_install_failed_message)
+                .setPositiveButton(R.string.permission_failed_setting,
+                        ((dialog, which) -> {
+                            executor.execute();
+                        }))
+                .setNegativeButton(R.string.permission_failed_cancel, ((dialog, which) -> {
+                    executor.cancel();
+                })).show();
     }
 
     /**

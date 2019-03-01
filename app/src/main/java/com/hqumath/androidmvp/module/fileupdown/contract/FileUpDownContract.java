@@ -3,6 +3,7 @@ package com.hqumath.androidmvp.module.fileupdown.contract;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import okhttp3.MultipartBody;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Map;
 public interface FileUpDownContract {
     interface Model {
         void upload(MultipartBody.Part part, HttpOnNextListener listener);
-        void download(String url, HttpOnNextListener listener);
+        void download(String url, File file, HttpOnNextListener listener);
     }
 
     interface View {
@@ -35,6 +36,6 @@ public interface FileUpDownContract {
 
     interface Presenter {
         void upload(MultipartBody.Part part, int tag);
-        void download(String url, int tag);
+        void download(String url, File file, int tag);
     }
 }

@@ -26,12 +26,11 @@
     </declare-styleable>
 
     <!--权限获取-->
+    <string name="permission_failed_title">权限申请失败</string>
+    <string name="permission_failed_setting">去设置</string>
+    <string name="permission_failed_cancel">取消</string>
     <string name="permission_always_failed_message">我们需要的一些权限被您拒绝，请您到设置页面手动授权，否则功能无法正常使用！\n\n%1$s</string>
-    <string name="permission_always_failed_title">权限申请失败</string>
-    <string name="permission_always_failed_setting">去设置</string>
-    <string name="permission_always_failed_cancel">取消</string>
-
-
+    <string name="permission_install_failed_message">我们需要安装应用，请您到设置页面手动授权，否则功能无法正常使用！</string>
 
 
 

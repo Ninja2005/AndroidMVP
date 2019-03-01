@@ -7,6 +7,7 @@ import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.module.fileupdown.contract.FileUpDownContract;
 import com.hqumath.androidmvp.module.fileupdown.presenter.FileUpDownPresenter;
 import com.hqumath.androidmvp.net.upload.ProgressRequestBody;
+import com.hqumath.androidmvp.utils.FileUtils;
 import com.hqumath.androidmvp.utils.PermissionUtils;
 import com.hqumath.androidmvp.widget.DownloadingDialog;
 import com.yanzhenjie.permission.AndPermission;
@@ -66,7 +67,7 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
         if (v == btnUpload) {
             AndPermission.with(mContext)
                     .runtime()
-                    .permission(Permission.Group.STORAGE)
+                    .permission(Permission.READ_EXTERNAL_STORAGE)
                     .onGranted((permissions) -> upload())
                     .onDenied((permissions) -> {
                         if (AndPermission.hasAlwaysDeniedPermission(mContext, permissions)) {
@@ -90,16 +91,20 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
         File file = new File("/storage/emulated/0/Download/11.jpg");//test0.mp4");//
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(),
-                new ProgressRequestBody(requestBody, (long currentBytesCount, long totalBytesCount) -> {
-                    updateProgress(currentBytesCount, totalBytesCount);
-                }));
+                new ProgressRequestBody(requestBody, this::updateProgress));
         mPresenter.upload(part, UPLOAD_TAG);
     }
 
     private void download() {
-        String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
-        String url1 = "https://static.zifae.com/static-resource/file/arguments.pdf";
-        mPresenter.download(url1, DOWNLOAD_TAG);
+//        String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
+        String url = "https://static.zifae.com/static-resource/file/arguments.pdf";
+
+        File file = FileUtils.getFileFromUrl(url);
+        if (file.exists()) {
+            installPackage(file);
+        } else {
+            mPresenter.download(url, file, DOWNLOAD_TAG);
+        }
     }
 
     @Override
@@ -107,9 +112,8 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
         if (tag == UPLOAD_TAG) {
             toast("上传成功");
         } else if (tag == DOWNLOAD_TAG) {
-//            File file
-            //UpgradeUtil.installApk(file);
             toast("下载成功");
+            installPackage((File) object);
         }
     }
 
@@ -141,5 +145,19 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
                 mDownloadingDialog.setProgress(readLength, countLength);
             }
         });
+    }
+
+    /**
+     * 安装app
+     *
+     * @param file
+     */
+    private void installPackage(File file) {
+        AndPermission.with(mContext)
+                .install()
+                .file(file)
+                .rationale(PermissionUtils::showInstallDialog)//授权安装app弹窗
+                .onGranted(null)
+                .onDenied(null).start();
     }
 }

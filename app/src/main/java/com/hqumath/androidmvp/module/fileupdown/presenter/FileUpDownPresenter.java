@@ -84,12 +84,12 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
     }
 
     @Override
-    public void download(String url, int tag) {
+    public void download(String url, File file, int tag) {
         //View是否绑定 如果没有绑定，就不执行网络请求
         if (!isViewAttached()) {
             return;
         }
-        model.download(url, new HttpOnNextListener<File>() {
+        model.download(url, file, new HttpOnNextListener<File>() {
 
             @Override
             public void onStart() {
