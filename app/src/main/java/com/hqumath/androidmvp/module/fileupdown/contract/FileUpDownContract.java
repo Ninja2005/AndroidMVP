@@ -1,12 +1,13 @@
-package com.hqumath.androidmvp.module.login.contract;
+package com.hqumath.androidmvp.module.fileupdown.contract;
 
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+import okhttp3.MultipartBody;
 
 import java.util.Map;
 
 /**
  * ****************************************************************
- * 文件名称: LoginContract
+ * 文件名称: FileUpDownContract
  * 作    者: Created by gyd
  * 创建时间: 2019/1/21 15:08
  * 文件描述:
@@ -14,18 +15,26 @@ import java.util.Map;
  * 版权声明:
  * ****************************************************************
  */
-public interface LoginContract {
+public interface FileUpDownContract {
     interface Model {
-        void login(final Map<String, Object> maps, HttpOnNextListener listener);
+        void upload(MultipartBody.Part part, HttpOnNextListener listener);
+        void download(String url, HttpOnNextListener listener);
     }
 
     interface View {
         void onSuccess(Object object, int tag);
 
         void onError(String errorMsg, String code, int tag);
+
+        void showProgressDialog();
+
+        void dismissProgressDialog();
+
+        void updateProgress(long readLength, long countLength);
     }
 
     interface Presenter {
-        void login(Map<String, Object> maps, int tag);
+        void upload(MultipartBody.Part part, int tag);
+        void download(String url, int tag);
     }
 }

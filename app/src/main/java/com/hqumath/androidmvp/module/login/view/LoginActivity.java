@@ -71,7 +71,6 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
             toast(name + "已登录");
             //mContext.startActivity(new Intent(mContext, MainActivity.class));
             mContext.startActivity(new Intent(mContext, FileUpDownActivity.class));
-
         }
     }
 

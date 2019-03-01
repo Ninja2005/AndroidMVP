@@ -28,7 +28,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void login(Map<String, Object> maps, final int tag) {
+    public void login(Map<String, Object> maps, int tag) {
         //View是否绑定 如果没有绑定，就不执行网络请求
         if (!isViewAttached()) {
             return;
