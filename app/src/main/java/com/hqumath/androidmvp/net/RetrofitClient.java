@@ -148,14 +148,14 @@ public class RetrofitClient {
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
-        if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                @Override
-                public void log(String message) {
-                    LogUtil.i("RxRetrofit", "Retrofit====Message:" + message);
-                }
-            }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
-        }
+//        if (BuildConfig.DEBUG) {
+//            builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+//                @Override
+//                public void log(String message) {
+//                    LogUtil.i("RxRetrofit", "Retrofit====Message:" + message);
+//                }
+//            }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
+//        }
 
         //下载拦截器
         ProgressDownSubscriber subscriber = new ProgressDownSubscriber(basePar);
@@ -170,7 +170,7 @@ public class RetrofitClient {
                 .build();
 
         /*rx处理*/
-        Observable observable = basePar.getObservable(retrofit)
+        basePar.getObservable(retrofit)
                 /*失败后的retry配置*/
                 /*.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
                         basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))*/
@@ -179,8 +179,6 @@ public class RetrofitClient {
                 /*http请求线程*/
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                /*回调线程*/
-                .observeOn(AndroidSchedulers.mainThread())
                 /*结果判断*/
                 .map(new Function<ResponseBody, File>() {
                     @Override
@@ -188,9 +186,9 @@ public class RetrofitClient {
                         FileUtils.writeFile(responseBody, file);
                         return file;
                     }
-                });
-
-        /*数据回调*/
-        observable.subscribe(subscriber);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                /*回调线程*/
+                .subscribe(subscriber);
     }
 }
