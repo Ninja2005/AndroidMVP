@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.module.main.view;
+package com.hqumath.androidmvp.module.list.view;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,9 +7,9 @@ import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.ProductInfo;
 import com.hqumath.androidmvp.bean.ProductListResponse;
-import com.hqumath.androidmvp.module.main.contract.MainContract;
-import com.hqumath.androidmvp.module.main.presenter.MainPresenter;
-import com.hqumath.androidmvp.module.main.presenter.MyRecyclerAdapter;
+import com.hqumath.androidmvp.module.list.contract.ListContract;
+import com.hqumath.androidmvp.module.list.presenter.ListPresenter;
+import com.hqumath.androidmvp.module.list.presenter.MyRecyclerAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -22,15 +22,15 @@ import java.util.Map;
 
 /**
  * ****************************************************************
- * 文件名称: MainActivity
+ * 文件名称: ListActivity
  * 作    者: Created by gyd
  * 创建时间: 2019/1/23 11:12
  * 文件描述: 产品列表界面
- * 注意事项:
+ * 注意事项: 支持分页，下拉刷新，上拉加载更多
  * 版权声明:
  * ****************************************************************
  */
-public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.View {
+public class ListActivity extends BaseMvpActivity<ListPresenter> implements ListContract.View {
     private static final int PRODUCT_TAG = 1;//产品列表 ZS0200001
 
     private RefreshLayout mRefreshLayout;
@@ -45,7 +45,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_list;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     @Override
     protected void initData() {
-        mPresenter = new MainPresenter(this);
+        mPresenter = new ListPresenter(this);
         mPresenter.attachView(this);
 
         //触发自动刷新

@@ -26,7 +26,7 @@ import java.io.File;
  * 作    者: Created by gyd
  * 创建时间: 2019/2/20 16:46
  * 文件描述: 文件上传下载
- * 注意事项:
+ * 注意事项: 支持app安装，优化权限管理
  * 版权声明:
  * ****************************************************************
  */
@@ -96,15 +96,15 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
     }
 
     private void download() {
-//        String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
-        String url = "https://static.zifae.com/static-resource/file/arguments.pdf";
+        String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
+//        String url = "https://static.zifae.com/static-resource/file/arguments.pdf";
 
         File file = FileUtils.getFileFromUrl(url);
-        if (file.exists()) {
-            installPackage(file);
-        } else {
+//        if (file.exists()) {
+//            installPackage(file);
+//        } else {
             mPresenter.download(url, file, DOWNLOAD_TAG);
-        }
+//        }
     }
 
     @Override

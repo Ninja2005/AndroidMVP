@@ -80,9 +80,9 @@ public class RetrofitClientOld {
      * execute your customer API
      * For example:
      * MyApiService service =
-     * RetrofitClientOld.getInstance(MainActivity.this).create(MyApiService.class);
+     * RetrofitClientOld.getInstance(ListActivity.this).create(MyApiService.class);
      * <p>
-     * RetrofitClientOld.getInstance(MainActivity.this)
+     * RetrofitClientOld.getInstance(ListActivity.this)
      * .execute(service.lgon("name", "password"), subscriber)
      * * @param subscriber
      */

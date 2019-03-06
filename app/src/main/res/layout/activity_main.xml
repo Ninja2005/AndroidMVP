@@ -6,22 +6,37 @@
         android:orientation="vertical"
         android:background="@color/background">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
+    <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <TableRow>
 
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="登录"/>
+        </TableRow>
 
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <TableRow>
+
+            <Button
+                    android:id="@+id/btn_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="列表"/>
+        </TableRow>
+        <TableRow>
+
+            <Button
+                    android:id="@+id/btn_fileupdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="文件上传下载"/>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

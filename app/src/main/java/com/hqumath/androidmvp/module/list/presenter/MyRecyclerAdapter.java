@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.module.main.presenter;
+package com.hqumath.androidmvp.module.list.presenter;
 
 import android.content.Context;
 import android.view.View;

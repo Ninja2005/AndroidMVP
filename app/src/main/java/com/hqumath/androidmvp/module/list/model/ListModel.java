@@ -1,6 +1,6 @@
-package com.hqumath.androidmvp.module.main.model;
+package com.hqumath.androidmvp.module.list.model;
 
-import com.hqumath.androidmvp.module.main.contract.MainContract;
+import com.hqumath.androidmvp.module.list.contract.ListContract;
 import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * ****************************************************************
- * 文件名称: MainModel
+ * 文件名称: ListModel
  * 作    者: Created by gyd
  * 创建时间: 2019/1/23 11:22
  * 文件描述:
@@ -21,10 +21,10 @@ import java.util.Map;
  * 版权声明:
  * ****************************************************************
  */
-public class MainModel implements MainContract.Model {
+public class ListModel implements ListContract.Model {
     private RxAppCompatActivity activity;
 
-    public MainModel(RxAppCompatActivity activity) {
+    public ListModel(RxAppCompatActivity activity) {
         this.activity = activity;
     }
 

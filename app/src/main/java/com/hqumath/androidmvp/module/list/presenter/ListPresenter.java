@@ -1,8 +1,8 @@
-package com.hqumath.androidmvp.module.main.presenter;
+package com.hqumath.androidmvp.module.list.presenter;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.module.main.contract.MainContract;
-import com.hqumath.androidmvp.module.main.model.MainModel;
+import com.hqumath.androidmvp.module.list.contract.ListContract;
+import com.hqumath.androidmvp.module.list.model.ListModel;
 import com.hqumath.androidmvp.net.HandlerException;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * ****************************************************************
- * 文件名称: MainPresenter
+ * 文件名称: ListPresenter
  * 作    者: Created by gyd
  * 创建时间: 2019/2/12 15:24
  * 文件描述:
@@ -19,12 +19,12 @@ import java.util.Map;
  * 版权声明:
  * ****************************************************************
  */
-public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
+public class ListPresenter extends BasePresenter<ListContract.View> implements ListContract.Presenter {
 
-    private MainModel model;
+    private ListModel model;
 
-    public MainPresenter(RxAppCompatActivity activity) {
-        model = new MainModel(activity);
+    public ListPresenter(RxAppCompatActivity activity) {
+        model = new ListModel(activity);
     }
 
     @Override

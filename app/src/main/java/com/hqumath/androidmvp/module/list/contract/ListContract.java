@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.module.main.contract;
+package com.hqumath.androidmvp.module.list.contract;
 
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 
@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * ****************************************************************
- * 文件名称: MainContract
+ * 文件名称: ListContract
  * 作    者: Created by gyd
  * 创建时间: 2019/1/23 11:19
  * 文件描述:
@@ -14,7 +14,7 @@ import java.util.Map;
  * 版权声明:
  * ****************************************************************
  */
-public interface MainContract {
+public interface ListContract {
     interface Model {
         void getProductList(final Map<String, Object> maps, HttpOnNextListener listener, boolean isShowProgress);
     }
