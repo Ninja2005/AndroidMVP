@@ -1,6 +1,8 @@
 package com.hqumath.androidmvp.module.list.view;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.hqumath.androidmvp.R;
@@ -59,6 +61,11 @@ public class ListActivity extends BaseMvpActivity<ListPresenter> implements List
         recyclerAdapter = new MyRecyclerAdapter(mContext, mDatas, R.layout.main_recyclerview_item);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(recyclerAdapter);
+
+        //添加自定义分割线
+        DividerItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(mContext,R.drawable.divider));
+        mRecyclerView.addItemDecoration(divider);
 
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

@@ -12,7 +12,7 @@ package com.hqumath.androidmvp.net;
  */
 public class AppNetConfig {
     //API服务器
-    public static final String baseUrl = "https://appapipre.zifae.com/appapi/api/";
+    public static final String baseUrl = "http://yapi.demo.qunar.com/mock/60987/";//模拟环境
 
     //网络请求成功
     public static final String SUCCESS = "success";
