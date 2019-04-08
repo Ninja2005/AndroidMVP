@@ -63,7 +63,7 @@ public class ListActivity extends BaseMvpActivity<ListPresenter> implements List
         mRecyclerView.setAdapter(recyclerAdapter);
 
         //添加自定义分割线
-        DividerItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        DividerItemDecoration divider = new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL);
         divider.setDrawable(ContextCompat.getDrawable(mContext,R.drawable.divider));
         mRecyclerView.addItemDecoration(divider);
 
