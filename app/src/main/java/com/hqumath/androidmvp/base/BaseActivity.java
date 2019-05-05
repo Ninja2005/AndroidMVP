@@ -1,7 +1,7 @@
 package com.hqumath.androidmvp.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import com.hqumath.androidmvp.app.AppManager;
 import com.hqumath.androidmvp.utils.ToastUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
