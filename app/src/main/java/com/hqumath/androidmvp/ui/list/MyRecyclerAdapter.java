@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.ui.list.presenter;
+package com.hqumath.androidmvp.ui.list;
 
 import android.content.Context;
 

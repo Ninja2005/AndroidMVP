@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
-import com.hqumath.androidmvp.ui.fileupdown.view.FileUpDownActivity;
-import com.hqumath.androidmvp.ui.list.view.ListActivity;
-import com.hqumath.androidmvp.ui.login.view.LoginActivity;
+import com.hqumath.androidmvp.ui.fileupdown.FileUpDownActivity;
+import com.hqumath.androidmvp.ui.list.ListActivity;
+import com.hqumath.androidmvp.ui.login.LoginActivity;
 
 /**
  * ****************************************************************

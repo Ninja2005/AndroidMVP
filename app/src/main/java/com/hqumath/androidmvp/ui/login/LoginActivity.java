@@ -1,12 +1,12 @@
-package com.hqumath.androidmvp.ui.login.view;
+package com.hqumath.androidmvp.ui.login;
 
 import android.widget.Button;
 import android.widget.EditText;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.LoginResponse;
-import com.hqumath.androidmvp.ui.login.contract.LoginContract;
-import com.hqumath.androidmvp.ui.login.presenter.LoginPresenter;
+import com.hqumath.androidmvp.ui.login.LoginContract;
+import com.hqumath.androidmvp.ui.login.LoginPresenter;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.HashMap;

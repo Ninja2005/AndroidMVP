@@ -1,11 +1,11 @@
-package com.hqumath.androidmvp.ui.fileupdown.view;
+package com.hqumath.androidmvp.ui.fileupdown;
 
 import android.view.View;
 import android.widget.Button;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
-import com.hqumath.androidmvp.ui.fileupdown.contract.FileUpDownContract;
-import com.hqumath.androidmvp.ui.fileupdown.presenter.FileUpDownPresenter;
+import com.hqumath.androidmvp.ui.fileupdown.FileUpDownContract;
+import com.hqumath.androidmvp.ui.fileupdown.FileUpDownPresenter;
 import com.hqumath.androidmvp.net.upload.ProgressRequestBody;
 import com.hqumath.androidmvp.utils.FileUtils;
 import com.hqumath.androidmvp.utils.PermissionUtils;

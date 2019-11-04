@@ -1,6 +1,4 @@
-package com.hqumath.androidmvp.ui.login.contract;
-
-import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+package com.hqumath.androidmvp.ui.login;
 
 import java.util.Map;
 
@@ -15,10 +13,6 @@ import java.util.Map;
  * ****************************************************************
  */
 public interface LoginContract {
-    interface Model {
-        void login(final Map<String, Object> maps, HttpOnNextListener listener);
-    }
-
     interface View {
         void onSuccess(Object object, int tag);
 

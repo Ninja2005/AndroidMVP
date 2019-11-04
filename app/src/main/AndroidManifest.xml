@@ -29,9 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.view.LoginActivity"/>
-        <activity android:name=".ui.list.view.ListActivity"/>
-        <activity android:name=".ui.fileupdown.view.FileUpDownActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
+        <activity android:name=".ui.list.ListActivity"/>
+        <activity android:name=".ui.fileupdown.FileUpDownActivity"/>
     </application>
 
 </manifest>

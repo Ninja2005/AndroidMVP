@@ -1,13 +1,18 @@
-package com.hqumath.androidmvp.ui.list.presenter;
+package com.hqumath.androidmvp.ui.list;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.ui.list.contract.ListContract;
-import com.hqumath.androidmvp.ui.list.model.ListModel;
+import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HandlerException;
+import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+import com.hqumath.androidmvp.net.service.MainService;
+import com.hqumath.androidmvp.ui.list.ListContract;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.Map;
+
+import io.reactivex.Observable;
+import retrofit2.Retrofit;
 
 /**
  * ****************************************************************
@@ -21,10 +26,10 @@ import java.util.Map;
  */
 public class ListPresenter extends BasePresenter<ListContract.View> implements ListContract.Presenter {
 
-    private ListModel model;
+    private RxAppCompatActivity activity;
 
     public ListPresenter(RxAppCompatActivity activity) {
-        model = new ListModel(activity);
+        this.activity = activity;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class ListPresenter extends BasePresenter<ListContract.View> implements L
         if (!isViewAttached()) {
             return;
         }
-        model.getProductList(maps, new HttpOnNextListener() {
+        BaseApi baseApi = new BaseApi(new HttpOnNextListener() {
 
             @Override
             public void onNext(Object o) {
@@ -44,6 +49,13 @@ public class ListPresenter extends BasePresenter<ListContract.View> implements L
             public void onError(HandlerException.ResponseThrowable e) {
                 mView.onError(e.getMessage(), e.getCode(), tag);
             }
-        }, isShowProgress);
+        }, activity) {
+            @Override
+            public Observable getObservable(Retrofit retrofit) {
+                return retrofit.create(MainService.class).getProductList(maps);
+            }
+        };
+        baseApi.setShowProgress(isShowProgress);
+        RetrofitClient.getInstance().sendHttpRequest(baseApi);
     }
 }

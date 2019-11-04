@@ -1,6 +1,4 @@
-package com.hqumath.androidmvp.ui.list.contract;
-
-import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+package com.hqumath.androidmvp.ui.list;
 
 import java.util.Map;
 
@@ -15,10 +13,6 @@ import java.util.Map;
  * ****************************************************************
  */
 public interface ListContract {
-    interface Model {
-        void getProductList(final Map<String, Object> maps, HttpOnNextListener listener, boolean isShowProgress);
-    }
-
     interface View {
         void onSuccess(Object object, int tag);
 

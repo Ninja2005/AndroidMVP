@@ -1,13 +1,18 @@
-package com.hqumath.androidmvp.ui.login.presenter;
+package com.hqumath.androidmvp.ui.login;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.ui.login.contract.LoginContract;
-import com.hqumath.androidmvp.ui.login.model.LoginModel;
+import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HandlerException;
+import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+import com.hqumath.androidmvp.net.service.LoginService;
+import com.hqumath.androidmvp.ui.login.LoginContract;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.Map;
+
+import io.reactivex.Observable;
+import retrofit2.Retrofit;
 
 /**
  * ****************************************************************
@@ -20,11 +25,10 @@ import java.util.Map;
  * ****************************************************************
  */
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
-
-    private LoginModel model;
+    private RxAppCompatActivity activity;
 
     public LoginPresenter(RxAppCompatActivity activity) {
-        model = new LoginModel(activity);
+        this.activity = activity;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         if (!isViewAttached()) {
             return;
         }
-        model.login(maps, new HttpOnNextListener() {
+        BaseApi baseApi = new BaseApi(new HttpOnNextListener() {
 
             @Override
             public void onNext(Object o) {
@@ -44,6 +48,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             public void onError(HandlerException.ResponseThrowable e) {
                 mView.onError(e.getMessage(), e.getCode(), tag);
             }
-        });
+        }, activity) {
+            @Override
+            public Observable getObservable(Retrofit retrofit) {
+                return retrofit.create(LoginService.class).userLogin(maps);
+            }
+        };
+        RetrofitClient.getInstance().sendHttpRequest(baseApi);
     }
 }

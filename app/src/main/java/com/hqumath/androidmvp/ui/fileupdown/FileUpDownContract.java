@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.ui.fileupdown.contract;
+package com.hqumath.androidmvp.ui.fileupdown;
 
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import okhttp3.MultipartBody;
@@ -16,11 +16,6 @@ import java.io.File;
  * ****************************************************************
  */
 public interface FileUpDownContract {
-    interface Model {
-        void upload(MultipartBody.Part part, HttpOnNextListener listener);
-        void download(String url, File file, HttpOnNextListener listener);
-    }
-
     interface View {
         void onSuccess(Object object, int tag);
 

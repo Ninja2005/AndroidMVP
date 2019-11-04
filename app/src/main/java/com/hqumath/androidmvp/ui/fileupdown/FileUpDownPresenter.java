@@ -1,15 +1,19 @@
-package com.hqumath.androidmvp.ui.fileupdown.presenter;
+package com.hqumath.androidmvp.ui.fileupdown;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.ui.fileupdown.contract.FileUpDownContract;
-import com.hqumath.androidmvp.ui.fileupdown.model.FileUpDownModel;
+import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HandlerException;
+import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
+import com.hqumath.androidmvp.net.service.FileUpDownService;
+import com.hqumath.androidmvp.ui.fileupdown.FileUpDownContract;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
-import okhttp3.MultipartBody;
-
 import java.io.File;
+
+import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.Retrofit;
 
 /**
  * ****************************************************************
@@ -23,31 +27,11 @@ import java.io.File;
  */
 public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> implements FileUpDownContract.Presenter {
 
-    private FileUpDownModel model;
+    private RxAppCompatActivity activity;
 
     public FileUpDownPresenter(RxAppCompatActivity activity) {
-        model = new FileUpDownModel(activity);
+        this.activity = activity;
     }
-
-    /*@Override
-    public void login(Map<String, Object> maps, int tag) {
-        //View是否绑定 如果没有绑定，就不执行网络请求
-        if (!isViewAttached()) {
-            return;
-        }
-        model.login(maps, new HttpOnNextListener() {
-
-            @Override
-            public void onNext(Object o) {
-                mView.onSuccess(o, tag);
-            }
-
-            @Override
-            public void onError(HandlerException.ResponseThrowable e) {
-                mView.onError(e.getMessage(), e.getCode(), tag);
-            }
-        });
-    }*/
 
     @Override
     public void upload(MultipartBody.Part part, int tag) {
@@ -55,7 +39,7 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
         if (!isViewAttached()) {
             return;
         }
-        model.upload(part, new HttpOnNextListener() {
+        BaseApi baseApi = new BaseApi(new HttpOnNextListener() {
 
             @Override
             public void onStart() {
@@ -76,7 +60,14 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
                 mView.dismissProgressDialog();
                 mView.onError(e.getMessage(), e.getCode(), tag);//上传失败
             }
-        });
+        }, activity) {
+            @Override
+            public Observable getObservable(Retrofit retrofit) {
+                return retrofit.create(FileUpDownService.class).uploadFile(part);
+            }
+        };
+        baseApi.setShowProgress(false);
+        RetrofitClient.getInstance().sendHttpRequest(baseApi);
     }
 
     @Override
@@ -85,7 +76,7 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
         if (!isViewAttached()) {
             return;
         }
-        model.download(url, file, new HttpOnNextListener<File>() {
+        BaseApi baseApi = new BaseApi(new HttpOnNextListener<File>() {
 
             @Override
             public void onStart() {
@@ -111,6 +102,13 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
             public void updateProgress(long readLength, long countLength) {
                 mView.updateProgress(readLength, countLength);
             }
-        });
+        }, activity) {
+            @Override
+            public Observable getObservable(Retrofit retrofit) {
+                return retrofit.create(FileUpDownService.class).download(url);
+            }
+        };
+        baseApi.setShowProgress(false);
+        RetrofitClient.getInstance().sendHttpDownloadRequest(baseApi, file);
     }
 }
