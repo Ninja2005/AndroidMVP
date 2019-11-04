@@ -1,19 +1,15 @@
-package com.hqumath.androidmvp.module.fileupdown.presenter;
+package com.hqumath.androidmvp.ui.fileupdown.presenter;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.module.fileupdown.contract.FileUpDownContract;
-import com.hqumath.androidmvp.module.fileupdown.model.FileUpDownModel;
-import com.hqumath.androidmvp.module.login.contract.LoginContract;
-import com.hqumath.androidmvp.module.login.model.LoginModel;
+import com.hqumath.androidmvp.ui.fileupdown.contract.FileUpDownContract;
+import com.hqumath.androidmvp.ui.fileupdown.model.FileUpDownModel;
 import com.hqumath.androidmvp.net.HandlerException;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+
 import okhttp3.MultipartBody;
 
 import java.io.File;
-import java.util.Map;
 
 /**
  * ****************************************************************

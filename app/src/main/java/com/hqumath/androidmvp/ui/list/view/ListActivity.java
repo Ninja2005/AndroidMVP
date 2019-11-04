@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.module.list.view;
+package com.hqumath.androidmvp.ui.list.view;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -9,9 +9,9 @@ import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.ProductInfo;
 import com.hqumath.androidmvp.bean.ProductListResponse;
-import com.hqumath.androidmvp.module.list.contract.ListContract;
-import com.hqumath.androidmvp.module.list.presenter.ListPresenter;
-import com.hqumath.androidmvp.module.list.presenter.MyRecyclerAdapter;
+import com.hqumath.androidmvp.ui.list.contract.ListContract;
+import com.hqumath.androidmvp.ui.list.presenter.ListPresenter;
+import com.hqumath.androidmvp.ui.list.presenter.MyRecyclerAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;

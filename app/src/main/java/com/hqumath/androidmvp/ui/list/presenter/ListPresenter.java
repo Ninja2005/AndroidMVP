@@ -1,8 +1,8 @@
-package com.hqumath.androidmvp.module.login.presenter;
+package com.hqumath.androidmvp.ui.list.presenter;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.module.login.contract.LoginContract;
-import com.hqumath.androidmvp.module.login.model.LoginModel;
+import com.hqumath.androidmvp.ui.list.contract.ListContract;
+import com.hqumath.androidmvp.ui.list.model.ListModel;
 import com.hqumath.androidmvp.net.HandlerException;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -11,29 +11,29 @@ import java.util.Map;
 
 /**
  * ****************************************************************
- * 文件名称: LoginPresenter
+ * 文件名称: ListPresenter
  * 作    者: Created by gyd
- * 创建时间: 2019/1/21 15:12
+ * 创建时间: 2019/2/12 15:24
  * 文件描述:
  * 注意事项:
  * 版权声明:
  * ****************************************************************
  */
-public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
+public class ListPresenter extends BasePresenter<ListContract.View> implements ListContract.Presenter {
 
-    private LoginModel model;
+    private ListModel model;
 
-    public LoginPresenter(RxAppCompatActivity activity) {
-        model = new LoginModel(activity);
+    public ListPresenter(RxAppCompatActivity activity) {
+        model = new ListModel(activity);
     }
 
     @Override
-    public void login(Map<String, Object> maps, int tag) {
+    public void getProductList(Map<String, Object> maps, int tag, boolean isShowProgress) {
         //View是否绑定 如果没有绑定，就不执行网络请求
         if (!isViewAttached()) {
             return;
         }
-        model.login(maps, new HttpOnNextListener() {
+        model.getProductList(maps, new HttpOnNextListener() {
 
             @Override
             public void onNext(Object o) {
@@ -44,6 +44,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             public void onError(HandlerException.ResponseThrowable e) {
                 mView.onError(e.getMessage(), e.getCode(), tag);
             }
-        });
+        }, isShowProgress);
     }
 }

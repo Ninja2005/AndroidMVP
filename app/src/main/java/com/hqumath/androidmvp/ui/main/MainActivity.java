@@ -1,13 +1,13 @@
-package com.hqumath.androidmvp.module.main;
+package com.hqumath.androidmvp.ui.main;
 
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
-import com.hqumath.androidmvp.module.fileupdown.view.FileUpDownActivity;
-import com.hqumath.androidmvp.module.list.view.ListActivity;
-import com.hqumath.androidmvp.module.login.view.LoginActivity;
+import com.hqumath.androidmvp.ui.fileupdown.view.FileUpDownActivity;
+import com.hqumath.androidmvp.ui.list.view.ListActivity;
+import com.hqumath.androidmvp.ui.login.view.LoginActivity;
 
 /**
  * ****************************************************************

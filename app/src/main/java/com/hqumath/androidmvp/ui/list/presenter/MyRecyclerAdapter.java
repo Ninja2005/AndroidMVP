@@ -1,7 +1,7 @@
-package com.hqumath.androidmvp.module.list.presenter;
+package com.hqumath.androidmvp.ui.list.presenter;
 
 import android.content.Context;
-import android.view.View;
+
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseRecyclerViewHolder;

@@ -1,10 +1,9 @@
-package com.hqumath.androidmvp.module.fileupdown.contract;
+package com.hqumath.androidmvp.ui.fileupdown.contract;
 
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import okhttp3.MultipartBody;
 
 import java.io.File;
-import java.util.Map;
 
 /**
  * ****************************************************************

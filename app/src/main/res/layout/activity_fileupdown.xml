@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".module.login.view.LoginActivity"
+        tools:context=".ui.login.view.LoginActivity"
         android:background="@color/background">
 
     <Button

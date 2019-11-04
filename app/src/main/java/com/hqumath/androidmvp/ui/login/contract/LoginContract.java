@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.module.login.contract;
+package com.hqumath.androidmvp.ui.login.contract;
 
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 

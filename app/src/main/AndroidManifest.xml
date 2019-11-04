@@ -22,16 +22,16 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
 
-        <activity android:name="com.hqumath.androidmvp.module.main.MainActivity">
+        <activity android:name="com.hqumath.androidmvp.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".module.login.view.LoginActivity"/>
-        <activity android:name=".module.list.view.ListActivity"/>
-        <activity android:name=".module.fileupdown.view.FileUpDownActivity"/>
+        <activity android:name=".ui.login.view.LoginActivity"/>
+        <activity android:name=".ui.list.view.ListActivity"/>
+        <activity android:name=".ui.fileupdown.view.FileUpDownActivity"/>
     </application>
 
 </manifest>

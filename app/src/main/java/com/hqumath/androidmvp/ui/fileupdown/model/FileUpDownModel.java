@@ -1,6 +1,6 @@
-package com.hqumath.androidmvp.module.fileupdown.model;
+package com.hqumath.androidmvp.ui.fileupdown.model;
 
-import com.hqumath.androidmvp.module.fileupdown.contract.FileUpDownContract;
+import com.hqumath.androidmvp.ui.fileupdown.contract.FileUpDownContract;
 import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
