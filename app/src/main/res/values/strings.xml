@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">AndroidMVP</string>
 
+    <!--navigation-->
+    <string name="repos">Repos</string>
+    <string name="follow">Follow</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+
     <string name="item_example_number_title">第%02d条数据</string>
     <string name="item_example_number_abstract">这是测试的第%02d条数据</string>
 

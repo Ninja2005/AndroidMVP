@@ -1,5 +1,6 @@
 package com.hqumath.androidmvp.ui.fileupdown;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.hqumath.androidmvp.R;
@@ -40,12 +41,12 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
     private DownloadingDialog mDownloadingDialog;
 
     @Override
-    public int getLayoutId() {
+    public int initContentView() {
         return R.layout.activity_fileupdown;
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         btnUpload = findViewById(R.id.btn_upload);
         btnDownload = findViewById(R.id.btn_download);
     }

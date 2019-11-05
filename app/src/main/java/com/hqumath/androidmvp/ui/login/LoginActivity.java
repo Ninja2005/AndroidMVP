@@ -1,12 +1,12 @@
 package com.hqumath.androidmvp.ui.login;
 
+import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.LoginResponse;
-import com.hqumath.androidmvp.ui.login.LoginContract;
-import com.hqumath.androidmvp.ui.login.LoginPresenter;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.HashMap;
@@ -30,12 +30,12 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     private Button mBtnLogin;
 
     @Override
-    public int getLayoutId() {
+    public int initContentView() {
         return R.layout.activity_login;
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         mEdtUserCode = findViewById(R.id.edt_name);
         mEdtPwd = findViewById(R.id.edt_pwd);
         mBtnLogin = findViewById(R.id.btn_login);

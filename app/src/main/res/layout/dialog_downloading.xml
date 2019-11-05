@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -23,6 +22,6 @@
         app:bga_pb_textColor="@color/colorPrimary"
         app:bga_pb_textSize="18sp"
         app:bga_pb_unReachedColor="#ECF0F1"
-        app:bga_pb_unReachedHeight="4dp"/>
+        app:bga_pb_unReachedHeight="4dp" />
 
 </androidx.cardview.widget.CardView>

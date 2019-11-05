@@ -1,5 +1,7 @@
 package com.hqumath.androidmvp.ui.list;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -46,12 +48,12 @@ public class ListActivity extends BaseMvpActivity<ListPresenter> implements List
 
 
     @Override
-    public int getLayoutId() {
+    public int initContentView() {
         return R.layout.activity_list;
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         mRefreshLayout = findViewById(R.id.refreshLayout);
         mRecyclerView = findViewById(R.id.recyclerView);
     }

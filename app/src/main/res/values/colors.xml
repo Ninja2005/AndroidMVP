@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--导航栏颜色，不显示导航栏-->
     <color name="colorPrimary">#008577</color>
+    <!--状态栏颜色-->
     <color name="colorPrimaryDark">#00574B</color>
+    <!--控件选中后颜色-->
     <color name="colorAccent">#D81B60</color>
 
     <color name="colorTextAssistant">#888888</color>
     <color name="background">#F5F5F5</color>
+    <color name="bottom_navigation_normal">#ADADAD</color>
+
+    <color name="black">#000000</color>
+    <color name="gray">#ADADAD</color>
+    <color name="gray1">#666666</color>
+    <color name="white">#ffffff</color>
+    <color name="green">#6EB502</color>
 </resources>
