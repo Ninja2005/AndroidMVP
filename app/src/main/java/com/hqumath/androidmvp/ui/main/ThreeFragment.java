@@ -20,13 +20,11 @@ public class ThreeFragment extends BaseMvpFragment {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        LogUtil.d("TAG12", "ThreeFragment onCreate");
         return R.layout.fragment_three;
     }
 
     @Override
     public void onResume() {
-        LogUtil.d("TAG12", "ThreeFragment onResume");
         super.onResume();
     }
 }

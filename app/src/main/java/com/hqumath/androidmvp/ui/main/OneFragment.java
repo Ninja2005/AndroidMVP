@@ -26,13 +26,11 @@ public class OneFragment extends BaseMvpFragment {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        LogUtil.d("TAG12", "OneFragment onCreate");
         return R.layout.fragment_one;
     }
 
     @Override
     public void onResume() {
-        LogUtil.d("TAG12", "OneFragment onResume");
         super.onResume();
     }
 }

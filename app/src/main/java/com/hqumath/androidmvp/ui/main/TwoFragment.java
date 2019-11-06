@@ -21,13 +21,11 @@ public class TwoFragment extends BaseMvpFragment {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        LogUtil.d("TAG12", "TwoFragment onCreate");
         return R.layout.fragment_two;
     }
 
     @Override
     public void onResume() {
-        LogUtil.d("TAG12", "TwoFragment onResume");
         super.onResume();
     }
 }

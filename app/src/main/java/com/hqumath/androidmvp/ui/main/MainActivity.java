@@ -7,14 +7,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.base.BaseFragment;
-import com.hqumath.androidmvp.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ import java.util.List;
  * 创建时间: 2019/3/6 17:15
  * 文件描述: 主界面
  * 注意事项: show/hide切换时内存占用高，且需要自己管理fragment生命周期
- *          改用viewpager支持懒加载
+ * 改用viewpager支持懒加载
  * 版权声明:
  * ****************************************************************
  */
@@ -58,14 +56,12 @@ public class MainActivity extends BaseActivity {
         fragmentList.add(new ThreeFragment());
         fragmentList.add(new DemoFragment());
 
-        MyFragmentPagerAdapter pagerAdapter =
-                new MyFragmentPagerAdapter(getSupportFragmentManager());//11111111111111111111111111111111112111111111111
+        MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pagerAdapter.setData(fragmentList, null);
         viewPager.setAdapter(pagerAdapter);
-        /*viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
@@ -76,7 +72,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        });*/
+        });
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             viewPager.setCurrentItem(item.getOrder());
             return true;
