@@ -2,7 +2,7 @@
 /.gradle
 /build
 /captures
-/*.properties
+/local.properties
 /*.iml
 /*.rar
 /.DS_Store
