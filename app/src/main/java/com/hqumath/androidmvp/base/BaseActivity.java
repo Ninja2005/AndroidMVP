@@ -1,11 +1,11 @@
 package com.hqumath.androidmvp.base;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.hqumath.androidmvp.app.AppManager;
-import com.hqumath.androidmvp.utils.ToastUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
@@ -26,27 +26,12 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(initContentView());
-
-        AppManager.getInstance().addActivity(this);
+        //初始化ui
         initView(savedInstanceState);
+        //事件监听
         initListener();
+        //初始化数据
         initData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppManager.getInstance().removeActivity(this);
     }
 
     public abstract int initContentView();
@@ -60,6 +45,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     protected void toast(String s) {
-        ToastUtil.toast(this, s);
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 }

@@ -27,7 +27,7 @@ public class FileUtils {
         //String fileName = fileNameFromUrl1.substring(0, fileNameFromUrl1.lastIndexOf("."));//文件名
         String fileStyle = fileNameFromUrl1.substring(fileNameFromUrl1.lastIndexOf(".") + 1);//文件类型
         //生成文件目录
-        File fileDir = App.getContext().getExternalFilesDir(fileStyle);
+        File fileDir = CommonUtil.getContext().getExternalFilesDir(fileStyle);
         if (!fileDir.exists())
             fileDir.mkdirs();
         String filePath = fileDir.getAbsolutePath() + "/" + fileNameFromUrl1;

@@ -1,7 +1,16 @@
 package com.hqumath.androidmvp.app;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+
+import com.hqumath.androidmvp.BuildConfig;
+import com.hqumath.androidmvp.utils.CommonUtil;
+import com.hqumath.androidmvp.utils.Density;
+import com.hqumath.androidmvp.utils.LogUtil;
 
 /**
  * ****************************************************************
@@ -14,16 +23,63 @@ import android.content.Context;
  * ****************************************************************
  */
 public class App extends Application {
-    private static Context context;
+    private static Application sInstance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
+        setApplication(this);
+        //初始化工具类
+        CommonUtil.init(this);
+        //屏幕适配方案，根据ui图修改,屏幕最小宽度375dp
+        Density.setDensity(this, 375f);
     }
 
-    public static Context getContext(){
-        return context;
+    public static synchronized void setApplication(@NonNull Application application) {
+        sInstance = application;
+        //注册监听每个activity的生命周期,便于堆栈式管理
+        application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                AppManager.getInstance().addActivity(activity);
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                AppManager.getInstance().removeActivity(activity);
+            }
+        });
+    }
+
+    /**
+     * 获得当前app运行的Application
+     */
+    public static Application getInstance() {
+        if (sInstance == null) {
+            throw new NullPointerException("please inherit BaseApplication or call setApplication.");
+        }
+        return sInstance;
     }
 
     /*@Override

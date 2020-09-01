@@ -6,7 +6,8 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.hqumath.androidmvp.utils.ToastUtil;
+import android.widget.Toast;
+
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
@@ -67,6 +68,6 @@ public abstract class BaseFragment extends RxFragment {
     }
 
     protected void toast(String s) {
-        ToastUtil.toast(mContext, s);
+        Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
     }
 }
