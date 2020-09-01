@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidMVP</string>
+    <string name="app_name">MVPDemo</string>
 
     <!--navigation-->
     <string name="repos">Repos</string>
