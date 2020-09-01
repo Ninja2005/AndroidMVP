@@ -148,14 +148,6 @@ public class RetrofitClient {
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
-//        if (BuildConfig.DEBUG) {
-//            builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-//                @Override
-//                public void log(String message) {
-//                    LogUtil.i("RxRetrofit", "Retrofit====Message:" + message);
-//                }
-//            }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
-//        }
 
         //下载拦截器
         ProgressDownSubscriber subscriber = new ProgressDownSubscriber(basePar);

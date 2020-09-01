@@ -21,3 +21,7 @@
 	2. LoggingInterceptor全局拦截网络请求日志
    	3. 全局的异常捕获，程序发生异常时不会崩溃，返回上个界面。
    	4. 使用androidx
+
+## 注意
+
+    1. 接口使用GitHub API v3，单IP限制每小时60次requests
