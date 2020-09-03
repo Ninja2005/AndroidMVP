@@ -5,8 +5,7 @@ import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HandlerException;
 import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
-import com.hqumath.androidmvp.net.service.FileUpDownService;
-import com.hqumath.androidmvp.ui.fileupdown.FileUpDownContract;
+import com.hqumath.androidmvp.net.service.MainService;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.io.File;
@@ -63,7 +62,7 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
         }, activity) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                return retrofit.create(FileUpDownService.class).uploadFile(part);
+                return retrofit.create(MainService.class).uploadFile(part);
             }
         };
         baseApi.setShowProgress(false);
@@ -105,7 +104,7 @@ public class FileUpDownPresenter extends BasePresenter<FileUpDownContract.View> 
         }, activity) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                return retrofit.create(FileUpDownService.class).download(url);
+                return retrofit.create(MainService.class).download(url);
             }
         };
         baseApi.setShowProgress(false);

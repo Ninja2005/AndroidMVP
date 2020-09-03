@@ -1,14 +1,19 @@
 <resources>
 
     <!-- Base application theme-->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item><!--导航栏-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item><!--状态栏-->
         <item name="colorAccent">@color/colorAccent</item><!--控件选中后颜色-->
+        <item name="android:windowBackground">@color/windowBackground</item><!--背景色-->
 
         <item name="android:windowAnimationStyle">@style/TranAnimation</item><!--切换动画-->
-        <item name="icon_color">@color/colorAccent</item>
+        <item name="icon_color">@color/light_teal_icon_color</item><!--自定义图标颜色-->
+
+        <!--TabLayout样式-->
+        <item name="tabBackground">@color/colorAccent</item>
+        <item name="tabTextColor">#80ffffff</item>
+        <item name="tabSelectedTextColor">@color/white</item>
     </style>
 
     <!--切换动画-->
@@ -17,6 +22,12 @@
         <item name="android:activityOpenExitAnimation">@anim/out_to_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/in_from_left</item>
         <item name="android:activityCloseExitAnimation">@anim/out_to_right</item>
+    </style>
+
+    <!--TabLayout文本样式-->
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!--上传下载进度条-->

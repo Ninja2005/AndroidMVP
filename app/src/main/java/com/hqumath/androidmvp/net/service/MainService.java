@@ -6,13 +6,19 @@ import com.hqumath.androidmvp.bean.ProductListResponse;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 import java.util.List;
 import java.util.Map;
@@ -33,20 +39,18 @@ public interface MainService {
     @GET("users/{userName}")
     Observable<Response<UserInfoEntity>> getUserInfo(@Path("userName") String userName);
 
-    //获取被追随
-    @GET("users/{userName}/followers")
-    Observable<Response<List<UserInfoEntity>>> getFollowers(@Path("userName") String userName,
-                                                            @Query("per_page") int per_page,
-                                                            @Query("page") long page);
-
-
-
-
-
-
 
     //产品列表
     @FormUrlEncoded
     @POST("ZS0200001")
     Observable<BaseResultEntity<ProductListResponse>> getProductList(@FieldMap Map<String, Object> maps);
+
+    //文件上传
+    @Multipart
+    @POST("ZS0100093?appKey=mobile")
+    Observable<BaseResultEntity> uploadFile(@Part MultipartBody.Part img);
+
+    @Streaming/*大文件需要加入这个判断，防止下载过程中写入到内存中*/
+    @GET
+    Observable<ResponseBody> download(@Url String url);
 }

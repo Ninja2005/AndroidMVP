@@ -6,9 +6,13 @@
     <color name="colorPrimaryDark">#3F51B5</color>
     <!--控件选中后颜色-->
     <color name="colorAccent">#3F51B5</color>
+    <!--自定义图标颜色-->
+    <color name="light_teal_icon_color">#000000</color>
+    <!--主题背景色-->
+    <color name="windowBackground">#F5F5F5</color>
+
 
     <color name="colorTextAssistant">#888888</color>
-    <color name="background">#F5F5F5</color>
     <color name="bottom_navigation_normal">#ADADAD</color>
 
     <color name="black">#000000</color>

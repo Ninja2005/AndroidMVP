@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
         List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(new OneFragment());
         fragmentList.add(new TwoFragment());
-        fragmentList.add(new ThreeFragment());
+        fragmentList.add(new SettingsFragment());
         fragmentList.add(new DemoFragment());
 
         MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
