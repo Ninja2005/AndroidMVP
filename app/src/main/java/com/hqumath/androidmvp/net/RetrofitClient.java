@@ -37,7 +37,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class RetrofitClient {
     private volatile static RetrofitClient INSTANCE;
-    private String JSESSIONID;//登录成功后的标识，用来保持登录状态
 
     //构造方法私有
     private RetrofitClient() {
@@ -59,8 +58,9 @@ public class RetrofitClient {
      * 处理http请求
      *
      * @param basePar 封装的请求数据
+     * @param baseUrl api地址
      */
-    public void sendHttpRequest(BaseApi basePar) {
+    public void sendHttpRequest(BaseApi basePar, String baseUrl) {
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
@@ -73,51 +73,17 @@ public class RetrofitClient {
             }).setLevel(HttpLoggingInterceptor.Level.BODY));//打印的等级
         }
 
-        ///////////////////////////////为了保持登录状态，读取登录成功后的Cookie/////////////////////////////////
-        builder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Response response = chain.proceed(chain.request());
-                String header = response.header("Set-Cookie");
-                String url = chain.request().url().url().toString();
-                //只保存登录的cookie
-                if (url.contains("ZS0100003") && !TextUtils.isEmpty(header)) {
-                    JSESSIONID = header;
-                }
-
-                return response;
-            }
-        });
-        //为每个请求写入JSESSIONID
-        builder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request.Builder builder = chain.request().newBuilder();
-                builder.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-                        .header("Connection", "keep-alive");
-
-                if (!TextUtils.isEmpty(JSESSIONID)) {
-                    builder.header("Cookie", JSESSIONID);
-                }
-                return chain.proceed(builder.build());
-            }
-        });
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         /*创建retrofit对象*/
         Retrofit retrofit = new Retrofit.Builder()
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(AppNetConfig.baseUrl)
+                .baseUrl(baseUrl)
                 .build();
 
         /*rx处理*/
         ProgressSubscriber subscriber = new ProgressSubscriber(basePar);
         Observable observable = basePar.getObservable(retrofit)
-                /*失败后的retry配置*/
-                /*.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
-                        basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))*/
                 /*生命周期管理*/
                 .compose(basePar.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE))
                 /*http请求线程*/
@@ -128,7 +94,6 @@ public class RetrofitClient {
                 /*结果判断*/
                 .map(basePar);
 
-
         /*链接式对象返回*/
         SoftReference<HttpOnNextListener> httpOnNextListener = basePar.getListener();
         if (httpOnNextListener != null && httpOnNextListener.get() != null) {
@@ -137,6 +102,15 @@ public class RetrofitClient {
 
         /*数据回调*/
         observable.subscribe(subscriber);
+    }
+
+    /**
+     * 处理http请求
+     *
+     * @param basePar 封装的请求数据
+     */
+    public void sendHttpRequest(BaseApi basePar) {
+        sendHttpRequest(basePar, AppNetConfig.baseUrl);
     }
 
     /**

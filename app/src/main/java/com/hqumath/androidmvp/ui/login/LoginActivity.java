@@ -1,17 +1,19 @@
 package com.hqumath.androidmvp.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
-import com.hqumath.androidmvp.bean.LoginResponse;
-import com.jakewharton.rxbinding3.view.RxView;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import com.hqumath.androidmvp.bean.UserInfoEntity;
+import com.hqumath.androidmvp.ui.main.MainActivity;
 
 /**
  * ****************************************************************
@@ -24,10 +26,11 @@ import java.util.concurrent.TimeUnit;
  * ****************************************************************
  */
 public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements LoginContract.View {
-    private static final int LOGIN_TAG = 1;//登录 ZS0100003
+    private static final int LOGIN_TAG = 1;//登录
 
-    private EditText mEdtUserCode, mEdtPwd;
-    private Button mBtnLogin;
+    private EditText etName, etPwd;
+    private TextInputLayout llName, llPwd;
+    private Button btnLogin;
 
     @Override
     public int initContentView() {
@@ -36,23 +39,49 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mEdtUserCode = findViewById(R.id.edt_name);
-        mEdtPwd = findViewById(R.id.edt_pwd);
-        mBtnLogin = findViewById(R.id.btn_login);
+        etName = findViewById(R.id.et_name);
+        etPwd = findViewById(R.id.et_pwd);
+        llName = findViewById(R.id.ll_name);
+        llPwd = findViewById(R.id.ll_pwd);
+        btnLogin = findViewById(R.id.btn_login);
     }
 
     @Override
     protected void initListener() {
-        RxView.clicks(mBtnLogin)
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .compose(this.bindToLifecycle())
-                .subscribe(o -> {
-                    Map<String, Object> maps = new HashMap<>();
-                    maps.put("appKey", "mobile");
-                    maps.put("loginAccount", mEdtUserCode.getText().toString().trim());
-                    maps.put("userPsw", mEdtPwd.getText().toString().trim());
-                    mPresenter.login(maps, LOGIN_TAG);
-                });
+        etPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    loginRequest();
+                }
+                return false;
+            }
+        });
+        btnLogin.setOnClickListener(v -> {
+            loginRequest();
+        });
+    }
+
+    private void loginRequest() {
+        String name = etName.getText().toString().trim();
+        String pwd = etPwd.getText().toString().trim();
+        boolean valid = true;//防止快速点击
+        if (TextUtils.isEmpty(name)) {
+            valid = false;
+            llName.setError(getString(R.string.user_name_warning));
+        } else {
+            llName.setErrorEnabled(false);
+        }
+        if (TextUtils.isEmpty(pwd)) {
+            valid = false;
+            llPwd.setError(getString(R.string.password_warning));
+        } else {
+            llPwd.setErrorEnabled(false);
+        }
+        if (valid) {
+            btnLogin.setEnabled(false);
+            mPresenter.login("JakeWharton", LOGIN_TAG, true);
+        }
     }
 
     @Override
@@ -64,17 +93,20 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     public void onSuccess(Object object, int tag) {
         if (tag == LOGIN_TAG) {
-            String name = ((LoginResponse) object).getName();
-            toast(name + "已登录");
+            UserInfoEntity user = (UserInfoEntity) object;
+            toast(user.getName() + "已登录");
+
+            startActivity(new Intent(mContext, MainActivity.class));
             finish();
-//            mContext.startActivity(new Intent(mContext, ListActivity.class));
-//            mContext.startActivity(new Intent(mContext, FileUpDownActivity.class));
         }
     }
 
     @Override
     public void onError(String errorMsg, String code, int tag) {
         toast(errorMsg);
+        if (tag == LOGIN_TAG) {
+            btnLogin.setEnabled(true);
+        }
     }
 
 }

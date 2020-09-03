@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
     //以响应式的方式来处理UI的响应问题
-    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
+    //implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
     //network
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'

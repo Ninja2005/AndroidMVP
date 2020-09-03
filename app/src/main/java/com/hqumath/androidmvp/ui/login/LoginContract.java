@@ -20,6 +20,6 @@ public interface LoginContract {
     }
 
     interface Presenter {
-        void login(Map<String, Object> maps, int tag);
+        void login(String userName, int tag, boolean isShowProgress);
     }
 }

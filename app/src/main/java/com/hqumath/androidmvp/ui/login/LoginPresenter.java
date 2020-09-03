@@ -5,8 +5,7 @@ import com.hqumath.androidmvp.net.BaseApi;
 import com.hqumath.androidmvp.net.HandlerException;
 import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
-import com.hqumath.androidmvp.net.service.LoginService;
-import com.hqumath.androidmvp.ui.login.LoginContract;
+import com.hqumath.androidmvp.net.service.MainService;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.Map;
@@ -32,8 +31,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void login(Map<String, Object> maps, int tag) {
-        //View是否绑定 如果没有绑定，就不执行网络请求
+    public void login(String userName, int tag, boolean isShowProgress) {
         if (!isViewAttached()) {
             return;
         }
@@ -51,9 +49,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         }, activity) {
             @Override
             public Observable getObservable(Retrofit retrofit) {
-                return retrofit.create(LoginService.class).userLogin(maps);
+                return retrofit.create(MainService.class).getUserInfo(userName);
             }
         };
+        baseApi.setShowProgress(isShowProgress);
         RetrofitClient.getInstance().sendHttpRequest(baseApi);
     }
 }

@@ -1,10 +1,15 @@
 package com.hqumath.androidmvp.utils;
 
-import com.hqumath.androidmvp.app.App;
 import com.hqumath.androidmvp.net.HandlerException;
-import okhttp3.ResponseBody;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 /**
  * ****************************************************************

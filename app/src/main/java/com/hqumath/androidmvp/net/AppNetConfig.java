@@ -12,8 +12,5 @@ package com.hqumath.androidmvp.net;
  */
 public class AppNetConfig {
     //API服务器
-    public static final String baseUrl = "http://appapidev1.zifae.cn/appapi/api/";//模拟环境
-
-    //网络请求成功
-    public static final String SUCCESS = "success";
+    public static String baseUrl = "https://api.github.com/"; // 主线路
 }

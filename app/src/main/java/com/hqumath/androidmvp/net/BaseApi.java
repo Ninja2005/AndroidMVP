@@ -6,6 +6,7 @@ import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import java.lang.ref.SoftReference;
@@ -20,7 +21,7 @@ import java.lang.ref.SoftReference;
  * 版权声明:
  * ****************************************************************
  */
-public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
+public abstract class BaseApi<T> implements Function<Response<T>, T> {
     //rx生命周期管理
     private SoftReference<RxAppCompatActivity> rxAppCompatActivity;
     /*回调*/
@@ -93,22 +94,6 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
         this.method = method;
     }
 
-    /*public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }*/
-
-    /*public String getUrl() {
-     *//*在没有手动设置url情况下，简单拼接*//*
-        if (null == getCacheUrl() || "".equals(getCacheUrl())) {
-            return getBaseUrl() + getMethod();
-        }
-        return getCacheUrl();
-    }*/
-
     public void setRxAppCompatActivity(RxAppCompatActivity rxAppCompatActivity) {
         this.rxAppCompatActivity = new SoftReference(rxAppCompatActivity);
     }
@@ -179,22 +164,13 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     }
 
     @Override
-    public T apply(BaseResultEntity<T> httpResult) {
-        String type = httpResult.getType();
-        if (TextUtils.isEmpty(type) || !type.equals(AppNetConfig.SUCCESS)) {
-            String resultCode = httpResult.getResultCode();
-            String resultMsg = httpResult.getResultMsg();
-            //处理特殊错误号
-            switch (resultCode) {
-                case HandleMessageCode.HMC_LOGIN:
-                    throw new HandlerException.ResponseThrowable("请先登录", resultCode);
-                case HandleMessageCode.HMC_LOGIN_OUT:
-                    throw new HandlerException.ResponseThrowable("您的账户已在其他设备登录,请重新登陆！", resultCode);
-                default:
-                    throw new HandlerException.ResponseThrowable(resultMsg, resultCode);
-            }
+    public T apply(Response<T> httpResult) {
+        if (httpResult.isSuccessful() && httpResult.body() != null) {
+            return httpResult.body();
+        } else {
+            throw new HandlerException.ResponseThrowable(httpResult.message(),
+                    "error: " + httpResult.code() + " " + httpResult.message());
         }
-        return httpResult.getData();
     }
 
     public String getCacheUrl() {
