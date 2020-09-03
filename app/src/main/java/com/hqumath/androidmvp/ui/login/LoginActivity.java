@@ -47,7 +47,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     protected void initListener() {
         etPwd.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_GO) {
                 loginRequest();
                 return true;
             }

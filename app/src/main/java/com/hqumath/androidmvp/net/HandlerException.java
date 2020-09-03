@@ -2,13 +2,17 @@ package com.hqumath.androidmvp.net;
 
 import android.net.ParseException;
 import android.text.TextUtils;
+
 import com.google.gson.JsonParseException;
 import com.hqumath.androidmvp.utils.LogUtil;
+
 import org.json.JSONException;
-import retrofit2.HttpException;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import retrofit2.HttpException;
 
 /**
  * 处理错误信息
@@ -54,9 +58,9 @@ public class HandlerException {
             ex = new ResponseThrowable(e, ERROR.PARSE_ERROR + "");
             ex.setMessage("解析错误");
             return ex;
-        } else if (e instanceof ConnectException) {
+        } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
             ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR + "");
-            ex.setMessage("连接失败");
+            ex.setMessage("网络连接失败");
             return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR + "");

@@ -54,6 +54,7 @@ public class ProgressSubscriber<T> implements Observer<T> {
         if (pd == null && context != null) {
             pd = new ProgressDialog(context);
             pd.setCancelable(cancel);
+            pd.setMessage("正在加载，请稍后....");
             if (cancel) {
                 pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override

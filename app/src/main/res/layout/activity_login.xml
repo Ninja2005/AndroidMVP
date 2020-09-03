@@ -41,7 +41,7 @@
                 android:id="@+id/et_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionGo"
                 android:inputType="textPassword"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
