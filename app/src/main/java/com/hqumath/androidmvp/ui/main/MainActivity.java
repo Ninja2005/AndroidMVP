@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hqumath.androidmvp.R;
+import com.hqumath.androidmvp.adapter.MyFragmentPagerAdapter;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.base.BaseFragment;
 
@@ -51,7 +52,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new OneFragment());
+        fragmentList.add(new ReposFragment());
         fragmentList.add(new TwoFragment());
         fragmentList.add(new SettingsFragment());
         fragmentList.add(new DemoFragment());
@@ -77,36 +78,5 @@ public class MainActivity extends BaseActivity {
             viewPager.setCurrentItem(item.getOrder());
             return true;
         });
-    }
-
-    public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
-        private List<BaseFragment> fragmentList;
-        private List<String> titles;
-
-        public MyFragmentPagerAdapter(FragmentManager fm) {
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        }
-
-        public void setData(List<BaseFragment> fragmentList, List<String> titles) {
-            this.fragmentList = fragmentList;
-            this.titles = titles;
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles == null ? "" : titles.get(position);
-        }
     }
 }
