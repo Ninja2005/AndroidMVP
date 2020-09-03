@@ -3,11 +3,9 @@ package com.hqumath.androidmvp.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.hqumath.androidmvp.R;
@@ -48,20 +46,21 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initListener() {
-        etPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginRequest();
-                }
-                return false;
+        etPwd.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loginRequest();
+                return true;
             }
+            return false;
         });
         btnLogin.setOnClickListener(v -> {
             loginRequest();
         });
     }
 
+    /**
+     * 登录请求
+     */
     private void loginRequest() {
         String name = etName.getText().toString().trim();
         String pwd = etPwd.getText().toString().trim();

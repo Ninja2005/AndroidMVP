@@ -1,13 +1,22 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item><!--导航栏-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item><!--状态栏-->
+        <item name="colorAccent">@color/colorAccent</item><!--控件选中后颜色-->
 
+        <item name="android:windowAnimationStyle">@style/TranAnimation</item><!--切换动画-->
         <item name="icon_color">@color/colorAccent</item>
+    </style>
+
+    <!--切换动画-->
+    <style name="TranAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/out_to_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/in_from_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/out_to_right</item>
     </style>
 
     <!--上传下载进度条-->
