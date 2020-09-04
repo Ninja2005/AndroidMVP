@@ -57,11 +57,11 @@ public class StarredFragment extends BaseMvpFragment<ReposPresenter> implements 
         refreshLayout.setOnRefreshListener(v -> {
             isPullDown = true;
             itemCount = 1;
-            mPresenter.getMyRepos(10, itemCount, GET_LIST, false);
+            mPresenter.getStarred(10, itemCount, GET_LIST, false);
         });
         refreshLayout.setOnLoadMoreListener(v -> {
             isPullDown = false;
-            mPresenter.getMyRepos(10, itemCount, GET_LIST, false);
+            mPresenter.getStarred(10, itemCount, GET_LIST, false);
         });
     }
 

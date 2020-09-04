@@ -29,6 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.LoginActivity"/>
+        <activity android:name=".ui.repos.ReposDetailActivity"/>
+
+
         <activity android:name=".ui.fileupdown.FileUpDownActivity"/>
     </application>
 
