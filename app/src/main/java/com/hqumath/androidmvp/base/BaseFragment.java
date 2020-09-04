@@ -23,6 +23,7 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 public abstract class BaseFragment extends RxFragment {
     private View rootView;
     protected Activity mContext;
+    protected boolean hasRequested;//是否已经请求过数据 懒加载
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,16 +45,6 @@ public abstract class BaseFragment extends RxFragment {
                 parent.removeView(rootView);
         }
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     public abstract int initContentView(Bundle savedInstanceState);

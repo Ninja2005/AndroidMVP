@@ -173,6 +173,17 @@ public abstract class BaseApi<T> implements Function<Response<T>, T> {
         }
     }
 
+    /*@Override
+    public T apply(BaseResultEntity<T> httpResult) {
+        int resultCode = httpResult.getCode();
+        String resultMsg = httpResult.getMsg();
+        if (resultCode == 0) {//请求成功
+            return httpResult.getData() == null ? (T) "{}" : httpResult.getData();
+        } else {
+            throw new HandlerException.ResponseThrowable(resultMsg, resultCode + "");
+        }
+    }*/
+
     public String getCacheUrl() {
         return cacheUrl;
     }

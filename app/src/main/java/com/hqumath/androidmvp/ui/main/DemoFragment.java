@@ -8,7 +8,6 @@ import android.widget.Button;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpFragment;
 import com.hqumath.androidmvp.ui.fileupdown.FileUpDownActivity;
-import com.hqumath.androidmvp.ui.list.ListActivity;
 import com.hqumath.androidmvp.ui.login.LoginActivity;
 
 /**
@@ -48,8 +47,6 @@ public class DemoFragment extends BaseMvpFragment implements View.OnClickListene
     public void onClick(View v) {
         if (v == btnLogin) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
-        } else if (v == btnList) {
-            mContext.startActivity(new Intent(mContext, ListActivity.class));
         } else if (v == btnFileUpDown) {
             mContext.startActivity(new Intent(mContext, FileUpDownActivity.class));
         }

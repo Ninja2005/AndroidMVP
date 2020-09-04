@@ -1,11 +1,11 @@
-package com.hqumath.androidmvp.ui.list;
+package com.hqumath.androidmvp.adapter;
 
 import android.content.Context;
 
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseRecyclerViewHolder;
-import com.hqumath.androidmvp.bean.ProductInfo;
+import com.hqumath.androidmvp.bean.ReposEntity;
 
 import java.util.List;
 
@@ -19,18 +19,19 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class MyRecyclerAdapter extends BaseRecyclerAdapter<ProductInfo> {
+public class MyRecyclerAdapter extends BaseRecyclerAdapter<ReposEntity> {
 
-    private List<ProductInfo> mDatas;
+    private List<ReposEntity> mDatas;
 
-    public MyRecyclerAdapter(Context context, List<ProductInfo> mDatas, int layoutId) {
+    public MyRecyclerAdapter(Context context, List<ReposEntity> mDatas, int layoutId) {
         super(context, mDatas, layoutId);
         this.mDatas = mDatas;
     }
 
     @Override
     public void convert(BaseRecyclerViewHolder holder, int position) {
-        holder.setText(R.id.tv_name, mDatas.get(position).getProductName());
-        holder.setText(R.id.tv_value, mDatas.get(position).getProductProfit() + "%");
+        holder.setText(R.id.tv_name, mDatas.get(position).getName());
+        holder.setText(R.id.tv_description, mDatas.get(position).getDescription());
+        holder.setText(R.id.tv_author, mDatas.get(position).getOwner().getLogin());
     }
 }
