@@ -40,4 +40,8 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
         view.setText(text);
         return this;
     }
+
+    public View getHolderView() {
+        return mConvertView;
+    }
 }

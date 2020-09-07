@@ -1,15 +1,16 @@
 package com.hqumath.androidmvp.ui.repos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hqumath.androidmvp.R;
-import com.hqumath.androidmvp.adapter.MyRecyclerAdapter;
+import com.hqumath.androidmvp.adapter.ReposRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseMvpFragment;
 import com.hqumath.androidmvp.bean.ReposEntity;
-import com.hqumath.androidmvp.utils.CommonUtil;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -32,10 +33,11 @@ public class StarredFragment extends BaseMvpFragment<ReposPresenter> implements 
 
     private RefreshLayout refreshLayout;
     private RecyclerView recyclerView;
+    private LinearLayout llNoData;
 
-    private MyRecyclerAdapter recyclerAdapter;
+    private ReposRecyclerAdapter recyclerAdapter;
 
-    private List<ReposEntity> mDatas = new ArrayList<ReposEntity>();
+    private List<ReposEntity> mDatas = new ArrayList<>();
     private boolean isPullDown = true;//true表示下拉，false表示上拉
     private int itemCount = 1;//记录上拉加载更多的条目数偏移值
 
@@ -48,11 +50,19 @@ public class StarredFragment extends BaseMvpFragment<ReposPresenter> implements 
     protected void initView(View rootView) {
         refreshLayout = rootView.findViewById(R.id.refreshLayout);
         recyclerView = rootView.findViewById(R.id.recyclerView);
+        llNoData = rootView.findViewById(R.id.ll_no_data);
     }
 
     @Override
     protected void initListener() {
-        recyclerAdapter = new MyRecyclerAdapter(mContext, mDatas, R.layout.item_repos);
+        recyclerAdapter = new ReposRecyclerAdapter(mContext, mDatas, R.layout.recycler_item_repos);
+        recyclerAdapter.setOnItemClickListener((v, position) -> {
+            ReposEntity data = mDatas.get(position);
+            Intent intent = new Intent(mContext, ReposDetailActivity.class);
+            intent.putExtra("name", data.getName());
+            intent.putExtra("login", data.getOwner().getLogin());
+            startActivity(intent);
+        });
         recyclerView.setAdapter(recyclerAdapter);
         refreshLayout.setOnRefreshListener(v -> {
             isPullDown = true;
@@ -74,7 +84,7 @@ public class StarredFragment extends BaseMvpFragment<ReposPresenter> implements 
     @Override
     public void onResume() {
         super.onResume();
-        if (CommonUtil.isNetworkAvailable() && !hasRequested) {
+        if (!hasRequested) {
             hasRequested = true;
             refreshLayout.autoRefresh();//触发自动刷新
         }
@@ -90,13 +100,18 @@ public class StarredFragment extends BaseMvpFragment<ReposPresenter> implements 
             List<ReposEntity> list = ((List<ReposEntity>) object);
             if (list.size() == 0) {
                 if (isPullDown) {
-                    toast("没有数据");
+                    //toast("没有数据");
+                    llNoData.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 } else {
                     toast("没有更多数据了");
                     refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
                     recyclerAdapter.notifyDataSetChanged();
                     return;
                 }
+            } else {
+                llNoData.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
             //上拉刷新 偏移量+1
             if (!isPullDown) {
@@ -106,14 +121,14 @@ public class StarredFragment extends BaseMvpFragment<ReposPresenter> implements 
             }
             mDatas.addAll(list);
             recyclerAdapter.notifyDataSetChanged();
-        }
 
-        if (refreshLayout.getState() == RefreshState.Refreshing) {
-            refreshLayout.finishRefresh();
-            refreshLayout.resetNoMoreData();
-        }
-        if (refreshLayout.getState() == RefreshState.Loading) {
-            refreshLayout.finishLoadMore();
+            if (refreshLayout.getState() == RefreshState.Refreshing) {
+                refreshLayout.finishRefresh();
+                refreshLayout.resetNoMoreData();
+            }
+            if (refreshLayout.getState() == RefreshState.Loading) {
+                refreshLayout.finishLoadMore();
+            }
         }
     }
 

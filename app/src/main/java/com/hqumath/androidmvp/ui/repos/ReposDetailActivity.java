@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -12,11 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hqumath.androidmvp.R;
+import com.hqumath.androidmvp.adapter.CommitsRecyclerAdapter;
+import com.hqumath.androidmvp.adapter.ReposRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
+import com.hqumath.androidmvp.bean.CommitEntity;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.utils.StringUtil;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -30,16 +37,21 @@ import java.util.Locale;
  */
 public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> implements ReposContract.View {
     private static final int GET_DETAIL = 1;//仓库详情
-    private static final int GET_COMMITS = 2;//获取仓库提交记录
+    private static final int GET_LIST = 2;//获取仓库提交记录
 
     private Toolbar toolbar;
-    private RefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
     private ImageView ivAvatarBg;
     private TextView tvDescription, tvFullName, tvCreatedAt, tvLanguageSize;
+    private RefreshLayout refreshLayout;
+    private RecyclerView recyclerView;
+    private LinearLayout llNoData;
+
+    private CommitsRecyclerAdapter recyclerAdapter;
 
     private String userName, reposName;
-
+    private List<CommitEntity> mDatas = new ArrayList<>();
+    private boolean isPullDown = true;//true表示下拉，false表示上拉
+    private int itemCount = 1;//记录上拉加载更多的条目数偏移值
 
     @Override
     public int initContentView() {
@@ -54,22 +66,38 @@ public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> impleme
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         toolbar = findViewById(R.id.toolbar);
-        refreshLayout = findViewById(R.id.refreshLayout);
-        recyclerView = findViewById(R.id.recyclerView);
         ivAvatarBg = findViewById(R.id.iv_avatar_bg);
         tvDescription = findViewById(R.id.tv_description);
         tvFullName = findViewById(R.id.tv_full_name);
         tvCreatedAt = findViewById(R.id.tv_created_at);
         tvLanguageSize = findViewById(R.id.tv_language_size);
-
+        refreshLayout = findViewById(R.id.refreshLayout);
+        recyclerView = findViewById(R.id.recyclerView);
+        llNoData = findViewById(R.id.ll_no_data);
     }
 
     @Override
     protected void initListener() {
-        setSupportActionBar(toolbar);
-
         toolbar.setNavigationOnClickListener(v -> finish());
-//adapter
+        setSupportActionBar(toolbar);
+        recyclerAdapter = new CommitsRecyclerAdapter(mContext, mDatas, R.layout.recycler_item_commits);
+        recyclerAdapter.setOnItemClickListener((v, position) -> {
+            /*ReposEntity data = mDatas.get(position);
+            Intent intent = new Intent(mContext, ReposDetailActivity.class);
+            intent.putExtra("name", data.getName());
+            intent.putExtra("login", data.getOwner().getLogin());
+            startActivity(intent);*/
+        });
+        recyclerView.setAdapter(recyclerAdapter);
+        refreshLayout.setOnRefreshListener(v -> {
+            isPullDown = true;
+            itemCount = 1;
+            mPresenter.getCommits(userName, reposName, 10, itemCount, GET_LIST, false);
+        });
+        refreshLayout.setOnLoadMoreListener(v -> {
+            isPullDown = false;
+            mPresenter.getCommits(userName, reposName, 10, itemCount, GET_LIST, false);
+        });
     }
 
     @Override
@@ -77,12 +105,14 @@ public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> impleme
         //data
         userName = getIntent().getStringExtra("login");
         reposName = getIntent().getStringExtra("name");
-        //ui
         setTitle(reposName);
-        //request
-        mPresenter = new ReposPresenter(this);
+
+        mPresenter = new ReposPresenter(mContext);
         mPresenter.attachView(this);
+        //仓库详情
         mPresenter.getReposInfo(userName, reposName, GET_DETAIL, false);
+        //提交记录
+        refreshLayout.autoRefresh();//触发自动刷新
     }
 
     @Override
@@ -97,12 +127,56 @@ public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> impleme
             String info = String.format(Locale.getDefault(), "Language %s, size %s",
                     data.getLanguage(), StringUtil.getSizeString(data.getSize() * 1024));
             tvLanguageSize.setText(info);
+        } else if (tag == GET_LIST) {
+            //下拉刷新，清空历史数据
+            if (isPullDown) {
+                mDatas.clear();
+            }
+            List<CommitEntity> list = ((List<CommitEntity>) object);
+            if (list.size() == 0) {
+                if (isPullDown) {
+                    //toast("没有数据");
+                    llNoData.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    toast("没有更多数据了");
+                    refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+                    recyclerAdapter.notifyDataSetChanged();
+                    return;
+                }
+            } else {
+                llNoData.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+            //上拉刷新 偏移量+1
+            if (!isPullDown) {
+                itemCount += 1;
+            } else {
+                itemCount = 2;
+            }
+            mDatas.addAll(list);
+            recyclerAdapter.notifyDataSetChanged();
+
+            if (refreshLayout.getState() == RefreshState.Refreshing) {
+                refreshLayout.finishRefresh();
+                refreshLayout.resetNoMoreData();
+            }
+            if (refreshLayout.getState() == RefreshState.Loading) {
+                refreshLayout.finishLoadMore();
+            }
         }
     }
 
     @Override
     public void onError(String errorMsg, String code, int tag) {
         toast(errorMsg);
-
+        if (tag == GET_LIST) {
+            if (refreshLayout.getState() == RefreshState.Refreshing) {
+                refreshLayout.finishRefresh(false);
+            }
+            if (refreshLayout.getState() == RefreshState.Loading) {
+                refreshLayout.finishLoadMore(false);
+            }
+        }
     }
 }

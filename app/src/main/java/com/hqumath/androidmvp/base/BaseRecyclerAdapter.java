@@ -1,11 +1,12 @@
 package com.hqumath.androidmvp.base;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
     private LayoutInflater mLayoutInflater;
+    private OnItemClickLitener mOnItemClickListener;
+
     private List<T> mDatas;
     private int mLayoutId;
 
@@ -35,12 +38,26 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(mLayoutId, parent, false);
+        if (mOnItemClickListener != null)
+            view.setOnClickListener(v -> {
+                int position = (int) v.getTag();
+                mOnItemClickListener.onItemClick(v, position);
+            });
         return new BaseRecyclerViewHolder(view);
     }
 
     @Override
     public final void onBindViewHolder(@NonNull BaseRecyclerViewHolder holder, int position) {
+        holder.getHolderView().setTag(position);
         convert(holder, position);
+    }
+
+    /**
+     * 该方法需要在setAdapter之前调用
+     */
+    public BaseRecyclerAdapter<T> setOnItemClickListener(OnItemClickLitener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+        return this;
     }
 
     public abstract void convert(BaseRecyclerViewHolder holder, int position);
@@ -64,6 +81,8 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         mDatas.clear();
     }
 
-
+    public interface OnItemClickLitener {
+        void onItemClick(View view, int position);
+    }
 
 }
