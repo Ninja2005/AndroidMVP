@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.ui.repos;
+package com.hqumath.androidmvp.ui.follow;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hqumath.androidmvp.R;
-import com.hqumath.androidmvp.adapter.ReposRecyclerAdapter;
+import com.hqumath.androidmvp.adapter.FollowRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseMvpFragment;
-import com.hqumath.androidmvp.bean.ReposEntity;
+import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -28,22 +28,22 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class MyReposFragment extends BaseMvpFragment<ReposPresenter> implements ReposContract.View {
+public class FollowersFragment extends BaseMvpFragment<FollowPresenter> implements FollowContract.View {
     private static final int GET_LIST = 1;
 
     private RefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private LinearLayout llNoData;
 
-    private ReposRecyclerAdapter recyclerAdapter;
+    private FollowRecyclerAdapter recyclerAdapter;
 
-    private List<ReposEntity> mDatas = new ArrayList<>();
+    private List<UserInfoEntity> mDatas = new ArrayList<>();
     private boolean isPullDown = true;//true表示下拉，false表示上拉
     private int itemCount = 1;//记录上拉加载更多的条目数偏移值
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.fragment_swipe_list;
+        return R.layout.fragment_followers;
     }
 
     @Override
@@ -55,29 +55,28 @@ public class MyReposFragment extends BaseMvpFragment<ReposPresenter> implements 
 
     @Override
     protected void initListener() {
-        recyclerAdapter = new ReposRecyclerAdapter(mContext, mDatas, R.layout.recycler_item_repos);
+        recyclerAdapter = new FollowRecyclerAdapter(mContext, mDatas, R.layout.recycler_item_followers);
         recyclerAdapter.setOnItemClickListener((v, position) -> {
-            ReposEntity data = mDatas.get(position);
-            Intent intent = new Intent(mContext, ReposDetailActivity.class);
-            intent.putExtra("name", data.getName());
-            intent.putExtra("login", data.getOwner().getLogin());
+            UserInfoEntity data = mDatas.get(position);
+            Intent intent = new Intent(mContext, ProfileDetailActivity.class);
+            intent.putExtra("UserName", data.getLogin());
             startActivity(intent);
         });
         recyclerView.setAdapter(recyclerAdapter);
         refreshLayout.setOnRefreshListener(v -> {
             isPullDown = true;
             itemCount = 1;
-            mPresenter.getMyRepos(10, itemCount, GET_LIST, false);
+            mPresenter.getFollowers(10, itemCount, GET_LIST, false);
         });
         refreshLayout.setOnLoadMoreListener(v -> {
             isPullDown = false;
-            mPresenter.getMyRepos(10, itemCount, GET_LIST, false);
+            mPresenter.getFollowers(10, itemCount, GET_LIST, false);
         });
     }
 
     @Override
     protected void initData() {
-        mPresenter = new ReposPresenter((RxAppCompatActivity) mContext);
+        mPresenter = new FollowPresenter((RxAppCompatActivity) mContext);
         mPresenter.attachView(this);
     }
 
@@ -97,7 +96,7 @@ public class MyReposFragment extends BaseMvpFragment<ReposPresenter> implements 
             if (isPullDown) {
                 mDatas.clear();
             }
-            List<ReposEntity> list = ((List<ReposEntity>) object);
+            List<UserInfoEntity> list = ((List<UserInfoEntity>) object);
             if (list.size() == 0) {
                 if (isPullDown) {
                     //toast("没有数据");

@@ -2,11 +2,6 @@ package com.hqumath.androidmvp.ui.main;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,6 +9,8 @@ import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.adapter.MyFragmentPagerAdapter;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.base.BaseFragment;
+import com.hqumath.androidmvp.ui.follow.FollowersFragment;
+import com.hqumath.androidmvp.ui.repos.ReposFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +50,7 @@ public class MainActivity extends BaseActivity {
     public void initData() {
         List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(new ReposFragment());
-        fragmentList.add(new TwoFragment());
+        fragmentList.add(new FollowersFragment());
         fragmentList.add(new SettingsFragment());
         fragmentList.add(new DemoFragment());
 

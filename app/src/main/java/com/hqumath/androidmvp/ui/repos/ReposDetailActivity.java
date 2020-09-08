@@ -78,18 +78,14 @@ public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> impleme
 
     @Override
     protected void initListener() {
-        toolbar.setNavigationOnClickListener(v -> finish());
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
         recyclerAdapter = new CommitsRecyclerAdapter(mContext, mDatas, R.layout.recycler_item_commits);
-        recyclerAdapter.setOnItemClickListener((v, position) -> {
-            /*ReposEntity data = mDatas.get(position);
-            Intent intent = new Intent(mContext, ReposDetailActivity.class);
-            intent.putExtra("name", data.getName());
-            intent.putExtra("login", data.getOwner().getLogin());
-            startActivity(intent);*/
-        });
         recyclerView.setAdapter(recyclerAdapter);
         refreshLayout.setOnRefreshListener(v -> {
+            //仓库详情
+            mPresenter.getReposInfo(userName, reposName, GET_DETAIL, false);
+            //提交记录
             isPullDown = true;
             itemCount = 1;
             mPresenter.getCommits(userName, reposName, 10, itemCount, GET_LIST, false);

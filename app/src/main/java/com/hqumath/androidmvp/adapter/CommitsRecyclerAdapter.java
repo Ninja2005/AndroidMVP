@@ -32,8 +32,11 @@ public class CommitsRecyclerAdapter extends BaseRecyclerAdapter<CommitEntity> {
     public void convert(BaseRecyclerViewHolder holder, int position) {
         CommitEntity data = mDatas.get(position);
         holder.setText(R.id.tv_name, data.getCommit().getCommitter().getName());
-        holder.setText(R.id.tv_time, data.getCommit().getCommitter().getDate());
         holder.setText(R.id.tv_message, data.getCommit().getMessage());
         holder.setText(R.id.tv_sha, data.getSha());
+
+        String time = data.getCommit().getCommitter().getDate();
+        time = time.replace("T", " ").replace("Z", "");
+        holder.setText(R.id.tv_time, time);
     }
 }

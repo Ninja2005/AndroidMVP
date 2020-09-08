@@ -44,10 +44,8 @@ public interface MainService {
     Observable<Response<List<ReposEntity>>> getStarred(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取被追随
-    @GET("users/{userName}/followers")
-    Observable<Response<List<UserInfoEntity>>> getFollowers(@Path("userName") String userName,
-                                                            @Query("per_page") int per_page,
-                                                            @Query("page") long page);
+    @GET("users/JakeWharton/followers")
+    Observable<Response<List<UserInfoEntity>>> getFollowers(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取仓库信息
     @GET("repos/{userName}/{reposName}")
