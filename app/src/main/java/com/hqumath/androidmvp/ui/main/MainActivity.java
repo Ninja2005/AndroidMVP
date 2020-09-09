@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity {
         MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pagerAdapter.setData(fragmentList, null);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);//缓存当前界面每一侧的界面数
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
