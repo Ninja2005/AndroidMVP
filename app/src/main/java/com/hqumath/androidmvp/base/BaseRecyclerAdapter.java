@@ -84,5 +84,4 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
-
 }

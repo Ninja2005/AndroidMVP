@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.DiffUtil;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
@@ -12,6 +14,7 @@ import com.hqumath.androidmvp.base.BaseRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseRecyclerViewHolder;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.utils.CommonUtil;
+import com.hqumath.androidmvp.utils.StringUtil;
 
 import java.util.List;
 
@@ -46,5 +49,55 @@ public class FollowRecyclerAdapter extends BaseRecyclerAdapter<UserInfoEntity> {
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
                     .into(ivHead);
         }
+    }
+
+    public class DiffCallback extends DiffUtil.Callback {
+        private List<UserInfoEntity> oldData, newData;
+
+        DiffCallback(List<UserInfoEntity> oldData, List<UserInfoEntity> newData) {
+            this.oldData = oldData;
+            this.newData = newData;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldData.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newData.size();
+        }
+
+        /**
+         * 比对是否是同一个 viewType
+         */
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            UserInfoEntity oldItem = oldData.get(oldItemPosition);
+            UserInfoEntity newItem = newData.get(newItemPosition);
+            return oldItem.getId() == (newItem.getId());
+        }
+
+        /**
+         * 比对内容是否相等
+         */
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            UserInfoEntity oldItem = oldData.get(oldItemPosition);
+            UserInfoEntity newItem = newData.get(newItemPosition);
+            return StringUtil.equals(oldItem.getLogin(), newItem.getLogin())
+                    && StringUtil.equals(oldItem.getAvatar_url(), newItem.getAvatar_url());
+        }
+    }
+
+    /**
+     * 比对更新
+     */
+    public void updateData(List<UserInfoEntity> newData) {
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(mDatas, newData));
+        mDatas.clear();
+        mDatas.addAll(newData);
+        result.dispatchUpdatesTo(this);
     }
 }
