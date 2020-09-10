@@ -40,15 +40,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         View view = mLayoutInflater.inflate(mLayoutId, parent, false);
         if (mOnItemClickListener != null)
             view.setOnClickListener(v -> {
-                int position = (int) v.getTag();
-                mOnItemClickListener.onItemClick(v, position);
+                int position = ((BaseRecyclerViewHolder) v.getTag()).getAdapterPosition();
+                //视图正在重新绘制，不要点击
+                if (position != RecyclerView.NO_POSITION)
+                    mOnItemClickListener.onItemClick(v, position);
             });
         return new BaseRecyclerViewHolder(view);
     }
 
     @Override
     public final void onBindViewHolder(@NonNull BaseRecyclerViewHolder holder, int position) {
-        holder.getHolderView().setTag(position);
         convert(holder, position);
     }
 

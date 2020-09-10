@@ -1,10 +1,11 @@
 package com.hqumath.androidmvp.base;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * ****************************************************************
@@ -24,6 +25,7 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder {
     public BaseRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
         mConvertView = itemView;
+        mConvertView.setTag(this);
     }
 
     public <T extends View> T getView(int viewId) {
