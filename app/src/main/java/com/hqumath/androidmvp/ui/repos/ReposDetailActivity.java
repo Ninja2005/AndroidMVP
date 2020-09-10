@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.adapter.CommitsRecyclerAdapter;
-import com.hqumath.androidmvp.adapter.ReposRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
 import com.hqumath.androidmvp.bean.CommitEntity;
 import com.hqumath.androidmvp.bean.ReposEntity;
@@ -124,20 +123,14 @@ public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> impleme
                     data.getLanguage(), StringUtil.getSizeString(data.getSize() * 1024));
             tvLanguageSize.setText(info);
         } else if (tag == GET_LIST) {
-            //下拉刷新，清空历史数据
-            if (isPullDown) {
-                mDatas.clear();
-            }
             List<CommitEntity> list = ((List<CommitEntity>) object);
             if (list.size() == 0) {
                 if (isPullDown) {
-                    //toast("没有数据");
                     llNoData.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 } else {
                     toast("没有更多数据了");
                     refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
-                    recyclerAdapter.notifyDataSetChanged();
                     return;
                 }
             } else {
@@ -149,6 +142,10 @@ public class ReposDetailActivity extends BaseMvpActivity<ReposPresenter> impleme
                 itemCount += 1;
             } else {
                 itemCount = 2;
+            }
+            //下拉刷新，清空历史数据
+            if (isPullDown) {
+                mDatas.clear();
             }
             mDatas.addAll(list);
             recyclerAdapter.notifyDataSetChanged();

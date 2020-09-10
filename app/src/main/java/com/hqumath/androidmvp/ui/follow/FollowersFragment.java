@@ -24,7 +24,7 @@ import java.util.List;
  * 作    者: Created by gyd
  * 创建时间: 2019/11/5 10:06
  * 文件描述:
- * 注意事项:
+ * 注意事项: 使用DiffUtil比对更新，减少刷新量
  * 版权声明:
  * ****************************************************************
  */
@@ -92,20 +92,14 @@ public class FollowersFragment extends BaseMvpFragment<FollowPresenter> implemen
     @Override
     public void onSuccess(Object object, int tag) {
         if (tag == GET_LIST) {
-            //下拉刷新，清空历史数据
-            if (isPullDown) {
-                mDatas.clear();
-            }
             List<UserInfoEntity> list = ((List<UserInfoEntity>) object);
             if (list.size() == 0) {
                 if (isPullDown) {
-                    //toast("没有数据");
                     llNoData.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 } else {
                     toast("没有更多数据了");
                     refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
-                    recyclerAdapter.notifyDataSetChanged();
                     return;
                 }
             } else {
@@ -118,8 +112,17 @@ public class FollowersFragment extends BaseMvpFragment<FollowPresenter> implemen
             } else {
                 itemCount = 2;
             }
+            //新比对更新，DiffUtil
+            if (!isPullDown) {
+                list.addAll(0, mDatas);
+            }
+            recyclerAdapter.updateData(list);
+            //原全量更新
+            /*if (isPullDown) {
+                mDatas.clear();
+            }
             mDatas.addAll(list);
-            recyclerAdapter.notifyDataSetChanged();
+            recyclerAdapter.notifyDataSetChanged();*/
 
             if (refreshLayout.getState() == RefreshState.Refreshing) {
                 refreshLayout.finishRefresh();

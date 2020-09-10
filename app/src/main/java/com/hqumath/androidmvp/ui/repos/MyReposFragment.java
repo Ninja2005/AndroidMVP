@@ -93,20 +93,14 @@ public class MyReposFragment extends BaseMvpFragment<ReposPresenter> implements 
     @Override
     public void onSuccess(Object object, int tag) {
         if (tag == GET_LIST) {
-            //下拉刷新，清空历史数据
-            if (isPullDown) {
-                mDatas.clear();
-            }
             List<ReposEntity> list = ((List<ReposEntity>) object);
             if (list.size() == 0) {
                 if (isPullDown) {
-                    //toast("没有数据");
                     llNoData.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 } else {
                     toast("没有更多数据了");
                     refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
-                    recyclerAdapter.notifyDataSetChanged();
                     return;
                 }
             } else {
@@ -118,6 +112,10 @@ public class MyReposFragment extends BaseMvpFragment<ReposPresenter> implements 
                 itemCount += 1;
             } else {
                 itemCount = 2;
+            }
+            //下拉刷新，清空历史数据
+            if (isPullDown) {
+                mDatas.clear();
             }
             mDatas.addAll(list);
             recyclerAdapter.notifyDataSetChanged();
