@@ -20,6 +20,7 @@ import com.hqumath.androidmvp.ui.login.LoginActivity;
  */
 public class SettingsFragment extends BaseFragment {
     private View vLogout;
+    private View custom_view;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -28,12 +29,18 @@ public class SettingsFragment extends BaseFragment {
 
     protected void initView(View rootView) {
         vLogout = rootView.findViewById(R.id.v_logout);
+        custom_view = rootView.findViewById(R.id.custom_view);
     }
 
     protected void initListener() {
         vLogout.setOnClickListener(v -> {
             startActivity(new Intent(mContext, LoginActivity.class));
             mContext.finish();
+        });
+
+        custom_view.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, CustomViewActivity.class);
+            startActivity(intent);
         });
     }
 

@@ -84,15 +84,14 @@ public class AppExecutors {
             mainThreadHandler.post(command);
         }
     }
-}
 
-//用法
+    //用法
 //    AppExecutors appExecutors = AppExecutors.getInstance();
-//    appExecutors.diskIO().execute(() -> {
-//        MyRepository model = MyRepository.getInstance();
-//        List<UserInfoEntity> list = model.loadAllUsers1();
+//        appExecutors.diskIO().execute(() -> {
+//        //
 //        appExecutors.mainThread().execute(() -> {
-//           userListViewModel.isLoading.observe(this, b -> {
-//           binding.progressBar.setVisibility(b ? View.VISIBLE : View.GONE);
+//            //
 //        });
 //    });
+}
+

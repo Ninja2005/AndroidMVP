@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_label1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="自定义进度条" />
+
+    <com.hqumath.androidmvp.widget.DownloadingProgressBar
+        android:id="@+id/pb_downloading_content"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        tools:progress="10"
+        app:bga_pb_isCapRounded="true"
+        app:bga_pb_mode="circle"
+        app:bga_pb_radius="48dp"
+        app:bga_pb_reachedColor="@color/colorPrimary"
+        app:bga_pb_reachedHeight="8dp"
+        app:bga_pb_textColor="@color/colorPrimary"
+        app:bga_pb_textSize="18sp"
+        app:bga_pb_unReachedColor="#ECF0F1"
+        app:bga_pb_unReachedHeight="4dp" />
+
+
+</LinearLayout>
