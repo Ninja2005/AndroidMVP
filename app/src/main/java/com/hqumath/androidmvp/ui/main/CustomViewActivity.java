@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.widget.DownloadingProgressBar;
+import com.hqumath.androidmvp.widget.HeaderBar;
 
 /**
  * ****************************************************************
@@ -17,7 +18,8 @@ import com.hqumath.androidmvp.widget.DownloadingProgressBar;
  * ****************************************************************
  */
 public class CustomViewActivity extends BaseActivity {
-    private DownloadingProgressBar mProgressBar;
+    private HeaderBar headerBar;
+    private DownloadingProgressBar progressBar;
 
     @Override
     public int initContentView() {
@@ -26,27 +28,28 @@ public class CustomViewActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mProgressBar = findViewById(R.id.pb_downloading_content);
-
+        headerBar = findViewById(R.id.header_bar);
+        progressBar = findViewById(R.id.pb_downloading_content);
     }
 
     @Override
     protected void initListener() {
-        mProgressBar.setMax(100);
-        mProgressBar.setProgress(0);
+        progressBar.setMax(100);
+        progressBar.setProgress(0);
         new CountDownTimer(10000, 100) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 int progress = (int) (100 - millisUntilFinished / 100);
-                mProgressBar.setProgress(progress);
+                progressBar.setProgress(progress);
             }
 
             @Override
             public void onFinish() {
-                mProgressBar.setProgress(100);
+                progressBar.setProgress(100);
             }
         }.start();
+
     }
 
     @Override

@@ -7,12 +7,18 @@
     android:fitsSystemWindows="false"
     android:orientation="vertical">
 
+    <com.hqumath.androidmvp.widget.HeaderBar
+        android:id="@+id/header_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:center_text="自定义View"/>
+
     <TextView
         android:id="@+id/tv_label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:text="自定义进度条" />
+        android:text="1.自定义进度条" />
 
     <com.hqumath.androidmvp.widget.DownloadingProgressBar
         android:id="@+id/pb_downloading_content"

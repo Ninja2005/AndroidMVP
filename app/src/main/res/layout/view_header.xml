@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/header_left_img"
+        android:id="@+id/iv_left"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:paddingLeft="10dp"
@@ -14,7 +14,7 @@
         android:src="@drawable/ic_arrow_left" />
 
     <TextView
-        android:id="@+id/header_center_text"
+        android:id="@+id/tv_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -26,7 +26,7 @@
         tools:text="title" />
 
     <ImageView
-        android:id="@+id/header_right_img"
+        android:id="@+id/iv_right"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
