@@ -24,7 +24,7 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class PermissionUtils {
+public class PermissionUtil {
     public static final int REQUEST_CODE_SETTING = 1;
 
     //权限分组,尽量少用

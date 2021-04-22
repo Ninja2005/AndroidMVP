@@ -5,7 +5,10 @@
     <!--状态栏颜色-->
     <color name="colorPrimaryDark">#3F51B5</color>
     <!--控件选中后颜色-->
-    <color name="colorAccent">#3F51B5</color>
+    <color name="colorAccent">@color/theme_color</color>
+    <!--主题色-->
+    <color name="theme_color">#3F51B5</color>
+    theme_color
     <!--自定义图标颜色-->
     <color name="light_teal_icon_color">#000000</color>
     <!--主题背景色-->

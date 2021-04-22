@@ -21,7 +21,7 @@ import okhttp3.ResponseBody;
  * 版权声明:
  * ****************************************************************
  */
-public class FileUtils {
+public class FileUtil {
 
     /**
      * 根据url生成文件

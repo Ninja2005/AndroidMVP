@@ -5,11 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseMvpActivity;
-import com.hqumath.androidmvp.ui.fileupdown.FileUpDownContract;
-import com.hqumath.androidmvp.ui.fileupdown.FileUpDownPresenter;
 import com.hqumath.androidmvp.net.upload.ProgressRequestBody;
-import com.hqumath.androidmvp.utils.FileUtils;
-import com.hqumath.androidmvp.utils.PermissionUtils;
+import com.hqumath.androidmvp.utils.FileUtil;
+import com.hqumath.androidmvp.utils.PermissionUtil;
 import com.hqumath.androidmvp.widget.DownloadingDialog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
@@ -72,7 +70,7 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
                     .onGranted((permissions) -> upload())
                     .onDenied((permissions) -> {
                         if (AndPermission.hasAlwaysDeniedPermission(mContext, permissions)) {
-                            PermissionUtils.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
+                            PermissionUtil.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
                         }
                     }).start();
         } else if (v == btnDownload) {
@@ -82,7 +80,7 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
                     .onGranted((permissions) -> download())
                     .onDenied((permissions) -> {
                         if (AndPermission.hasAlwaysDeniedPermission(mContext, permissions)) {
-                            PermissionUtils.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
+                            PermissionUtil.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
                         }
                     }).start();
         }
@@ -100,7 +98,7 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
         String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
 //        String url = "https://static.zifae.com/static-resource/file/arguments.pdf";
 
-        File file = FileUtils.getFileFromUrl(url);
+        File file = FileUtil.getFileFromUrl(url);
 //        if (file.exists()) {
 //            installPackage(file);
 //        } else {
@@ -157,7 +155,7 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
         AndPermission.with(mContext)
                 .install()
                 .file(file)
-                .rationale(PermissionUtils::showInstallDialog)//授权安装app弹窗
+                .rationale(PermissionUtil::showInstallDialog)//授权安装app弹窗
                 .onGranted(null)
                 .onDenied(null).start();
     }

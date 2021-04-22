@@ -1,12 +1,11 @@
 package com.hqumath.androidmvp.net;
 
-import android.text.TextUtils;
 import com.hqumath.androidmvp.BuildConfig;
 import com.hqumath.androidmvp.net.download.DownloadInterceptor;
 import com.hqumath.androidmvp.net.listener.HttpOnNextListener;
 import com.hqumath.androidmvp.net.subscribers.ProgressDownSubscriber;
 import com.hqumath.androidmvp.net.subscribers.ProgressSubscriber;
-import com.hqumath.androidmvp.utils.FileUtils;
+import com.hqumath.androidmvp.utils.FileUtil;
 import com.hqumath.androidmvp.utils.LogUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import io.reactivex.Observable;
@@ -20,7 +19,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
@@ -149,7 +147,7 @@ public class RetrofitClient {
                 .map(new Function<ResponseBody, File>() {
                     @Override
                     public File apply(ResponseBody responseBody) throws Exception {
-                        FileUtils.writeFile(responseBody, file);
+                        FileUtil.writeFile(responseBody, file);
                         return file;
                     }
                 })
