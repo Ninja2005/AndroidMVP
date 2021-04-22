@@ -7,11 +7,11 @@
     android:fitsSystemWindows="false"
     android:orientation="vertical">
 
-    <com.hqumath.androidmvp.widget.HeaderBar
-        android:id="@+id/header_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:center_text="自定义View"/>
+<!--    <com.hqumath.androidmvp.widget.HeaderBar-->
+<!--        android:id="@+id/header_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:center_text="自定义View"/>-->
 
     <TextView
         android:id="@+id/tv_label1"

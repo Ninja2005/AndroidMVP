@@ -18,7 +18,7 @@ import com.hqumath.androidmvp.widget.HeaderBar;
  * ****************************************************************
  */
 public class CustomViewActivity extends BaseActivity {
-    private HeaderBar headerBar;
+//    private HeaderBar headerBar;
     private DownloadingProgressBar progressBar;
 
     @Override
@@ -28,7 +28,7 @@ public class CustomViewActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        headerBar = findViewById(R.id.header_bar);
+//        headerBar = findViewById(R.id.header_bar);
         progressBar = findViewById(R.id.pb_downloading_content);
     }
 

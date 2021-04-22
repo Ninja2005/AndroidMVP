@@ -53,7 +53,7 @@ public class HeaderBar extends RelativeLayout {
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.HeaderBar);
+        /*TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.HeaderBar);
         //标题
         String centerText = typedArray.getString(R.styleable.HeaderBar_center_text);
         if (!TextUtils.isEmpty(centerText))
@@ -67,7 +67,7 @@ public class HeaderBar extends RelativeLayout {
         String showView = String.format("%06d", showViewString);
 
 
-        typedArray.recycle();
+        typedArray.recycle();*/
     }
 
     public void setTitle(String title) {

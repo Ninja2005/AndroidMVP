@@ -43,23 +43,16 @@
     </declare-styleable>
 
     <!--标题栏-->
-    <declare-styleable name="HeaderBar">
+    <!--<declare-styleable name="HeaderBar">
         <attr name="text_color" format="color" />
         <attr name="center_text" format="string" />
-        <attr name="show_views">
+        <attr name="show_views">-->
             <!--二进制或运算表示多个条件-->
-            <flag name="left_img" value="0b1" />
+            <!--<flag name="left_img" value="0b1" />
             <flag name="center_text" value="0b10" />
             <flag name="right_img" value="0b100" />
-
-<!--            <flag name="left_text" value="0b1" />-->
-<!--            <flag name="left_img" value="0b10" />-->
-<!--            <flag name="right_text" value="0b100" />-->
-<!--            <flag name="right_img" value="0b1000" />-->
-<!--            <flag name="center_text" value="0b10000" />-->
-<!--            <flag name="center_img" value="0b100000" />-->
         </attr>
-    </declare-styleable>
+    </declare-styleable>-->
 
 
 </resources>
