@@ -33,6 +33,10 @@ public class App extends Application {
         CommonUtil.init(this);
         //屏幕适配方案，根据ui图修改,屏幕最小宽度375dp
         Density.setDensity(this, 375f);
+
+        //异常捕获后重启，umeng等可能无法统计到异常信息
+        CrashHandler myCrashHandler =CrashHandler.getInstance();
+        myCrashHandler.init(this);
     }
 
     public static synchronized void setApplication(@NonNull Application application) {

@@ -23,7 +23,7 @@ public class LogUtil {
         LogUtil.isDebug = b;
     }
 
-    private static final String TAG = "1027";
+    private static final String TAG = "DEBUG";
 
     // *********************************下面四个是默认tag的函数**********************************//
     public static void i(String msg) {
