@@ -67,7 +67,7 @@ public class DeviceUtil {
             Enumeration enumeration = NetworkInterface.getNetworkInterfaces();
             while (enumeration.hasMoreElements()) {
                 NetworkInterface networkInterface = (NetworkInterface) enumeration.nextElement();
-                // wlan0:无线网卡 eth0：以太网卡
+                // wlan0:无线网卡 eth0：以太网卡 (机顶盒厂家贴的mac是以太网卡)
                 if (!networkInterface.getName().equals("wlan0")) {
                     continue;
                 }
@@ -76,7 +76,7 @@ public class DeviceUtil {
                 if (arrayOfByte == null || arrayOfByte.length == 0) {
                     continue;
                 }
-                return ByteUtil.byteToHex(arrayOfByte);
+                return ByteUtil.byteToHex(arrayOfByte).toUpperCase();
             }
         } catch (Exception e) {
             e.printStackTrace();
