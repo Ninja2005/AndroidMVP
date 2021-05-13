@@ -72,7 +72,7 @@ public class PermissionUtil {
      */
     public static void showInstallDialog(Context context, File data, RequestExecutor executor) {
         new AlertDialog.Builder(context).setCancelable(false)
-                .setTitle(R.string.permission_failed_title)
+                .setTitle(R.string.permission_title)
                 .setMessage(R.string.permission_install_failed_message)
                 .setPositiveButton(R.string.permission_failed_setting,
                         ((dialog, which) -> {

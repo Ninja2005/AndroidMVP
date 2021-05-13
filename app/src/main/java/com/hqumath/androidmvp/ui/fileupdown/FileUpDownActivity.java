@@ -74,10 +74,20 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
                         }
                     }).start();
         } else if (v == btnDownload) {
+            //检查升级
+            String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
+            String version = "1.30063293";
             AndPermission.with(mContext)
                     .runtime()
-                    .permission(Permission.Group.STORAGE)
-                    .onGranted((permissions) -> download())
+                    .permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+                    .onGranted((permissions) -> {
+                        File file = FileUtil.getFileFromVersionName(version);
+                        if (file.exists()) {
+                            installPackage(file);
+                        } else {
+                            mPresenter.download(url, file, DOWNLOAD_TAG);
+                        }
+                    })
                     .onDenied((permissions) -> {
                         if (AndPermission.hasAlwaysDeniedPermission(mContext, permissions)) {
                             PermissionUtil.showSettingDialog(mContext, permissions);//自定义弹窗 去设置界面
@@ -92,18 +102,6 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
         MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(),
                 new ProgressRequestBody(requestBody, this::updateProgress));
         mPresenter.upload(part, UPLOAD_TAG);
-    }
-
-    private void download() {
-        String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
-//        String url = "https://static.zifae.com/static-resource/file/arguments.pdf";
-
-        File file = FileUtil.getFileFromUrl(url);
-//        if (file.exists()) {
-//            installPackage(file);
-//        } else {
-            mPresenter.download(url, file, DOWNLOAD_TAG);
-//        }
     }
 
     @Override
@@ -149,14 +147,15 @@ public class FileUpDownActivity extends BaseMvpActivity<FileUpDownPresenter> imp
     /**
      * 安装app
      *
-     * @param file
+     * @param apkFile
      */
-    private void installPackage(File file) {
+    private void installPackage(File apkFile) {
         AndPermission.with(mContext)
                 .install()
-                .file(file)
+                .file(apkFile)
                 .rationale(PermissionUtil::showInstallDialog)//授权安装app弹窗
                 .onGranted(null)
-                .onDenied(null).start();
+                .onDenied(null)
+                .start();
     }
 }

@@ -40,6 +40,21 @@ public class FileUtil {
     }
 
     /**
+     * 根据app版本号生成文件
+     */
+    public static File getFileFromVersionName(String version) {
+        //获取文件名称类型
+        String fileNameFromUrl1 = CommonUtil.getContext().getPackageName() + "-" + version;
+        String fileStyle = "apk";//文件类型
+        //生成文件目录
+        File fileDir = CommonUtil.getContext().getExternalFilesDir(fileStyle);
+        if (!fileDir.exists())
+            fileDir.mkdirs();
+        String filePath = fileDir.getAbsolutePath() + "/" + fileNameFromUrl1;
+        return new File(filePath);
+    }
+
+    /**
      * 写文件
      */
     public static void writeFile(ResponseBody responseBody, File file) {

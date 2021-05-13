@@ -17,9 +17,20 @@ public class DownloadingDialog extends AppCompatDialog {
         setCancelable(false);
     }
 
-    public void setProgress(long progress, long maxProgress) {
-        mProgressBar.setMax((int) maxProgress);
-        mProgressBar.setProgress((int) progress);
+    //20M以上的文件下载都会出现负数，已经下载的长度*100/总长度
+    public void setProgress(long progressL, long maxProgressL) {
+        int intMax;
+        int intProgress;
+        //int最大2147483647
+        if (maxProgressL > 20000000L) {
+            intMax = (int) (maxProgressL / 100);
+            intProgress = (int) (progressL / 100);
+        } else {
+            intMax = (int) (maxProgressL);
+            intProgress = (int) (progressL);
+        }
+        mProgressBar.setMax(intMax);
+        mProgressBar.setProgress(intProgress);
     }
 
     @Override
