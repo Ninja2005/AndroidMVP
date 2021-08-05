@@ -1,6 +1,7 @@
 package com.hqumath.androidmvp.ui.login;
 
-import java.util.Map;
+import com.hqumath.androidmvp.bean.UserInfoEntity;
+import com.hqumath.androidmvp.net.HttpOnNextListener;
 
 /**
  * ****************************************************************
@@ -14,12 +15,20 @@ import java.util.Map;
  */
 public interface LoginContract {
     interface View {
-        void onSuccess(Object object, int tag);
+        void showProgress();
 
-        void onError(String errorMsg, String code, int tag);
+        void hideProgress();
+
+        void onLoginSuccess(Object object);
+
+        void onLoginError(String errorMsg, String code);
     }
 
     interface Presenter {
-        void login(String userName, int tag, boolean isShowProgress);
+        void login(String userName, String passWord);
+    }
+
+    interface Model {
+        void login(String userName, String passWord, HttpOnNextListener<Object> listener);
     }
 }

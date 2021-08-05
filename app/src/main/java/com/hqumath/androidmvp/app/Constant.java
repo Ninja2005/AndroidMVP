@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.net;
+package com.hqumath.androidmvp.app;
 
 /**
  * ****************************************************************
@@ -10,7 +10,7 @@ package com.hqumath.androidmvp.net;
  * 版权声明:
  * ****************************************************************
  */
-public class AppNetConfig {
+public class Constant {
     //API服务器
     public static String baseUrl = "https://api.github.com/"; // 主线路
 }

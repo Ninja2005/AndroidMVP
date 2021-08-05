@@ -40,10 +40,10 @@ public class HandlerException {
                 case FORBIDDEN:
                 case NOT_FOUND:
                 case REQUEST_TIMEOUT:
-                case GATEWAY_TIMEOUT:
                 case INTERNAL_SERVER_ERROR:
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
+                case GATEWAY_TIMEOUT:
                 default:
                     ex.setMessage("网络错误");
                     break;

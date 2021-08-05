@@ -6,9 +6,12 @@ android {
         applicationId "com.hqumath.mvpdemo"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 20210805
+        versionName "2.0"
         //multiDexEnabled true
+    }
+    buildFeatures {
+        viewBinding = true
     }
     buildTypes {
         debug {
@@ -23,6 +26,18 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //配置自定义打包名称
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            if (variant.buildType.name.equals('release')) {
+                fileName = "MVPDemo_${variant.mergedFlavor.versionName}_${variant.mergedFlavor.versionCode}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "MVPDemo_${variant.mergedFlavor.versionName}_debug_${variant.mergedFlavor.versionCode}.apk"
+            }
+            outputFileName = fileName
+        }
     }
 }
 

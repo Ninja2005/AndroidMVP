@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.net.service;
+package com.hqumath.androidmvp.net;
 
 import com.hqumath.androidmvp.bean.CommitEntity;
 import com.hqumath.androidmvp.bean.ReposEntity;
@@ -29,11 +29,11 @@ import retrofit2.http.Url;
  * 版权声明:
  * ****************************************************************
  */
-public interface MainService {
+public interface ApiService {
 
     //获取用户信息
     @GET("users/{userName}")
-    Observable<Response<UserInfoEntity>> getUserInfo(@Path("userName") String userName);
+    Observable<UserInfoEntity> getUserInfo(@Path("userName") String userName);
 
     //获取用户仓库
     @GET("users/JakeWharton/repos")

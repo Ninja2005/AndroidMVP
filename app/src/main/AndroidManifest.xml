@@ -21,18 +21,22 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
 
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.LoginActivity"/>
+
+        <!--
+        <activity android:name=".ui.main.MainActivity">
+-->
+        <!--<activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.repos.ReposDetailActivity"/>
         <activity android:name=".ui.follow.ProfileDetailActivity"/>
         <activity android:name=".ui.main.CustomViewActivity"/>
-        <activity android:name=".ui.fileupdown.FileUpDownActivity"/>
+        <activity android:name=".ui.fileupdown.FileUpDownActivity"/>-->
     </application>
 
 </manifest>

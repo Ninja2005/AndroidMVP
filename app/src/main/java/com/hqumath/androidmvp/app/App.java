@@ -35,8 +35,8 @@ public class App extends Application {
         Density.setDensity(this, 375f);
 
         //异常捕获后重启，umeng等可能无法统计到异常信息
-        CrashHandler myCrashHandler =CrashHandler.getInstance();
-        myCrashHandler.init(this);
+        //CrashHandler myCrashHandler =CrashHandler.getInstance();
+        //myCrashHandler.init(this);
     }
 
     public static synchronized void setApplication(@NonNull Application application) {

@@ -1,6 +1,7 @@
 package com.hqumath.androidmvp.base;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,23 +27,33 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(initContentView());
+        //初始化状态栏样式
+        //initImmersionBar();
         //初始化ui
-        initView(savedInstanceState);
+        //initView(savedInstanceState);
         //事件监听
         initListener();
         //初始化数据
         initData();
     }
 
-    public abstract int initContentView();
+    public abstract View initContentView();
 
-    public abstract void initView(Bundle savedInstanceState);
+    //public abstract void initView(Bundle savedInstanceState);
 
-    protected void initListener() {
-    }
+    protected abstract void initListener();
 
-    protected void initData() {
-    }
+    protected abstract void initData();
+
+    //沉浸式状态栏，默认文字黑色
+    /*protected void initImmersionBar() {
+        ImmersionBar.with(this)
+                .reset()
+                .statusBarDarkFont(true, 0.2f)
+                .init();
+        //文字白色
+        //ImmersionBar.with(mContext).reset().init();
+    }*/
 
     protected void toast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();

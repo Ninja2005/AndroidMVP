@@ -25,18 +25,7 @@ public class BasePresenter<V> {
     /**
      * 解除绑定view，一般在onDestroy中调用
      */
-
     public void detachView() {
         this.mView = null;
     }
-
-    /**
-     * View是否绑定
-     *
-     * @return
-     */
-    public boolean isViewAttached() {
-        return mView != null;
-    }
-
 }
