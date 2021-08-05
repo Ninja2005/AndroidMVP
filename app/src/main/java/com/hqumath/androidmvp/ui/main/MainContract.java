@@ -1,7 +1,6 @@
-package com.hqumath.androidmvp.ui.login;
+package com.hqumath.androidmvp.ui.main;
 
 import com.hqumath.androidmvp.bean.UserInfoEntity;
-import com.hqumath.androidmvp.net.HttpOnNextListener;
 
 /**
  * ****************************************************************
@@ -13,12 +12,12 @@ import com.hqumath.androidmvp.net.HttpOnNextListener;
  * 版权声明:
  * ****************************************************************
  */
-public interface LoginContract {
+public interface MainContract {
     void showProgress();
 
     void hideProgress();
 
-    void onLoginSuccess(Object object);
+    void onLoginSuccess(UserInfoEntity object);
 
     void onLoginError(String errorMsg, String code);
 }

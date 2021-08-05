@@ -1,5 +1,7 @@
 package com.hqumath.androidmvp.ui.login;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +22,16 @@ import com.hqumath.androidmvp.databinding.ActivityLoginBinding;
  * 版权声明:
  * ****************************************************************
  */
-public class LoginActivity extends BaseActivity implements LoginContract.View {
+public class LoginActivity extends BaseActivity implements LoginContract {
 
     private ActivityLoginBinding binding;
     private LoginPresenter mPresenter;
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        //intent.putExtra(EXTRA_TRIGGER_SYNC_FLAG, triggerDataSyncOnCreate);
+        return intent;
+    }
 
     @Override
     public View initContentView() {
@@ -47,7 +55,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected void initData() {
-        mPresenter = new LoginPresenter(mContext);
+        mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
 
         binding.etName.setText("JakeWharton");
@@ -56,11 +64,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
-        super.onDestroy();
     }
 
     /**

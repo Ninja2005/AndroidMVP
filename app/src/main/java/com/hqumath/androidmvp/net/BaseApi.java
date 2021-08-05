@@ -46,7 +46,7 @@ public class BaseApi/*<T> implements Function<BaseResultEntity, T>*/ {
                 .unsubscribeOn(Schedulers.io())
                 /*回调线程*/
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber(this));
+                .subscribe(new ProgressSubscriber<Object>(this));
     }
 
     public Observable getObservable() {

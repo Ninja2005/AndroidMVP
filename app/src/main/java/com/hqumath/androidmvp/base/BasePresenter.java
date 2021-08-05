@@ -1,5 +1,7 @@
 package com.hqumath.androidmvp.base;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 /**
  * ****************************************************************
  * 文件名称: BasePresenter
@@ -12,6 +14,7 @@ package com.hqumath.androidmvp.base;
  */
 public class BasePresenter<V> {
     protected V mView;
+    protected BaseModel mModel;
 
     /**
      * 绑定view，一般在初始化中调用该方法
@@ -27,5 +30,9 @@ public class BasePresenter<V> {
      */
     public void detachView() {
         this.mView = null;
+        if(mModel != null) {
+            mModel.dispose();
+            mModel = null;
+        }
     }
 }

@@ -23,7 +23,7 @@ public class MyInterceptor implements Interceptor {
         try {
             response = chain.proceed(request.newBuilder().build());
         } catch (Exception e) {
-            LogUtil.d("HTTP", "<-- FAILED " + e);
+            LogUtil.d("HTTP", "网络请求异常\n" + e);
             throw e;
         }
         //response.body()调用后，response中的流会被关闭
@@ -43,8 +43,8 @@ public class MyInterceptor implements Interceptor {
             }
         }*/
         //打印出参
-        LogUtil.d("HTTP", "<-- SUCCESS " + response.request().url() + "\n方式:"
-                + response.request().method() + "\n" + content);
+        LogUtil.d("HTTP", "=====\n" + response.request().method() + ": "
+                + response.request().url() + "\n" + content);
         return response;
     }
 }

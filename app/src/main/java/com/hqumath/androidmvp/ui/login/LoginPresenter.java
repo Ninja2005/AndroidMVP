@@ -1,9 +1,9 @@
 package com.hqumath.androidmvp.ui.login;
 
 import com.hqumath.androidmvp.base.BasePresenter;
-import com.hqumath.androidmvp.bean.UserInfoEntity;
+import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.net.HttpOnNextListener;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.hqumath.androidmvp.ui.main.MainPresenter;
 
 /**
  * ****************************************************************
@@ -15,33 +15,28 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  * 版权声明:
  * ****************************************************************
  */
-public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
+public class LoginPresenter extends BasePresenter<LoginContract> {
 
-    private LoginModel mModel;
-
-    public LoginPresenter(RxAppCompatActivity activity) {
-        mModel = new LoginModel(activity);
+    public LoginPresenter() {
+        mModel = new LoginModel();
     }
 
-    @Override
     public void login(String userName, String passWord) {
-        if (mView != null)
-            mView.showProgress();
-        mModel.login(userName, passWord, new HttpOnNextListener<Object>() {
+        if (mView == null) return;
+        mView.showProgress();
+        ((LoginModel) mModel).login(userName, passWord, new HttpListener() {
             @Override
-            public void onSuccess(Object object, int tag) {
-                if (mView != null) {
-                    mView.onLoginSuccess(object);
-                    mView.hideProgress();
-                }
+            public void onSuccess(Object object) {
+                if (mView == null) return;
+                mView.hideProgress();
+                mView.onLoginSuccess(object);
             }
 
             @Override
-            public void onError(String errorMsg, String code, int tag) {
-                if (mView != null) {
-                    mView.onLoginError(errorMsg, code);
-                    mView.hideProgress();
-                }
+            public void onError(String errorMsg, String code) {
+                if (mView == null) return;
+                mView.hideProgress();
+                mView.onLoginError(errorMsg, code);
             }
         });
     }
