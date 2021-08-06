@@ -1,6 +1,4 @@
-package com.hqumath.androidmvp.ui.main;
-
-import com.hqumath.androidmvp.bean.UserInfoEntity;
+package com.hqumath.androidmvp.ui.follow;
 
 /**
  * ****************************************************************
@@ -12,12 +10,9 @@ import com.hqumath.androidmvp.bean.UserInfoEntity;
  * 版权声明:
  * ****************************************************************
  */
-public interface MainContract {
-    void showProgress();
-
-    void hideProgress();
-
-    void onLoginSuccess(UserInfoEntity object);
-
-    void onLoginError(String errorMsg, String code);
+public interface FollowContract {
+    interface View {
+        void onSuccess(Object object, int tag);
+        void onError(String errorMsg, String code, int tag);
+    }
 }

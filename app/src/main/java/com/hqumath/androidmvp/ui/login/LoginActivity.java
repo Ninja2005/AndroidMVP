@@ -2,6 +2,7 @@ package com.hqumath.androidmvp.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.hqumath.androidmvp.databinding.ActivityLoginBinding;
  * 文件名称: LoginActivity
  * 作    者: Created by gyd
  * 创建时间: 2019/1/21 15:12
- * 文件描述: 处理用户的交互和输入事件
+ * 文件描述:
  * 注意事项:
  * 版权声明:
  * ****************************************************************
@@ -27,14 +28,14 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     private ActivityLoginBinding binding;
     private LoginPresenter mPresenter;
 
-    public static Intent getStartIntent(Context context) {
+    /*public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
-        //intent.putExtra(EXTRA_TRIGGER_SYNC_FLAG, triggerDataSyncOnCreate);
+        intent.putExtra(EXTRA_TRIGGER_SYNC_FLAG, triggerDataSyncOnCreate);
         return intent;
-    }
+    }*/
 
     @Override
-    public View initContentView() {
+    public View initContentView(Bundle savedInstanceState) {
         binding = ActivityLoginBinding.inflate(LayoutInflater.from(this));
         return binding.getRoot();
     }

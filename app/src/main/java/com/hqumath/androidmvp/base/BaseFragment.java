@@ -34,10 +34,11 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(initContentView(savedInstanceState), container, false);
-            initView(rootView);
+            rootView = initContentView(inflater, container, savedInstanceState);
+            //事件监听
             initListener();
-            initData();//初始化数据走网络请求等
+            //初始化数据
+            initData();
         } else {
             //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
             ViewGroup parent = (ViewGroup) rootView.getParent();
@@ -47,16 +48,11 @@ public abstract class BaseFragment extends RxFragment {
         return rootView;
     }
 
-    public abstract int initContentView(Bundle savedInstanceState);
+    protected abstract View initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
-    protected void initView(View rootView) {
-    }
+    protected abstract void initListener();
 
-    protected void initListener() {
-    }
-
-    protected void initData() {
-    }
+    protected abstract void initData();
 
     protected void toast(String s) {
         Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();

@@ -2,15 +2,13 @@ package com.hqumath.androidmvp.ui.login;
 
 import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.net.HttpListener;
-import com.hqumath.androidmvp.net.HttpOnNextListener;
-import com.hqumath.androidmvp.ui.main.MainPresenter;
 
 /**
  * ****************************************************************
  * 文件名称: LoginPresenter
  * 作    者: Created by gyd
  * 创建时间: 2019/1/21 15:12
- * 文件描述: https://www.jianshu.com/p/8fb4c0ae006e
+ * 文件描述: 业务逻辑层
  * 注意事项:
  * 版权声明:
  * ****************************************************************

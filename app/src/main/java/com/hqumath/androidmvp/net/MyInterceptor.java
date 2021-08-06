@@ -30,18 +30,8 @@ public class MyInterceptor implements Interceptor {
         ResponseBody responseBody = response.peekBody(1024 * 1024);
         //解析出参
         String content = responseBody.string();
-        /*JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (jsonObject != null) {
-            String code = jsonObject.optString("code", "");
-            if (code.equals("-100")) {
-                //特殊错误号处理
-            }
-        }*/
+        //JSONObject jsonObject = new JSONObject(content); //统一处理响应数据
+
         //打印出参
         LogUtil.d("HTTP", "=====\n" + response.request().method() + ": "
                 + response.request().url() + "\n" + content);

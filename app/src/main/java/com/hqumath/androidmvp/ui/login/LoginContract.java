@@ -1,8 +1,5 @@
 package com.hqumath.androidmvp.ui.login;
 
-import com.hqumath.androidmvp.bean.UserInfoEntity;
-import com.hqumath.androidmvp.net.HttpOnNextListener;
-
 /**
  * ****************************************************************
  * 文件名称: LoginContract

@@ -26,20 +26,16 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        setContentView(initContentView());
+        setContentView(initContentView(savedInstanceState));
         //初始化状态栏样式
         //initImmersionBar();
-        //初始化ui
-        //initView(savedInstanceState);
         //事件监听
         initListener();
         //初始化数据
         initData();
     }
 
-    public abstract View initContentView();
-
-    //public abstract void initView(Bundle savedInstanceState);
+    protected abstract View initContentView(Bundle savedInstanceState);
 
     protected abstract void initListener();
 

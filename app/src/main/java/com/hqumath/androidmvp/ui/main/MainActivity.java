@@ -1,101 +1,62 @@
 package com.hqumath.androidmvp.ui.main;
 
-import android.text.TextUtils;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 
-import com.hqumath.androidmvp.R;
+import androidx.viewpager.widget.ViewPager;
+
+import com.hqumath.androidmvp.adapter.MyFragmentPagerAdapter;
 import com.hqumath.androidmvp.base.BaseActivity;
-import com.hqumath.androidmvp.bean.UserInfoEntity;
-import com.hqumath.androidmvp.databinding.ActivityLoginBinding;
-import com.hqumath.androidmvp.ui.login.LoginContract;
-import com.hqumath.androidmvp.ui.login.LoginPresenter;
+import com.hqumath.androidmvp.base.BaseFragment;
+import com.hqumath.androidmvp.databinding.ActivityMainBinding;
 
-public class MainActivity extends BaseActivity implements MainContract {
+import java.util.ArrayList;
+import java.util.List;
 
-    private ActivityLoginBinding binding;
-    private MainPresenter mPresenter;
+public class MainActivity extends BaseActivity {
+
+    private ActivityMainBinding binding;
 
     @Override
-    public View initContentView() {
-        binding = ActivityLoginBinding.inflate(LayoutInflater.from(this));
+    public View initContentView(Bundle savedInstanceState) {
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
         return binding.getRoot();
     }
 
     @Override
     protected void initListener() {
-        binding.etPwd.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-                loginRequest();
-                return true;
-            }
-            return false;
-        });
-        binding.btnLogin.setOnClickListener(v -> {
-            loginRequest();
-        });
     }
 
     @Override
     protected void initData() {
-        mPresenter = new MainPresenter();
-        mPresenter.attachView(this);
+        List<BaseFragment> fragmentList = new ArrayList<>();
+        /*fragmentList.add(new ReposFragment());
+        fragmentList.add(new FollowersFragment());
+        fragmentList.add(new SettingsFragment());
+        fragmentList.add(new AboutFragment());*/
 
-        binding.etName.setText("JakeWharton");
-        binding.etPwd.setText("1234");
-    }
+        MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.setData(fragmentList, null);
+        binding.viewPager.setAdapter(pagerAdapter);
+        binding.viewPager.setOffscreenPageLimit(3);//缓存当前界面每一侧的界面数
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.detachView();
-            mPresenter = null;
-        }
-    }
+            @Override
+            public void onPageSelected(int position) {
+                binding.navigation.getMenu().getItem(position).setChecked(true);
+            }
 
-    private void loginRequest() {
-        String name = binding.etName.getText().toString().trim();
-        String pwd = binding.etPwd.getText().toString().trim();
-        boolean valid = true;//防止快速点击
-        if (TextUtils.isEmpty(name)) {
-            valid = false;
-            binding.llName.setError(getString(R.string.user_name_warning));
-        } else {
-            binding.llName.setErrorEnabled(false);
-        }
-        if (TextUtils.isEmpty(pwd)) {
-            valid = false;
-            binding.llPwd.setError(getString(R.string.password_warning));
-        } else {
-            binding.llPwd.setErrorEnabled(false);
-        }
-        if (valid) {
-            binding.btnLogin.setEnabled(false);
-            mPresenter.login(name, pwd);
-        }
-    }
-
-    @Override
-    public void showProgress() {
-        binding.progressBar.show();
-    }
-
-    @Override
-    public void hideProgress() {
-        binding.progressBar.hide();
-    }
-
-    @Override
-    public void onLoginSuccess(UserInfoEntity user) {
-        toast(user.getName() + "已登录");
-        binding.btnLogin.setEnabled(true);
-    }
-
-    @Override
-    public void onLoginError(String errorMsg, String code) {
-        toast(errorMsg);
-        binding.btnLogin.setEnabled(true);
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        binding.navigation.setOnNavigationItemSelectedListener(item -> {
+            binding.viewPager.setCurrentItem(item.getOrder());
+            return true;
+        });
     }
 }
