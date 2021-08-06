@@ -77,7 +77,6 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
         recyclerAdapter.notifyDataSetChanged();
         boolean isEmpty = mPresenter.mData.isEmpty();
         if (isRefresh) {
-            binding.emptyLayout.llEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
             if (isEmpty) {
                 binding.refreshLayout.finishRefreshWithNoMoreData();//上拉加载功能将显示没有更多数据
             } else {
@@ -91,17 +90,18 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
                 binding.refreshLayout.finishLoadMore();
             }
         }
+        binding.emptyLayout.llEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onGetListError(String errorMsg, String code, boolean isRefresh) {
         toast(errorMsg);
         if (isRefresh) {
-            binding.emptyLayout.llEmpty.setVisibility(mPresenter.mData.isEmpty() ? View.VISIBLE : View.GONE);
             binding.refreshLayout.finishRefresh(false);//刷新失败，会影响到上次的更新时间
         } else {
             binding.refreshLayout.finishLoadMore(false);
         }
+        binding.emptyLayout.llEmpty.setVisibility(mPresenter.mData.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     /*
