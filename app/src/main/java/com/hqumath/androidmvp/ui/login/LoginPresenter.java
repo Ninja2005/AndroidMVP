@@ -2,6 +2,7 @@ package com.hqumath.androidmvp.ui.login;
 
 import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.net.HttpListener;
+import com.hqumath.androidmvp.repository.MyModel;
 
 /**
  * ****************************************************************
@@ -16,13 +17,14 @@ import com.hqumath.androidmvp.net.HttpListener;
 public class LoginPresenter extends BasePresenter<LoginContract> {
 
     public LoginPresenter() {
-        mModel = new LoginModel();
+        mModel = new MyModel();
     }
 
     public void login(String userName, String passWord) {
         if (mView == null) return;
         mView.showProgress();
-        ((LoginModel) mModel).login(userName, passWord, new HttpListener() {
+        //模拟登陆接口
+        ((MyModel) mModel).getUserInfo(userName, new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 if (mView == null) return;

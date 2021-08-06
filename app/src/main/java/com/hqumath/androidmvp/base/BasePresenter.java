@@ -17,7 +17,7 @@ public class BasePresenter<V> {
     protected BaseModel mModel;
 
     /**
-     * 绑定view，一般在初始化中调用该方法
+     * 绑定view
      *
      * @param view view
      */
@@ -26,7 +26,7 @@ public class BasePresenter<V> {
     }
 
     /**
-     * 解除绑定view，一般在onDestroy中调用
+     * 解除绑定view，解除model中所有订阅者
      */
     public void detachView() {
         this.mView = null;

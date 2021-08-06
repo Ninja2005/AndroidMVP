@@ -1,6 +1,5 @@
 package com.hqumath.androidmvp.ui.login;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +11,7 @@ import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.ActivityLoginBinding;
+import com.hqumath.androidmvp.ui.main.MainActivity;
 
 /**
  * ****************************************************************
@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     protected void initData() {
         mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
-
+        //测试数据
         binding.etName.setText("JakeWharton");
         binding.etPwd.setText("1234");
     }
@@ -111,7 +111,9 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     public void onLoginSuccess(Object object) {
         UserInfoEntity user = (UserInfoEntity) object;
         toast(user.getName() + "已登录");
-        binding.btnLogin.setEnabled(true);
+        //binding.btnLogin.setEnabled(true);
+        startActivity(new Intent(mContext, MainActivity.class));
+        finish();
     }
 
     @Override

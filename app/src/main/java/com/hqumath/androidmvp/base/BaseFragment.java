@@ -23,7 +23,7 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 public abstract class BaseFragment extends RxFragment {
     private View rootView;
     protected Activity mContext;
-    protected boolean hasRequested;//是否已经请求过数据 懒加载
+    //protected boolean hasRequested;//在onResume中判断是否已经请求过数据。用于懒加载
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

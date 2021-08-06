@@ -25,12 +25,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     private LayoutInflater mLayoutInflater;
     private OnItemClickLitener mOnItemClickListener;
 
-    private List<T> mDatas;
+    protected List<T> mData;
     private int mLayoutId;
 
-    public BaseRecyclerAdapter(Context context, List<T> datas, int layoutId) {
+    public BaseRecyclerAdapter(Context context, List<T> mData, int layoutId) {
         mLayoutInflater = LayoutInflater.from(context);
-        this.mDatas = datas;
+        this.mData = mData;
         this.mLayoutId = layoutId;
     }
 
@@ -65,21 +65,21 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mData.size();
     }
 
     public void addItem(T item, boolean isNotify) {
-        mDatas.add(item);
+        mData.add(item);
         if (isNotify) notifyDataSetChanged();
     }
 
     public void addAllItem(List<T> items, boolean isNotify) {
-        mDatas.addAll(items);
+        mData.addAll(items);
         if (isNotify) notifyDataSetChanged();
     }
 
     public void clearItems() {
-        mDatas.clear();
+        mData.clear();
     }
 
     public interface OnItemClickLitener {

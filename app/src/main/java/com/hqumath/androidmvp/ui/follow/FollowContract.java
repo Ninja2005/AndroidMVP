@@ -11,8 +11,7 @@ package com.hqumath.androidmvp.ui.follow;
  * ****************************************************************
  */
 public interface FollowContract {
-    interface View {
-        void onSuccess(Object object, int tag);
-        void onError(String errorMsg, String code, int tag);
-    }
+    void onGetListSuccess(boolean isRefresh, boolean isEmpty);
+
+    void onGetListError(String errorMsg, String code, boolean isRefresh);
 }

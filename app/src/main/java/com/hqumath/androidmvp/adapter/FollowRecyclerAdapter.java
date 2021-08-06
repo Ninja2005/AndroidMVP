@@ -30,16 +30,13 @@ import java.util.List;
  */
 public class FollowRecyclerAdapter extends BaseRecyclerAdapter<UserInfoEntity> {
 
-    private List<UserInfoEntity> mDatas;
-
-    public FollowRecyclerAdapter(Context context, List<UserInfoEntity> mDatas, int layoutId) {
-        super(context, mDatas, layoutId);
-        this.mDatas = mDatas;
+    public FollowRecyclerAdapter(Context context, List<UserInfoEntity> mData) {
+        super(context, mData, R.layout.recycler_item_followers);
     }
 
     @Override
     public void convert(BaseRecyclerViewHolder holder, int position) {
-        UserInfoEntity data = mDatas.get(position);
+        UserInfoEntity data = mData.get(position);
         holder.setText(R.id.tv_name, data.getLogin());
 
         ImageView ivHead = holder.getView(R.id.iv_head);
@@ -51,7 +48,18 @@ public class FollowRecyclerAdapter extends BaseRecyclerAdapter<UserInfoEntity> {
         }
     }
 
-    public class DiffCallback extends DiffUtil.Callback {
+    /**
+     * 更高效的更新
+     * notifyDataSetChanged 效率低
+     */
+    public void updateData(List<UserInfoEntity> newData) {
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(mData, newData));
+        mData.clear();
+        mData.addAll(newData);
+        result.dispatchUpdatesTo(this);
+    }
+
+    private class DiffCallback extends DiffUtil.Callback {
         private List<UserInfoEntity> oldData, newData;
 
         DiffCallback(List<UserInfoEntity> oldData, List<UserInfoEntity> newData) {
@@ -89,15 +97,5 @@ public class FollowRecyclerAdapter extends BaseRecyclerAdapter<UserInfoEntity> {
             return StringUtil.equals(oldItem.getLogin(), newItem.getLogin())
                     && StringUtil.equals(oldItem.getAvatar_url(), newItem.getAvatar_url());
         }
-    }
-
-    /**
-     * 比对更新
-     */
-    public void updateData(List<UserInfoEntity> newData) {
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(mDatas, newData));
-        mDatas.clear();
-        mDatas.addAll(newData);
-        result.dispatchUpdatesTo(this);
     }
 }

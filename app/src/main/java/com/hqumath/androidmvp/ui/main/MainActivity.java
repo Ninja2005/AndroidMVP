@@ -10,6 +10,7 @@ import com.hqumath.androidmvp.adapter.MyFragmentPagerAdapter;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.base.BaseFragment;
 import com.hqumath.androidmvp.databinding.ActivityMainBinding;
+import com.hqumath.androidmvp.ui.follow.FollowersFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         List<BaseFragment> fragmentList = new ArrayList<>();
-        /*fragmentList.add(new ReposFragment());
+        //fragmentList.add(new ReposFragment());
         fragmentList.add(new FollowersFragment());
-        fragmentList.add(new SettingsFragment());
+        /*fragmentList.add(new SettingsFragment());
         fragmentList.add(new AboutFragment());*/
 
         MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());

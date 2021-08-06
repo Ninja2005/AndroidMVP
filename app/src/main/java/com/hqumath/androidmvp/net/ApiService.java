@@ -37,24 +37,24 @@ public interface ApiService {
 
     //获取用户仓库
     @GET("users/JakeWharton/repos")
-    Observable<Response<List<ReposEntity>>> getMyRepos(@Query("per_page") int per_page, @Query("page") long page);
+    Observable<List<ReposEntity>> getMyRepos(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取星标仓库
     @GET("users/JakeWharton/starred")
-    Observable<Response<List<ReposEntity>>> getStarred(@Query("per_page") int per_page, @Query("page") long page);
+    Observable<List<ReposEntity>> getStarred(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取被追随
     @GET("users/JakeWharton/followers")
-    Observable<Response<List<UserInfoEntity>>> getFollowers(@Query("per_page") int per_page, @Query("page") long page);
+    Observable<List<UserInfoEntity>> getFollowers(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取仓库信息
     @GET("repos/{userName}/{reposName}")
-    Observable<Response<ReposEntity>> getReposInfo(@Path("userName") String userName,
+    Observable<ReposEntity> getReposInfo(@Path("userName") String userName,
                                                    @Path("reposName") String reposName);
 
     //获取仓库提交记录 分页
     @GET("repos/{userName}/{reposName}/commits?sha=master")
-    Observable<Response<List<CommitEntity>>> getCommits(@Path("userName") String userName,
+    Observable<List<CommitEntity>> getCommits(@Path("userName") String userName,
                                                         @Path("reposName") String reposName,
                                                         @Query("per_page") int per_page, @Query("page") long page);
 
