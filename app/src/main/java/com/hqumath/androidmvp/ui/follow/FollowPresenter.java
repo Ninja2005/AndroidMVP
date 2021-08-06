@@ -49,7 +49,7 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
                     mData.clear();
                 if (list.size() > 0)
                     mData.addAll(list);
-                mView.onGetListSuccess(isRefresh, list.size() > 0);
+                mView.onGetListSuccess(isRefresh);
             }
 
             @Override

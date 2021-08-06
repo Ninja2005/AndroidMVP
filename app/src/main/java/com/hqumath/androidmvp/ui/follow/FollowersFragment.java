@@ -7,12 +7,7 @@ import android.view.ViewGroup;
 
 import com.hqumath.androidmvp.adapter.FollowRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseFragment;
-import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.FragmentFollowersBinding;
-import com.hqumath.androidmvp.ui.login.LoginPresenter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ****************************************************************
@@ -78,17 +73,18 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
     }
 
     @Override
-    public void onGetListSuccess(boolean isRefresh, boolean isEmpty) {
+    public void onGetListSuccess(boolean isRefresh) {
         recyclerAdapter.notifyDataSetChanged();
-        if(isRefresh) {
-            if(isEmpty) {
-                toast("没有数据");
+        boolean isEmpty = mPresenter.mData.isEmpty();
+        if (isRefresh) {
+            binding.emptyLayout.llEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+            if (isEmpty) {
                 binding.refreshLayout.finishRefreshWithNoMoreData();//上拉加载功能将显示没有更多数据
             } else {
                 binding.refreshLayout.finishRefresh();
             }
         } else {
-            if(isEmpty) {
+            if (isEmpty) {
                 toast("没有更多数据了");
                 binding.refreshLayout.finishLoadMoreWithNoMoreData();//上拉加载功能将显示没有更多数据
             } else {
@@ -101,6 +97,7 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
     public void onGetListError(String errorMsg, String code, boolean isRefresh) {
         toast(errorMsg);
         if (isRefresh) {
+            binding.emptyLayout.llEmpty.setVisibility(mPresenter.mData.isEmpty() ? View.VISIBLE : View.GONE);
             binding.refreshLayout.finishRefresh(false);//刷新失败，会影响到上次的更新时间
         } else {
             binding.refreshLayout.finishLoadMore(false);

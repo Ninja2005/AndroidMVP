@@ -32,10 +32,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         List<BaseFragment> fragmentList = new ArrayList<>();
-        //fragmentList.add(new ReposFragment());
+        /*fragmentList.add(new ReposFragment());
         fragmentList.add(new FollowersFragment());
-        /*fragmentList.add(new SettingsFragment());
+        fragmentList.add(new SettingsFragment());
         fragmentList.add(new AboutFragment());*/
+
+        fragmentList.add(new FollowersFragment());
+        fragmentList.add(new FollowersFragment());
+        fragmentList.add(new FollowersFragment());
+        fragmentList.add(new FollowersFragment());
 
         MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pagerAdapter.setData(fragmentList, null);
