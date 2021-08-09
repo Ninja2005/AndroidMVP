@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.adapter.MyRecyclerAdapters;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.ReposEntity;
@@ -14,6 +15,9 @@ import com.hqumath.androidmvp.databinding.ActivityReposDetailBinding;
 import com.hqumath.androidmvp.utils.CommonUtil;
 import com.hqumath.androidmvp.utils.StringUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -84,8 +88,18 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
         Glide.with(mContext).load(data.getOwner().getAvatar_url()).into(binding.ivAvatarBg);
         binding.tvDescription.setText(data.getDescription());
         binding.tvFullName.setText(data.getFull_name());
-        binding.tvCreatedAt.setText(data.getCreated_at().replace("T", " ")
-                .replace("Z", ""));
+        //时间格式化
+        String date = data.getCreated_at();//2011-12-29T04:45:11Z
+        date = date.replace("Z", " UTC");//UTC是世界标准时间
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date1 = format1.parse(date);
+            String date2 = format2.format(date1);
+            binding.tvCreatedAt.setText(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         String info = String.format(Locale.getDefault(), "Language %s, size %s",
                 data.getLanguage(), StringUtil.getSizeString(data.getSize() * 1024));
         binding.tvLanguageSize.setText(info);

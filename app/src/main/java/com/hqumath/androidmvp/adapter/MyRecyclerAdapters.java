@@ -67,7 +67,7 @@ public class MyRecyclerAdapters {
             holder.setText(R.id.tv_name, data.getCommit().getCommitter().getName());
             holder.setText(R.id.tv_message, data.getCommit().getMessage());
             holder.setText(R.id.tv_sha, data.getSha());
-
+            //时间格式化
             String date = data.getCommit().getCommitter().getDate();//2011-12-29T04:45:11Z
             date = date.replace("Z", " UTC");//UTC是世界标准时间
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z");
