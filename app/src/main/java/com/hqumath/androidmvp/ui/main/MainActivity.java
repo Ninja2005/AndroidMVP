@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
         //TODO
         fragmentList.add(new ReposFragment());
         fragmentList.add(new FollowersFragment());
-        fragmentList.add(new FollowersFragment());
+        fragmentList.add(new SettingsFragment());
         fragmentList.add(new FollowersFragment());
 
         MyFragmentPagerAdapter pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
