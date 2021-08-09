@@ -5,8 +5,8 @@
 
 - **MVP结构**
 
-    表示层 <=> 业务层 => 数据层
-    View <=> Presenter => Model
+    1. 表示层 <=> 业务层 => 数据层
+    2. View <=> Presenter => Model
 
 - **流行框架**
 

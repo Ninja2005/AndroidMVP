@@ -10,6 +10,7 @@ import com.hqumath.androidmvp.adapter.MyAdapters;
 import com.hqumath.androidmvp.base.BaseFragment;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.databinding.FragmentSwipeListBinding;
+import com.hqumath.androidmvp.utils.CommonUtil;
 
 /**
  * ****************************************************************
@@ -86,7 +87,7 @@ public class StarredFragment extends BaseFragment implements ReposContract {
             }
         } else {
             if (isEmpty) {
-                toast("没有更多数据了");
+                CommonUtil.toast("没有更多数据了");
                 binding.refreshLayout.finishLoadMoreWithNoMoreData();//上拉加载功能将显示没有更多数据
             } else {
                 binding.refreshLayout.finishLoadMore();
@@ -97,7 +98,7 @@ public class StarredFragment extends BaseFragment implements ReposContract {
 
     @Override
     public void onGetListError(String errorMsg, String code, boolean isRefresh) {
-        toast(errorMsg);
+        CommonUtil.toast(errorMsg);
         if (isRefresh) {
             binding.refreshLayout.finishRefresh(false);//刷新失败，会影响到上次的更新时间
         } else {

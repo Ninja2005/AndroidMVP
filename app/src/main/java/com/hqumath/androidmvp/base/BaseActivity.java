@@ -2,11 +2,9 @@ package com.hqumath.androidmvp.base;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.hqumath.androidmvp.app.AppManager;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
@@ -50,8 +48,4 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         //文字白色
         //ImmersionBar.with(mContext).reset().init();
     }*/
-
-    protected void toast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
 }

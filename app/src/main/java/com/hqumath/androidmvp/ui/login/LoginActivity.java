@@ -12,6 +12,7 @@ import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.ActivityLoginBinding;
 import com.hqumath.androidmvp.ui.main.MainActivity;
+import com.hqumath.androidmvp.utils.CommonUtil;
 
 /**
  * ****************************************************************
@@ -110,7 +111,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     @Override
     public void onLoginSuccess(Object object) {
         UserInfoEntity user = (UserInfoEntity) object;
-        toast(user.getName() + "已登录");
+        CommonUtil.toast(user.getName() + "已登录");
         //binding.btnLogin.setEnabled(true);
         startActivity(new Intent(mContext, MainActivity.class));
         finish();
@@ -118,7 +119,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
     @Override
     public void onLoginError(String errorMsg, String code) {
-        toast(errorMsg);
+        CommonUtil.toast(errorMsg);
         binding.btnLogin.setEnabled(true);
     }
 }

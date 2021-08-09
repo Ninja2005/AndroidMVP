@@ -2,11 +2,11 @@ package com.hqumath.androidmvp.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -53,8 +53,4 @@ public abstract class BaseFragment extends RxFragment {
     protected abstract void initListener();
 
     protected abstract void initData();
-
-    protected void toast(String s) {
-        Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
-    }
 }

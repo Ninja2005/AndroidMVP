@@ -62,7 +62,7 @@ public class CommonUtil {
     }
 
     public static void toast(String s){
-        Toast.makeText(CommonUtil.getContext(), s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
     }
 
     public static void showKeyboard(Activity activity, EditText editText) {
