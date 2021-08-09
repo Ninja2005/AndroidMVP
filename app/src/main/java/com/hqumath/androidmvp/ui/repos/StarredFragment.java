@@ -1,4 +1,4 @@
-package com.hqumath.androidmvp.ui.follow;
+package com.hqumath.androidmvp.ui.repos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,47 +7,48 @@ import android.view.ViewGroup;
 
 import com.hqumath.androidmvp.adapter.MyAdapters;
 import com.hqumath.androidmvp.base.BaseFragment;
-import com.hqumath.androidmvp.databinding.FragmentFollowersBinding;
+import com.hqumath.androidmvp.databinding.FragmentSwipeListBinding;
 
 /**
  * ****************************************************************
- * 文件名称: FollowersFragment
+ * 文件名称: OneFragment
  * 作    者: Created by gyd
  * 创建时间: 2019/11/5 10:06
  * 文件描述:
- * 注意事项: 使用DiffUtil比对更新，减少刷新量
+ * 注意事项:
  * 版权声明:
  * ****************************************************************
  */
-public class FollowersFragment extends BaseFragment implements FollowContract {
+public class StarredFragment extends BaseFragment implements ReposContract {
 
-    private FragmentFollowersBinding binding;
-    private FollowPresenter mPresenter;
-    private MyAdapters.FollowRecyclerAdapter recyclerAdapter;
+    private FragmentSwipeListBinding binding;
+    private StarredPresenter mPresenter;
+    private MyAdapters.ReposRecyclerAdapter recyclerAdapter;
     protected boolean hasRequested;//在onResume中判断是否已经请求过数据。用于懒加载
 
     @Override
-    public View initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentFollowersBinding.inflate(inflater, container, false);
+    protected View initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentSwipeListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     protected void initListener() {
-        binding.refreshLayout.setOnRefreshListener(v -> mPresenter.getFollowers(true));
-        binding.refreshLayout.setOnLoadMoreListener(v -> mPresenter.getFollowers(false));
+        binding.refreshLayout.setOnRefreshListener(v -> mPresenter.getStarred(true));
+        binding.refreshLayout.setOnLoadMoreListener(v -> mPresenter.getStarred(false));
     }
 
     @Override
     protected void initData() {
-        mPresenter = new FollowPresenter();
+        mPresenter = new StarredPresenter();
         mPresenter.attachView(this);
 
-        recyclerAdapter = new MyAdapters.FollowRecyclerAdapter(mContext, mPresenter.mData);
+        recyclerAdapter = new MyAdapters.ReposRecyclerAdapter(mContext, mPresenter.mData);
         recyclerAdapter.setOnItemClickListener((v, position) -> {
-            /*UserInfoEntity data = mDatas.get(position);
-            Intent intent = new Intent(mContext, ProfileDetailActivity.class);
-            intent.putExtra("UserName", data.getLogin());
+            /*ReposEntity data = mDatas.get(position);
+            Intent intent = new Intent(mContext, ReposDetailActivity.class);
+            intent.putExtra("name", data.getName());
+            intent.putExtra("login", data.getOwner().getLogin());
             startActivity(intent);*/
         });
         binding.recyclerView.setAdapter(recyclerAdapter);

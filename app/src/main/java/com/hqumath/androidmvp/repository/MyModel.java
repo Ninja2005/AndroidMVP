@@ -45,4 +45,32 @@ public class MyModel extends BaseModel {
             }
         });
     }
+
+    public void getMyRepos(int pageSize, long pageIndex, HttpListener listener) {
+        sendRequest(RetrofitClient.getInstance().getApiService().getMyRepos(pageSize, pageIndex), new HttpListener() {
+            @Override
+            public void onSuccess(Object object) {
+                listener.onSuccess(object);
+            }
+
+            @Override
+            public void onError(String errorMsg, String code) {
+                listener.onError(errorMsg, code);
+            }
+        });
+    }
+
+    public void getStarred(int pageSize, long pageIndex, HttpListener listener) {
+        sendRequest(RetrofitClient.getInstance().getApiService().getStarred(pageSize, pageIndex), new HttpListener() {
+            @Override
+            public void onSuccess(Object object) {
+                listener.onSuccess(object);
+            }
+
+            @Override
+            public void onError(String errorMsg, String code) {
+                listener.onError(errorMsg, code);
+            }
+        });
+    }
 }
