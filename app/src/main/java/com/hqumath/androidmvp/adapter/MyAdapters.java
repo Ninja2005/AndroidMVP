@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseRecyclerAdapter;
 import com.hqumath.androidmvp.base.BaseRecyclerViewHolder;
+import com.hqumath.androidmvp.bean.CommitEntity;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.utils.CommonUtil;
@@ -47,6 +48,23 @@ public class MyAdapters {
             holder.setText(R.id.tv_name, data.getName());
             holder.setText(R.id.tv_description, data.getDescription());
             holder.setText(R.id.tv_author, data.getOwner().getLogin());
+        }
+    }
+    //提交记录
+    public static class CommitsRecyclerAdapter extends BaseRecyclerAdapter<CommitEntity> {
+        public CommitsRecyclerAdapter(Context context, List<CommitEntity> mData) {
+            super(context, mData, R.layout.recycler_item_commits);
+        }
+
+        @Override
+        public void convert(BaseRecyclerViewHolder holder, int position) {
+            CommitEntity data = mData.get(position);
+            holder.setText(R.id.tv_name, data.getCommit().getCommitter().getName());
+            holder.setText(R.id.tv_message, data.getCommit().getMessage());
+            holder.setText(R.id.tv_sha, data.getSha());
+            String time = data.getCommit().getCommitter().getDate();
+            time = time.replace("T", " ").replace("Z", "");
+            holder.setText(R.id.tv_time, time);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.hqumath.androidmvp.ui.repos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.hqumath.androidmvp.adapter.MyAdapters;
 import com.hqumath.androidmvp.base.BaseFragment;
+import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.databinding.FragmentSwipeListBinding;
 
 /**
@@ -45,11 +47,11 @@ public class StarredFragment extends BaseFragment implements ReposContract {
 
         recyclerAdapter = new MyAdapters.ReposRecyclerAdapter(mContext, mPresenter.mData);
         recyclerAdapter.setOnItemClickListener((v, position) -> {
-            /*ReposEntity data = mDatas.get(position);
+            ReposEntity data = mPresenter.mData.get(position);
             Intent intent = new Intent(mContext, ReposDetailActivity.class);
             intent.putExtra("name", data.getName());
             intent.putExtra("login", data.getOwner().getLogin());
-            startActivity(intent);*/
+            startActivity(intent);
         });
         binding.recyclerView.setAdapter(recyclerAdapter);
     }
