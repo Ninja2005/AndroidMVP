@@ -29,12 +29,6 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     private ActivityLoginBinding binding;
     private LoginPresenter mPresenter;
 
-    /*public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.putExtra(EXTRA_TRIGGER_SYNC_FLAG, triggerDataSyncOnCreate);
-        return intent;
-    }*/
-
     @Override
     public View initContentView(Bundle savedInstanceState) {
         binding = ActivityLoginBinding.inflate(LayoutInflater.from(this));

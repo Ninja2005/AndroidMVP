@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.hqumath.androidmvp.adapter.MyRecyclerAdapters;
 import com.hqumath.androidmvp.base.BaseFragment;
+import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.FragmentFollowersBinding;
 import com.hqumath.androidmvp.utils.CommonUtil;
 
@@ -46,10 +47,8 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
 
         recyclerAdapter = new MyRecyclerAdapters.FollowRecyclerAdapter(mContext, mPresenter.mData);
         recyclerAdapter.setOnItemClickListener((v, position) -> {
-            /*UserInfoEntity data = mDatas.get(position);
-            Intent intent = new Intent(mContext, ProfileDetailActivity.class);
-            intent.putExtra("UserName", data.getLogin());
-            startActivity(intent);*/
+            UserInfoEntity data = mPresenter.mData.get(position);
+            startActivity(ProfileDetailActivity.getStartIntent(mContext, data.getLogin()));
         });
         binding.recyclerView.setAdapter(recyclerAdapter);
     }

@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 
 import com.hqumath.androidmvp.base.BaseFragment;
 import com.hqumath.androidmvp.databinding.FragmentAboutBinding;
-import com.hqumath.androidmvp.databinding.FragmentSettingsBinding;
-import com.hqumath.androidmvp.ui.login.LoginActivity;
+import com.hqumath.androidmvp.ui.follow.ProfileDetailActivity;
 import com.hqumath.androidmvp.ui.repos.ReposDetailActivity;
 import com.hqumath.androidmvp.utils.CommonUtil;
 
@@ -35,16 +34,10 @@ public class AboutFragment extends BaseFragment {
     @Override
     protected void initListener() {
         binding.llSourcecode.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, ReposDetailActivity.class);
-            intent.putExtra("name", "AndroidMVP");
-            intent.putExtra("login", "ninja2005");
-            startActivity(intent);
+            startActivity(ReposDetailActivity.getStartIntent(mContext, "AndroidMVP", "ninja2005"));
         });
         binding.llProfile.setOnClickListener(v -> {
-            //TODO
-            /*Intent intent = new Intent(mContext, ProfileDetailActivity.class);
-            intent.putExtra("UserName", "ninja2005");
-            startActivity(intent);*/
+            startActivity(ProfileDetailActivity.getStartIntent(mContext, "ninja2005"));
         });
     }
 

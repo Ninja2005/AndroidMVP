@@ -1,5 +1,7 @@
 package com.hqumath.androidmvp.ui.repos;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.hqumath.androidmvp.adapter.MyRecyclerAdapters;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.databinding.ActivityReposDetailBinding;
+import com.hqumath.androidmvp.ui.follow.ProfileDetailActivity;
 import com.hqumath.androidmvp.utils.CommonUtil;
 import com.hqumath.androidmvp.utils.StringUtil;
 
@@ -33,6 +36,13 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
     private ActivityReposDetailBinding binding;
     private ReposDetailPresenter mPresenter;
     private MyRecyclerAdapters.CommitsRecyclerAdapter recyclerAdapter;
+
+    public static Intent getStartIntent(Context mContext, String mReposName, String mUserName) {
+        Intent intent = new Intent(mContext, ReposDetailActivity.class);
+        intent.putExtra("ReposName", mReposName);
+        intent.putExtra("UserName", mUserName);
+        return intent;
+    }
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
@@ -61,8 +71,8 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
         mPresenter = new ReposDetailPresenter();
         mPresenter.attachView(this);
         //data
-        mPresenter.userName = getIntent().getStringExtra("login");
-        mPresenter.reposName = getIntent().getStringExtra("name");
+        mPresenter.userName = getIntent().getStringExtra("UserName");
+        mPresenter.reposName = getIntent().getStringExtra("ReposName");
         setTitle(mPresenter.reposName);
 
         recyclerAdapter = new MyRecyclerAdapters.CommitsRecyclerAdapter(mContext, mPresenter.mData);
