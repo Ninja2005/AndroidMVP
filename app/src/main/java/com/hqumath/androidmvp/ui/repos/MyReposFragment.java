@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hqumath.androidmvp.adapter.MyAdapters;
+import com.hqumath.androidmvp.adapter.MyRecyclerAdapters;
 import com.hqumath.androidmvp.base.BaseFragment;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.databinding.FragmentSwipeListBinding;
@@ -26,7 +26,7 @@ public class MyReposFragment extends BaseFragment implements ReposContract {
 
     private FragmentSwipeListBinding binding;
     private MyReposPresenter mPresenter;
-    private MyAdapters.ReposRecyclerAdapter recyclerAdapter;
+    private MyRecyclerAdapters.ReposRecyclerAdapter recyclerAdapter;
     protected boolean hasRequested;//在onResume中判断是否已经请求过数据。用于懒加载
 
     @Override
@@ -46,7 +46,7 @@ public class MyReposFragment extends BaseFragment implements ReposContract {
         mPresenter = new MyReposPresenter();
         mPresenter.attachView(this);
 
-        recyclerAdapter = new MyAdapters.ReposRecyclerAdapter(mContext, mPresenter.mData);
+        recyclerAdapter = new MyRecyclerAdapters.ReposRecyclerAdapter(mContext, mPresenter.mData);
         recyclerAdapter.setOnItemClickListener((v, position) -> {
             ReposEntity data = mPresenter.mData.get(position);
             Intent intent = new Intent(mContext, ReposDetailActivity.class);

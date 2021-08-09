@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.hqumath.androidmvp.adapter.MyAdapters;
+import com.hqumath.androidmvp.adapter.MyRecyclerAdapters;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.databinding.ActivityReposDetailBinding;
@@ -28,7 +28,7 @@ import java.util.Locale;
 public class ReposDetailActivity extends BaseActivity implements ReposDetailContract {
     private ActivityReposDetailBinding binding;
     private ReposDetailPresenter mPresenter;
-    private MyAdapters.CommitsRecyclerAdapter recyclerAdapter;
+    private MyRecyclerAdapters.CommitsRecyclerAdapter recyclerAdapter;
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
         mPresenter.reposName = getIntent().getStringExtra("name");
         setTitle(mPresenter.reposName);
 
-        recyclerAdapter = new MyAdapters.CommitsRecyclerAdapter(mContext, mPresenter.mData);
+        recyclerAdapter = new MyRecyclerAdapters.CommitsRecyclerAdapter(mContext, mPresenter.mData);
         binding.recyclerView.setAdapter(recyclerAdapter);
         //仓库详情
         mPresenter.getReposInfo();

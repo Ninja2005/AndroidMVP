@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hqumath.androidmvp.adapter.MyAdapters;
+import com.hqumath.androidmvp.adapter.MyRecyclerAdapters;
 import com.hqumath.androidmvp.base.BaseFragment;
 import com.hqumath.androidmvp.databinding.FragmentFollowersBinding;
 import com.hqumath.androidmvp.utils.CommonUtil;
@@ -24,7 +24,7 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
 
     private FragmentFollowersBinding binding;
     private FollowPresenter mPresenter;
-    private MyAdapters.FollowRecyclerAdapter recyclerAdapter;
+    private MyRecyclerAdapters.FollowRecyclerAdapter recyclerAdapter;
     protected boolean hasRequested;//在onResume中判断是否已经请求过数据。用于懒加载
 
     @Override
@@ -44,7 +44,7 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
         mPresenter = new FollowPresenter();
         mPresenter.attachView(this);
 
-        recyclerAdapter = new MyAdapters.FollowRecyclerAdapter(mContext, mPresenter.mData);
+        recyclerAdapter = new MyRecyclerAdapters.FollowRecyclerAdapter(mContext, mPresenter.mData);
         recyclerAdapter.setOnItemClickListener((v, position) -> {
             /*UserInfoEntity data = mDatas.get(position);
             Intent intent = new Intent(mContext, ProfileDetailActivity.class);
