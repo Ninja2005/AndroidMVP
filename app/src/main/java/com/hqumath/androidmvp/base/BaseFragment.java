@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-
-import com.trello.rxlifecycle2.components.support.RxFragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * ****************************************************************
@@ -20,7 +19,7 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
  * 版权声明:
  * ****************************************************************
  */
-public abstract class BaseFragment extends RxFragment {
+public abstract class BaseFragment extends Fragment {
     private View rootView;
     protected Activity mContext;
     //protected boolean hasRequested;//在onResume中判断是否已经请求过数据。用于懒加载

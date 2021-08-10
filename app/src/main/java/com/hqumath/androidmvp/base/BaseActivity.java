@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * ****************************************************************
@@ -17,7 +16,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  * 版权声明:
  * ****************************************************************
  */
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     protected BaseActivity mContext;
 
     @Override
