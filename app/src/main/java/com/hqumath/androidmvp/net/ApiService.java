@@ -36,11 +36,11 @@ public interface ApiService {
     Observable<UserInfoEntity> getUserInfo(@Path("userName") String userName);
 
     //获取用户仓库
-    @GET("users/JakeWharton/repos")
+    @GET("users/Ninja2005/repos")
     Observable<List<ReposEntity>> getMyRepos(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取星标仓库
-    @GET("users/JakeWharton/starred")
+    @GET("users/Ninja2005/starred")
     Observable<List<ReposEntity>> getStarred(@Query("per_page") int per_page, @Query("page") long page);
 
     //获取被追随

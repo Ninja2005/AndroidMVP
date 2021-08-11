@@ -56,9 +56,9 @@ public class ReposDetailPresenter extends BasePresenter<ReposDetailContract> {
                 pageIndex++;//偏移量+1
                 if (isRefresh) //下拉覆盖，上拉增量
                     mData.clear();
-                if (list.size() > 0)
+                if (!list.isEmpty())
                     mData.addAll(list);
-                mView.onGetListSuccess(isRefresh);
+                mView.onGetListSuccess(isRefresh, list.isEmpty());
             }
 
             @Override

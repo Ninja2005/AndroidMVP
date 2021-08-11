@@ -121,24 +121,22 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
     }
 
     @Override
-    public void onGetListSuccess(boolean isRefresh) {
+    public void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty) {
         recyclerAdapter.notifyDataSetChanged();
-        boolean isEmpty = mPresenter.mData.isEmpty();
         if (isRefresh) {
-            if (isEmpty) {
+            if (isNewDataEmpty) {
                 binding.refreshLayout.finishRefreshWithNoMoreData();//上拉加载功能将显示没有更多数据
             } else {
                 binding.refreshLayout.finishRefresh();
             }
         } else {
-            if (isEmpty) {
-                CommonUtil.toast("没有更多数据了");
+            if (isNewDataEmpty) {
                 binding.refreshLayout.finishLoadMoreWithNoMoreData();//上拉加载功能将显示没有更多数据
             } else {
                 binding.refreshLayout.finishLoadMore();
             }
         }
-        binding.emptyLayout.llEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        binding.emptyLayout.llEmpty.setVisibility(mPresenter.mData.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override

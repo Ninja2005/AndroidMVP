@@ -15,7 +15,7 @@ public interface ReposDetailContract {
 
     void onGetReposInfoError(String errorMsg, String code);
 
-    void onGetListSuccess(boolean isRefresh);
+    void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
 
     void onGetListError(String errorMsg, String code, boolean isRefresh);
 }

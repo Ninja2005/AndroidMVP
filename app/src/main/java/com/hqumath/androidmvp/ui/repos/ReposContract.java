@@ -11,7 +11,7 @@ package com.hqumath.androidmvp.ui.repos;
  * ****************************************************************
  */
 public interface ReposContract {
-    void onGetListSuccess(boolean isRefresh);
+    void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
 
     void onGetListError(String errorMsg, String code, boolean isRefresh);
 }
