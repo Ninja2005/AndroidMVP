@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.hqumath.androidmvp.R;
+import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.ActivityLoginBinding;
 import com.hqumath.androidmvp.ui.main.MainActivity;
 import com.hqumath.androidmvp.utils.CommonUtil;
+import com.hqumath.androidmvp.utils.SPUtil;
 
 /**
  * ****************************************************************
@@ -53,9 +55,16 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     protected void initData() {
         mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
-        //测试数据
-        binding.etName.setText("JakeWharton");
-        binding.etPwd.setText("1234");
+
+        String userName = SPUtil.getInstance().getString(Constant.USER_NAME);
+        if(!TextUtils.isEmpty(userName)) {
+            startActivity(new Intent(mContext, MainActivity.class));
+            finish();
+        } else {
+            //测试数据
+            binding.etName.setText("JakeWharton");
+            binding.etPwd.setText("1234");
+        }
     }
 
     @Override

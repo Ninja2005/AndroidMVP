@@ -1,8 +1,10 @@
 package com.hqumath.androidmvp.repository;
 
+import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BaseModel;
 import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
+import com.hqumath.androidmvp.utils.SPUtil;
 
 /**
  * ****************************************************************
@@ -17,11 +19,13 @@ import com.hqumath.androidmvp.net.RetrofitClient;
  * ****************************************************************
  */
 public class MyModel extends BaseModel {
-    public void getUserInfo(String userName, HttpListener listener) {
+    //模拟登陆接口
+    public void login(String userName, String passWord, HttpListener listener) {
         sendRequest(RetrofitClient.getInstance().getApiService().getUserInfo(userName), new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 //数据校验、处理
+                SPUtil.getInstance().put(Constant.USER_NAME, userName);
                 listener.onSuccess(object);
             }
 
@@ -32,8 +36,8 @@ public class MyModel extends BaseModel {
         });
     }
 
-    public void getFollowers(int pageSize, long pageIndex, HttpListener listener) {
-        sendRequest(RetrofitClient.getInstance().getApiService().getFollowers(pageSize, pageIndex), new HttpListener() {
+    public void getUserInfo(String userName, HttpListener listener) {
+        sendRequest(RetrofitClient.getInstance().getApiService().getUserInfo(userName), new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 listener.onSuccess(object);
@@ -46,8 +50,8 @@ public class MyModel extends BaseModel {
         });
     }
 
-    public void getMyRepos(int pageSize, long pageIndex, HttpListener listener) {
-        sendRequest(RetrofitClient.getInstance().getApiService().getMyRepos(pageSize, pageIndex), new HttpListener() {
+    public void getFollowers(String userName, int pageSize, long pageIndex, HttpListener listener) {
+        sendRequest(RetrofitClient.getInstance().getApiService().getFollowers(userName, pageSize, pageIndex), new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 listener.onSuccess(object);
@@ -60,8 +64,22 @@ public class MyModel extends BaseModel {
         });
     }
 
-    public void getStarred(int pageSize, long pageIndex, HttpListener listener) {
-        sendRequest(RetrofitClient.getInstance().getApiService().getStarred(pageSize, pageIndex), new HttpListener() {
+    public void getMyRepos(String userName, int pageSize, long pageIndex, HttpListener listener) {
+        sendRequest(RetrofitClient.getInstance().getApiService().getMyRepos(userName, pageSize, pageIndex), new HttpListener() {
+            @Override
+            public void onSuccess(Object object) {
+                listener.onSuccess(object);
+            }
+
+            @Override
+            public void onError(String errorMsg, String code) {
+                listener.onError(errorMsg, code);
+            }
+        });
+    }
+
+    public void getStarred(String userName, int pageSize, long pageIndex, HttpListener listener) {
+        sendRequest(RetrofitClient.getInstance().getApiService().getStarred(userName, pageSize, pageIndex), new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 listener.onSuccess(object);

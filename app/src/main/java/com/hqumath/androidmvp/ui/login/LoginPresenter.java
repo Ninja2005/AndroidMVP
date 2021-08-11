@@ -24,7 +24,7 @@ public class LoginPresenter extends BasePresenter<LoginContract> {
         if (mView == null) return;
         mView.showProgress();
         //模拟登陆接口
-        ((MyModel) mModel).getUserInfo(userName, new HttpListener() {
+        ((MyModel) mModel).login(userName, passWord, new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 if (mView == null) return;

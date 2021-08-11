@@ -36,16 +36,16 @@ public interface ApiService {
     Observable<UserInfoEntity> getUserInfo(@Path("userName") String userName);
 
     //获取用户仓库
-    @GET("users/Ninja2005/repos")
-    Observable<List<ReposEntity>> getMyRepos(@Query("per_page") int per_page, @Query("page") long page);
+    @GET("users/{userName}/repos")
+    Observable<List<ReposEntity>> getMyRepos(@Path("userName") String userName, @Query("per_page") int per_page, @Query("page") long page);
 
     //获取星标仓库
-    @GET("users/Ninja2005/starred")
-    Observable<List<ReposEntity>> getStarred(@Query("per_page") int per_page, @Query("page") long page);
+    @GET("users/{userName}/starred")
+    Observable<List<ReposEntity>> getStarred(@Path("userName") String userName, @Query("per_page") int per_page, @Query("page") long page);
 
     //获取被追随
-    @GET("users/JakeWharton/followers")
-    Observable<List<UserInfoEntity>> getFollowers(@Query("per_page") int per_page, @Query("page") long page);
+    @GET("users/{userName}/followers")
+    Observable<List<UserInfoEntity>> getFollowers(@Path("userName") String userName, @Query("per_page") int per_page, @Query("page") long page);
 
     //获取仓库信息
     @GET("repos/{userName}/{reposName}")

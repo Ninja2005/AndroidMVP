@@ -11,6 +11,7 @@ import com.hqumath.androidmvp.base.BaseFragment;
 import com.hqumath.androidmvp.databinding.FragmentSettingsBinding;
 import com.hqumath.androidmvp.databinding.FragmentSwipeListBinding;
 import com.hqumath.androidmvp.ui.login.LoginActivity;
+import com.hqumath.androidmvp.utils.SPUtil;
 
 /**
  * ****************************************************************
@@ -35,6 +36,7 @@ public class SettingsFragment extends BaseFragment {
     @Override
     protected void initListener() {
         binding.vLogout.setOnClickListener(v -> {
+            SPUtil.getInstance().clear();
             startActivity(new Intent(mContext, LoginActivity.class));
             mContext.finish();
         });

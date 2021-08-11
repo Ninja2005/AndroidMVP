@@ -1,9 +1,11 @@
 package com.hqumath.androidmvp.ui.follow;
 
+import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.repository.MyModel;
+import com.hqumath.androidmvp.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,8 @@ public class FollowPresenter extends BasePresenter<FollowContract> {
         if (isRefresh) {
             pageIndex = 1;
         }
-        //模拟登陆接口
-        ((MyModel) mModel).getFollowers(pageSize, pageIndex, new HttpListener() {
+        String userName = SPUtil.getInstance().getString(Constant.USER_NAME);
+        ((MyModel) mModel).getFollowers(userName, pageSize, pageIndex, new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 if (mView == null) return;

@@ -1,9 +1,11 @@
 package com.hqumath.androidmvp.ui.repos;
 
+import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.bean.ReposEntity;
 import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.repository.MyModel;
+import com.hqumath.androidmvp.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,8 @@ public class StarredPresenter extends BasePresenter<ReposContract> {
         if (isRefresh) {
             pageIndex = 1;
         }
-        //模拟登陆接口
-        ((MyModel) mModel).getStarred(pageSize, pageIndex, new HttpListener() {
+        String userName = SPUtil.getInstance().getString(Constant.USER_NAME);
+        ((MyModel) mModel).getStarred(userName, pageSize, pageIndex, new HttpListener() {
             @Override
             public void onSuccess(Object object) {
                 if (mView == null) return;
