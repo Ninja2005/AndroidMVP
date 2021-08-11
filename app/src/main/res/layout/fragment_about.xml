@@ -204,7 +204,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hangzhou,China"
+                        android:text="Jinan,China"
                         android:textColor="@color/gray1"
                         android:textSize="14sp" />
                 </LinearLayout>
