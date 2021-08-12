@@ -1,6 +1,8 @@
 package com.hqumath.androidmvp.net;
 
 import com.hqumath.androidmvp.app.Constant;
+import com.hqumath.androidmvp.net.download.DownloadInterceptor;
+import com.hqumath.androidmvp.net.download.DownloadListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +24,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitClient {
     private volatile static RetrofitClient INSTANCE;
-    private ApiService apiService;
+    private final static int connectTimeout = 6;//s,连接超时
+
+    private ApiService apiService;//api服务器
+    private ApiService downloadService;//下载服务器
 
     //获取单例
     public static RetrofitClient getInstance() {
@@ -38,19 +43,40 @@ public class RetrofitClient {
 
     //构造方法私有
     private RetrofitClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(6, TimeUnit.SECONDS);
-        builder.addInterceptor(new MyInterceptor());//自定义拦截器（token过期后刷新token，打印日志）
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(builder.build())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constant.baseUrl)
-                .build();
-        apiService = retrofit.create(ApiService.class);
     }
 
+    //api服务器
     public ApiService getApiService() {
+        if (apiService == null) {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+            builder.addInterceptor(new LogInterceptor());//自定义拦截器（token过期后刷新token，打印日志）
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(builder.build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(Constant.baseUrl)
+                    .build();
+            apiService = retrofit.create(ApiService.class);
+        }
         return apiService;
+    }
+
+    //下载服务器
+    public ApiService getDownloadService(DownloadListener listener) {
+        if (downloadService == null) {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+            if (listener != null)
+                builder.addInterceptor(new DownloadInterceptor(listener));//下载拦截器（显示进度）
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(builder.build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(Constant.downloadHost)
+                    .build();
+            downloadService = retrofit.create(ApiService.class);
+        }
+        return downloadService;
     }
 }

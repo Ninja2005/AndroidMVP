@@ -1,22 +1,27 @@
 package com.hqumath.androidmvp.net.download;
 
+import java.io.IOException;
+
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
-import okio.*;
-
-import java.io.IOException;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
 
 /**
  * 自定义精度的body
+ *
  * @author wzg
  */
 public class DownloadResponseBody extends ResponseBody {
 
     private ResponseBody responseBody;
-    private DownloadProgressListener progressListener;
+    private DownloadListener progressListener;
     private BufferedSource bufferedSource;
 
-    public DownloadResponseBody(ResponseBody responseBody, DownloadProgressListener progressListener) {
+    public DownloadResponseBody(ResponseBody responseBody, DownloadListener progressListener) {
         this.responseBody = responseBody;
         this.progressListener = progressListener;
     }
@@ -49,7 +54,7 @@ public class DownloadResponseBody extends ResponseBody {
                 // read() returns the number of bytes read, or -1 if this source is exhausted.
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
                 if (null != progressListener) {
-                    progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                    progressListener.update(totalBytesRead, responseBody.contentLength());
                 }
                 return bytesRead;
             }

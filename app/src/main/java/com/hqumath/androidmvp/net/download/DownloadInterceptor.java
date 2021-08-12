@@ -1,19 +1,18 @@
 package com.hqumath.androidmvp.net.download;
 
+import java.io.IOException;
+
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
-import java.io.IOException;
-
 /**
- * 成功回调处理
- * Created by WZG on 2016/10/20.
+ * 下载拦截器，显示进度
  */
 public class DownloadInterceptor implements Interceptor {
 
-    private DownloadProgressListener listener;
+    private DownloadListener listener;
 
-    public DownloadInterceptor(DownloadProgressListener listener) {
+    public DownloadInterceptor(DownloadListener listener) {
         this.listener = listener;
     }
 

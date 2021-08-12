@@ -11,8 +11,8 @@ package com.hqumath.androidmvp.app;
  * ****************************************************************
  */
 public class Constant {
-    //API服务器
-    public static String baseUrl = "https://api.github.com/"; // 主线路
+    public static String baseUrl = "https://api.github.com/"; //API服务器
+    public static String downloadHost = "http://cps.yingyonghui.com/"; //下载线路
 
     //SP Key
     public static final String USER_NAME = "USER_NAME";//用户名

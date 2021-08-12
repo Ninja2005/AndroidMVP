@@ -4,13 +4,18 @@ import androidx.annotation.NonNull;
 
 import com.hqumath.androidmvp.net.HandlerException;
 import com.hqumath.androidmvp.net.HttpListener;
+import com.hqumath.androidmvp.utils.FileUtil;
+
+import java.io.File;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * ****************************************************************
@@ -27,8 +32,40 @@ public class BaseModel {
 
     //网络请求
     protected void sendRequest(Observable observable, HttpListener listener) {
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Object o) {
+                        listener.onSuccess(o);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        HandlerException.ResponseThrowable throwable = HandlerException.handleException(e);
+                        listener.onError(throwable.getMessage(), throwable.getCode());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //下载请求
+    protected void sendDownloadRequest(Observable observable, HttpListener listener, File file) {
+        observable.subscribeOn(Schedulers.io())
+                .map((Function<ResponseBody, File>) responseBody -> {
+                    FileUtil.writeFile(responseBody, file);
+                    return file;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Object>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

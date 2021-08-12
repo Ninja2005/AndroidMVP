@@ -4,7 +4,10 @@ import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BaseModel;
 import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
+import com.hqumath.androidmvp.net.download.DownloadListener;
 import com.hqumath.androidmvp.utils.SPUtil;
+
+import java.io.File;
 
 /**
  * ****************************************************************
@@ -118,5 +121,19 @@ public class MyModel extends BaseModel {
                 listener.onError(errorMsg, code);
             }
         });
+    }
+
+    public void download(String url, File file, DownloadListener listener) {
+        sendDownloadRequest(RetrofitClient.getInstance().getDownloadService(listener).download(url), new HttpListener() {
+            @Override
+            public void onSuccess(Object object) {
+                listener.onSuccess(object);
+            }
+
+            @Override
+            public void onError(String errorMsg, String code) {
+                listener.onError(errorMsg, code);
+            }
+        }, file);
     }
 }

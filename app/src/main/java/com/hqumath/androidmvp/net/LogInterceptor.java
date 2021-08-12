@@ -14,7 +14,7 @@ import okhttp3.ResponseBody;
  * 自定义拦截器
  * 打印日志
  */
-public class MyInterceptor implements Interceptor {
+public class LogInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
