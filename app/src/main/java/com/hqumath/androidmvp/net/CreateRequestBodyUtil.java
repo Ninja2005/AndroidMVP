@@ -51,8 +51,7 @@ public class CreateRequestBodyUtil {
      */
     public static MultipartBody.Part createRequestBody(String key, File file) {
         RequestBody requestFile = RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData(key, key, requestFile);
-        //MultipartBody.Part.createFormData(key, file.getName(), requestFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData(key, key, requestFile);//(key, file.getName(), requestFile)
         return body;
     }
 }

@@ -2,12 +2,15 @@ package com.hqumath.androidmvp.repository;
 
 import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BaseModel;
+import com.hqumath.androidmvp.net.CreateRequestBodyUtil;
 import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.net.RetrofitClient;
 import com.hqumath.androidmvp.net.download.DownloadListener;
 import com.hqumath.androidmvp.utils.SPUtil;
 
 import java.io.File;
+
+import okhttp3.MultipartBody;
 
 /**
  * ****************************************************************
@@ -123,6 +126,12 @@ public class MyModel extends BaseModel {
         });
     }
 
+    /**
+     * 下载文件
+     * @param url 地址
+     * @param file 位置
+     * @param listener
+     */
     public void download(String url, File file, DownloadListener listener) {
         sendDownloadRequest(RetrofitClient.getInstance().getDownloadService(listener).download(url), new HttpListener() {
             @Override
@@ -135,5 +144,21 @@ public class MyModel extends BaseModel {
                 listener.onError(errorMsg, code);
             }
         }, file);
+    }
+
+    //文件上传
+    public void upload(String key, File file, HttpListener listener) {
+        MultipartBody.Part part = CreateRequestBodyUtil.createRequestBody(key, file);
+        sendRequest(RetrofitClient.getInstance().getApiService().upload(part), new HttpListener() {
+            @Override
+            public void onSuccess(Object object) {
+                listener.onSuccess(object);
+            }
+
+            @Override
+            public void onError(String errorMsg, String code) {
+                listener.onError(errorMsg, code);
+            }
+        });
     }
 }

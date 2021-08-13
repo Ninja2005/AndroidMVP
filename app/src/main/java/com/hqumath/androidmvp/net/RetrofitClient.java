@@ -25,6 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     private volatile static RetrofitClient INSTANCE;
     private final static int connectTimeout = 6;//s,连接超时
+    private final static int readTimeout = 6;//s,读取超时
+    private final static int writeTimeout = 6;//s,写超时
 
     private ApiService apiService;//api服务器
     private ApiService downloadService;//下载服务器
@@ -50,6 +52,8 @@ public class RetrofitClient {
         if (apiService == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+            builder.readTimeout(readTimeout, TimeUnit.SECONDS);
+            builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
             builder.addInterceptor(new LogInterceptor());//自定义拦截器（token过期后刷新token，打印日志）
             Retrofit retrofit = new Retrofit.Builder()
                     .client(builder.build())
@@ -67,6 +71,8 @@ public class RetrofitClient {
         if (downloadService == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+            builder.readTimeout(readTimeout, TimeUnit.SECONDS);
+            builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
             if (listener != null)
                 builder.addInterceptor(new DownloadInterceptor(listener));//下载拦截器（显示进度）
             Retrofit retrofit = new Retrofit.Builder()

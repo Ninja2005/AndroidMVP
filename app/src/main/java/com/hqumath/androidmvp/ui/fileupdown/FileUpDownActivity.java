@@ -6,20 +6,19 @@ import android.view.View;
 
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.databinding.ActivityFileupdownBinding;
-import com.hqumath.androidmvp.ui.login.LoginPresenter;
 import com.hqumath.androidmvp.utils.CommonUtil;
+import com.hqumath.androidmvp.utils.FileUtil;
 import com.hqumath.androidmvp.widget.DownloadingDialog;
 
 import java.io.File;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class FileUpDownActivity extends BaseActivity implements FileUpDownPresenter.Contract {
 
     private ActivityFileupdownBinding binding;
     private FileUpDownPresenter mPresenter;
     private DownloadingDialog mDownloadingDialog;
+
+    private String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
@@ -29,12 +28,12 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
 
     @Override
     protected void initListener() {
-        binding.btnUpload.setOnClickListener(v -> {
-
-        });
         binding.btnDownload.setOnClickListener(v -> {
-            String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
             mPresenter.download(url);
+        });
+        binding.btnUpload.setOnClickListener(v -> {
+            File file = FileUtil.getFileFromUrl(url);
+            mPresenter.upload("testFile", file);
         });
     }
 
@@ -56,8 +55,8 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
 
     @Override
     public void onDownloadSuccess(Object object) {
-        String fileName = ((File)object).getName();
-        CommonUtil.toast(fileName + "下载成功");
+        String fileName = ((File) object).getName();
+        CommonUtil.toast(fileName + "Download success.");
     }
 
     @Override
@@ -67,6 +66,26 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
 
     @Override
     public void showProgress() {
+        binding.progressBar.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        binding.progressBar.hide();
+    }
+
+    @Override
+    public void onUploadSuccess(Object object) {
+        CommonUtil.toast("Upload success.");
+    }
+
+    @Override
+    public void onUploadError(String errorMsg, String code) {
+        CommonUtil.toast(errorMsg);
+    }
+
+    @Override
+    public void showDownloadProgress() {
         if (mDownloadingDialog == null) {
             mDownloadingDialog = new DownloadingDialog(this);
         }
@@ -74,7 +93,7 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
     }
 
     @Override
-    public void hideProgress() {
+    public void hideDownloadProgress() {
         if (mDownloadingDialog != null) {
             mDownloadingDialog.dismiss();
         }

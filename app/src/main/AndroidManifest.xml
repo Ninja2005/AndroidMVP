@@ -32,8 +32,6 @@
         <activity android:name=".ui.repos.ReposDetailActivity" />
         <activity android:name=".ui.follow.ProfileDetailActivity" />
         <activity android:name=".ui.fileupdown.FileUpDownActivity" />
-        <!--<activity android:name=".ui.main.CustomViewActivity"/>
-        <activity android:name=".ui.fileupdown.FileUpDownActivity"/>-->
     </application>
 
 </manifest>
