@@ -18,7 +18,7 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
     private FileUpDownPresenter mPresenter;
     private DownloadingDialog mDownloadingDialog;
 
-    private String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
+    public final static String url = "http://cps.yingyonghui.com/cps/yyh/channel/ac.union.m2/com.yingyonghui.market_1_30063293.apk";
 
     @Override
     public View initContentView(Bundle savedInstanceState) {

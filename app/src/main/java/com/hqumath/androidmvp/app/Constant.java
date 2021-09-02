@@ -16,4 +16,7 @@ public class Constant {
 
     //SP Key
     public static final String USER_NAME = "USER_NAME";//用户名
+    public static final String APK_URL = "APK_URL";//apk下载地址
+    public static final String APK_NAME = "APK_NAME";//apk文件名称
+
 }

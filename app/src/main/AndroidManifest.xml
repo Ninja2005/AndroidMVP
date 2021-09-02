@@ -32,6 +32,8 @@
         <activity android:name=".ui.repos.ReposDetailActivity" />
         <activity android:name=".ui.follow.ProfileDetailActivity" />
         <activity android:name=".ui.fileupdown.FileUpDownActivity" />
+        <service android:name=".service.UpdateService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

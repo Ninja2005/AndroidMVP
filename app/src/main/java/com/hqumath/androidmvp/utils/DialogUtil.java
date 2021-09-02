@@ -2,10 +2,12 @@ package com.hqumath.androidmvp.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hqumath.androidmvp.R;
@@ -22,69 +24,95 @@ import com.hqumath.androidmvp.R;
  */
 
 public class DialogUtil extends Dialog {
-    private Activity activity;
-    private TextView messageView;//内容
-    private TextView messageView2;//第二条内容
-    private TextView oneBtnView;        //只有一个确认键的情况
-    private View twoBtnView;            //确认和取消的情况
-    private TextView confirmBtn;
-    private TextView cancelBtn;
-    private final View mView;
+    private Context mContext;
+    private TextView tvTitle;//标题
+    private TextView tvMessage;//内容
+    private Button btnOneYes;//一个按钮时，确定按钮
+    private View llTwo;//两个按钮布局
+    private Button btnYes;//确定按钮
+    private Button btnNo;//取消按钮
+    private View line;//确定取消按钮中间竖线，有些样式没有
+    private View ivRightClose;//右上角叉号
+    private View mView;
 
     //ex.
         /*DialogUtil alterDialogUtils = new DialogUtil(mContext);
-        alterDialogUtils.setOneOrTwoBtn(true);
         alterDialogUtils.setTitle("提示");
         alterDialogUtils.setMessage("是否确认退出驾驶？");
-        alterDialogUtils.setTwoConfirmBtn("确定", v -> alterDialogUtils.dismiss());
-        alterDialogUtils.setTwoCancelBtn("取消", v -> alterDialogUtils.dismiss());
+        alterDialogUtils.setTwoConfirmBtn("确定", v -> {});
+        alterDialogUtils.setTwoCancelBtn("取消", v -> {});
         alterDialogUtils.show();*/
+    //仅显示确定按钮
+    //alterDialogUtils.setOneConfirmBtn("确定", v -> {});
 
-    public DialogUtil(Activity context, int theme, int messageLayout) {
+    /*
+     * 默认主要操作弹窗
+     */
+    public DialogUtil(Context context) {
+        this(context, R.style.dialog_common, R.layout.dialog_common);
+    }
+
+    public DialogUtil(Context context, int theme, int messageLayout) {
         super(context, theme);
-        this.activity = context;
+        this.mContext = context;
         mView = LayoutInflater.from(getContext()).inflate(messageLayout, null);
-        //关键在下面的两行,使用window.setContentView,替换整个对话框窗口的布局
-        messageView = (TextView) mView.findViewById(R.id.message);
-        messageView2 = (TextView) mView.findViewById(R.id.message2);
-        oneBtnView = (TextView) mView.findViewById(R.id.only_confirm_btn);
-        twoBtnView = mView.findViewById(R.id.two_btn_layout);
-        confirmBtn = (TextView) mView.findViewById(R.id.yes);
-        cancelBtn = (TextView) mView.findViewById(R.id.no);
+        tvTitle = (TextView) mView.findViewById(R.id.title);
+        tvMessage = (TextView) mView.findViewById(R.id.message);
+        btnOneYes = (Button) mView.findViewById(R.id.oneYes);
+        llTwo = mView.findViewById(R.id.llTwo);
+        btnYes = (Button) mView.findViewById(R.id.yes);
+        btnNo = (Button) mView.findViewById(R.id.no);
         setContentView(mView);
     }
 
-    public DialogUtil(Activity context, int messageLayout) {
-        this(context, R.style.dialog_common, messageLayout);
-    }
-
-    public DialogUtil(Activity context) {
-        this(context, R.style.dialog_common, R.layout.dialog_common);
-        //对话框宽度
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        setAlertDialogWidth(dm.widthPixels * 8 / 10);
-    }
-
     public void setTitle(String title) {
-        TextView mTitle = (TextView) mView.findViewById(R.id.title);
-        mTitle.setVisibility(View.VISIBLE);
-        mTitle.setText(title);
+        tvTitle.setText(title);
     }
 
-    public <T extends View> T getView(int viewId, Class<T> clazz) {
-        return (T) mView.findViewById(viewId);
+    public void setMessage(int resId) {
+        tvMessage.setText(resId);
     }
 
-    public void setAlertDialogSize(int width, int height) {
-        getWindow().setLayout(width, height);
+    public void setMessage(String message) {
+        tvMessage.setText(message);
     }
 
-    /**
-     * @param width 对话框的宽度
-     */
-    public void setAlertDialogWidth(int width) {
-        WindowManager.LayoutParams attrs = getWindow().getAttributes();
-        getWindow().setLayout(width, attrs.height);
+    public void showRightClose() {
+        if (ivRightClose != null)
+            ivRightClose.setVisibility(View.VISIBLE);
+    }
+
+    public void setOneConfirmBtn(String text, View.OnClickListener listener) {
+        setOneOrTwoBtn(true);
+        if (text != null) {
+            btnOneYes.setText(text);
+        }
+        btnOneYes.setOnClickListener(v -> {
+            dismiss();
+            listener.onClick(v);
+        });
+    }
+
+    public void setTwoConfirmBtn(String text, View.OnClickListener listener) {
+        setOneOrTwoBtn(false);
+        if (text != null) {
+            btnYes.setText(text);
+        }
+        btnYes.setOnClickListener(v -> {
+            dismiss();
+            listener.onClick(v);
+        });
+    }
+
+    public void setTwoCancelBtn(String text, View.OnClickListener listener) {
+        setOneOrTwoBtn(false);
+        if (text != null) {
+            btnNo.setText(text);
+        }
+        btnNo.setOnClickListener(v -> {
+            dismiss();
+            listener.onClick(v);
+        });
     }
 
     /**
@@ -92,82 +120,17 @@ public class DialogUtil extends Dialog {
      *
      * @param one true 只有一个确认按键 ； false 显示 确认 和取消 按键
      */
-    public void setOneOrTwoBtn(boolean one) {
+    private void setOneOrTwoBtn(boolean one) {
         if (one) {
-            if (oneBtnView != null)
-                oneBtnView.setVisibility(View.VISIBLE);
-            if (twoBtnView != null)
-                twoBtnView.setVisibility(View.INVISIBLE);
+            if (btnOneYes != null)
+                btnOneYes.setVisibility(View.VISIBLE);
+            if (llTwo != null)
+                llTwo.setVisibility(View.GONE);
         } else {
-            if (oneBtnView != null)
-                oneBtnView.setVisibility(View.INVISIBLE);
-            if (twoBtnView != null)
-                twoBtnView.setVisibility(View.VISIBLE);
+            if (btnOneYes != null)
+                btnOneYes.setVisibility(View.GONE);
+            if (llTwo != null)
+                llTwo.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void setMessage(int resid) {
-        messageView.setText(resid);
-    }
-
-    public void setMessage(String message) {
-        messageView.setText(message);
-    }
-
-    public void setMessageGravity(int gravity) {
-        messageView.setGravity(gravity);
-    }
-
-    public void setMessage2(String message) {
-        messageView2.setVisibility(View.VISIBLE);
-        messageView2.setText(message);
-    }
-
-    public void setOneConfirmBtn(int resid, View.OnClickListener listener) {
-        setOneOrTwoBtn(true);
-        if (resid > 0) {
-            oneBtnView.setText(resid);
-        }
-        oneBtnView.setOnClickListener(listener);
-    }
-
-    public void setOneConfirmBtn(String text, View.OnClickListener listener) {
-        setOneOrTwoBtn(true);
-        if (text != null) {
-            oneBtnView.setText(text);
-        }
-        oneBtnView.setOnClickListener(listener);
-    }
-
-    public void setTwoConfirmBtn(int resid, View.OnClickListener listener) {
-        setOneOrTwoBtn(false);
-        if (resid > 0) {
-            confirmBtn.setText(resid);
-        }
-        confirmBtn.setOnClickListener(listener);
-    }
-
-    public void setTwoConfirmBtn(String text, View.OnClickListener listener) {
-        setOneOrTwoBtn(false);
-        if (text != null) {
-            confirmBtn.setText(text);
-        }
-        confirmBtn.setOnClickListener(listener);
-    }
-
-    public void setTwoCancelBtn(int resid, View.OnClickListener listener) {
-        setOneOrTwoBtn(false);
-        if (resid > 0) {
-            cancelBtn.setText(resid);
-        }
-        cancelBtn.setOnClickListener(listener);
-    }
-
-    public void setTwoCancelBtn(String text, View.OnClickListener listener) {
-        setOneOrTwoBtn(false);
-        if (text != null) {
-            cancelBtn.setText(text);
-        }
-        cancelBtn.setOnClickListener(listener);
     }
 }
