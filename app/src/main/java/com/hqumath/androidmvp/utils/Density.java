@@ -55,42 +55,33 @@ public class Density {
         }
     }
 
-
-    private static void setDefault(Activity activity) {
-        setAppOrientation(activity);
-    }
-
     private static void setAppOrientation(@Nullable Activity activity) {
-
         float targetDensity = 0;
         try {
-            targetDensity = appDisplayMetrics.widthPixels / WIDTH;
+            //使用宽高中的最小值计算最小宽度
+            if (appDisplayMetrics.heightPixels > appDisplayMetrics.widthPixels) {
+                targetDensity = appDisplayMetrics.widthPixels / WIDTH;
+            } else {
+                targetDensity = appDisplayMetrics.heightPixels / WIDTH;
+            }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
 
         float targetScaledDensity = targetDensity * (appScaledDensity / appDensity);
         int targetDensityDpi = (int) (160 * targetDensity);
-
-        /**
-         *
-         * 最后在这里将修改过后的值赋给系统参数
-         *
-         * 只修改Activity的density值
-         */
-
+        //最后在这里将修改过后的值赋给系统参数,只修改Activity的density值
         DisplayMetrics activityDisplayMetrics = activity.getResources().getDisplayMetrics();
         activityDisplayMetrics.density = targetDensity;
         activityDisplayMetrics.scaledDensity = targetScaledDensity;
         activityDisplayMetrics.densityDpi = targetDensityDpi;
     }
 
-
     private static void registerActivityLifecycleCallbacks(Application application) {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                setDefault(activity);
+                setAppOrientation(activity);
             }
 
             @Override

@@ -1,5 +1,9 @@
 package com.hqumath.androidmvp.app;
 
+import com.hqumath.androidmvp.utils.SPUtil;
+
+import java.util.HashMap;
+
 /**
  * ****************************************************************
  * 文件名称: AppNetConfig
@@ -14,8 +18,17 @@ public class Constant {
     public static String baseUrl = "https://api.github.com/"; //API服务器
     public static String downloadHost = "http://cps.yingyonghui.com/"; //下载线路
 
+    //请求通用参数
+    public static HashMap<String, String> getBaseMap() {
+        String token = SPUtil.getInstance().getString(TOKEN);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", token);
+        return map;
+    }
+
     //SP Key
     public static final String USER_NAME = "USER_NAME";//用户名
+    public static final String TOKEN = "TOKEN";
     public static final String APK_URL = "APK_URL";//apk下载地址
     public static final String APK_NAME = "APK_NAME";//apk文件名称
 
