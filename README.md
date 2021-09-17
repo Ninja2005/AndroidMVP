@@ -28,6 +28,15 @@
    	3. 全局的异常捕获，程序发生异常时不会崩溃，返回上个界面。
    	4. 使用androidx
 
+## 效果图
+
+<p align="center">
+<img src="screen/1.jpg />
+<img src="screen/2.jpg />
+<img src="screen/3.jpg />
+<img src="screen/4.jpg />
+</p>
+
 ## 注意
 
     1. 接口使用GitHub API v3，单IP限制每小时60次requests
