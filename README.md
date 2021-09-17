@@ -28,14 +28,6 @@
    	3. 全局的异常捕获，程序发生异常时不会崩溃，返回上个界面。
    	4. 使用androidx
 
-## 效果图
-
-![1.jpg](images/1.jpg)
-![2.jpg](images/2.jpg)
-![3.jpg](images/3.jpg)
-![4.jpg](images/4.jpg)
-
-
 ## 注意
 
     1. 接口使用GitHub API v3，单IP限制每小时60次requests
@@ -44,3 +36,9 @@
     4. xxxhdpi 3840*2160                         192*192             640          16
     5. xxhdpi 1920*1080                          144*144             480          12
     6. xhdpi  1280*720                            96*96              320           8
+
+## 效果图
+
+![1.gif](screen/1.gif)
+
+
