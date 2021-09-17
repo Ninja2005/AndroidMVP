@@ -30,12 +30,11 @@
 
 ## 效果图
 
-<p align="center">
-<img src="screen/1.jpg />
-<img src="screen/2.jpg />
-<img src="screen/3.jpg />
-<img src="screen/4.jpg />
-</p>
+![AndroidMVP](screen/1.png)
+![AndroidMVP](screen/2.png)
+![AndroidMVP](screen/3.png)
+![AndroidMVP](screen/4.png)
+
 
 ## 注意
 
