@@ -30,10 +30,10 @@
 
 ## 效果图
 
-![1.png](images/1.png)
-![2.png](images/2.png)
-![3.png](images/3.png)
-![4.png](images/4.png)
+![1.jpg](images/1.jpg)
+![2.jpg](images/2.jpg)
+![3.jpg](images/3.jpg)
+![4.jpg](images/4.jpg)
 
 
 ## 注意
