@@ -99,7 +99,7 @@ public class CommonUtil {
         }
     }
 
-    public static int dp2px(Context context, float dpValue) {
+    public static int dp2px(float dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue,
                 context.getResources().getDisplayMetrics());
     }
