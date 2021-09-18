@@ -31,7 +31,7 @@ public class ProfileDetailActivity extends BaseActivity implements ProfileDetail
 
     @Override
     protected View initContentView(Bundle savedInstanceState) {
-        binding = ActivityProfileDetailBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityProfileDetailBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

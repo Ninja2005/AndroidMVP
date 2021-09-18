@@ -39,6 +39,6 @@
 
 ## 效果图
 
-![1.gif](screen/1.gif)
+![1.gif](img/1.gif)
 
 

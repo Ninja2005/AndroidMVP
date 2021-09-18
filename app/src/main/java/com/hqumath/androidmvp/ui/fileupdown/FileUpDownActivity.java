@@ -22,7 +22,7 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
-        binding = ActivityFileupdownBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityFileupdownBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

@@ -46,7 +46,7 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
-        binding = ActivityReposDetailBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityReposDetailBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

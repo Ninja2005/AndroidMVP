@@ -33,7 +33,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
-        binding = ActivityLoginBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

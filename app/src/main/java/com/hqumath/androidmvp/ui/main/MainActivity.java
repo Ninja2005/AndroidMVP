@@ -22,7 +22,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public View initContentView(Bundle savedInstanceState) {
-        binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
