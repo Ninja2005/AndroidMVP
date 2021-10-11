@@ -66,12 +66,12 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
 
     @Override
     public void showProgress() {
-        binding.progressBar.show();
+        showProgressDialog("loading");
     }
 
     @Override
     public void hideProgress() {
-        binding.progressBar.hide();
+        dismissProgressDialog();
     }
 
     @Override

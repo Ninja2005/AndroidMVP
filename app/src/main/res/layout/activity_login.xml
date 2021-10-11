@@ -56,13 +56,4 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <!--防止UI中的快速闪烁,执行hide()之后少于_0.5s_调用show()-->
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:layout_centerInParent="true"
-        android:id="@+id/progressBar"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
 </RelativeLayout>

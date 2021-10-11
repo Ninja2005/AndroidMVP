@@ -103,12 +103,12 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
     @Override
     public void showProgress() {
-        binding.progressBar.show();
+        showProgressDialog("loading");
     }
 
     @Override
     public void hideProgress() {
-        binding.progressBar.hide();
+        dismissProgressDialog();
     }
 
     @Override

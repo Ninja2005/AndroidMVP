@@ -1,5 +1,6 @@
 package com.hqumath.androidmvp.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     protected BaseActivity mContext;
+    private ProgressDialog mProgressDialog;//loaidng
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,13 +40,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initData();
 
-    //沉浸式状态栏，默认文字黑色
-    /*protected void initImmersionBar() {
-        ImmersionBar.with(this)
-                .reset()
-                .statusBarDarkFont(true, 0.2f)
-                .init();
-        //文字白色
-        //ImmersionBar.with(mContext).reset().init();
-    }*/
+    protected void showProgressDialog(String content) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(mContext);
+            mProgressDialog.setCancelable(false);
+        }
+        mProgressDialog.setMessage(content);
+        mProgressDialog.show();
+    }
+
+    protected void dismissProgressDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
 }
