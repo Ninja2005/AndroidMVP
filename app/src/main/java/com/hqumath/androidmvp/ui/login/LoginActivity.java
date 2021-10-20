@@ -69,11 +69,11 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
+        super.onDestroy();
     }
 
     /**
@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     private void loginRequest() {
         String name = binding.etName.getText().toString().trim();
         String pwd = binding.etPwd.getText().toString().trim();
-        boolean valid = true;//防止快速点击
+        boolean valid = true;
         if (TextUtils.isEmpty(name)) {
             valid = false;
             binding.llName.setError(getString(R.string.user_name_warning));

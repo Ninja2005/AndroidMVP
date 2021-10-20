@@ -26,8 +26,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(initContentView(savedInstanceState));
-        //初始化状态栏样式
-        //initImmersionBar();
         //事件监听
         initListener();
         //初始化数据

@@ -1,11 +1,13 @@
 package com.hqumath.androidmvp.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -20,30 +22,21 @@ import androidx.fragment.app.Fragment;
  * ****************************************************************
  */
 public abstract class BaseFragment extends Fragment {
-    private View rootView;
     protected Activity mContext;
-    //protected boolean hasRequested;//在onResume中判断是否已经请求过数据。用于懒加载
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mContext = getActivity();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = (Activity)context;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = initContentView(inflater, container, savedInstanceState);
-            //事件监听
-            initListener();
-            //初始化数据
-            initData();
-        } else {
-            //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-            ViewGroup parent = (ViewGroup) rootView.getParent();
-            if (parent != null)
-                parent.removeView(rootView);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = initContentView(inflater, container, savedInstanceState);
+        //事件监听
+        initListener();
+        //初始化数据
+        initData();
         return rootView;
     }
 
