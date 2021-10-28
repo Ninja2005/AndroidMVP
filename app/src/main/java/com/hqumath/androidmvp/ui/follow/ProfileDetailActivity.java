@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.ActivityProfileDetailBinding;
@@ -73,7 +75,9 @@ public class ProfileDetailActivity extends BaseActivity implements ProfileDetail
     public void onGetUserInfoSuccess(Object object) {
         UserInfoEntity data = (UserInfoEntity) object;
         Glide.with(mContext).load(data.getAvatar_url()).into(binding.ivAvatarBg);
-        Glide.with(mContext).load(data.getAvatar_url()).into(binding.ivAvatar);
+        Glide.with(mContext).load(data.getAvatar_url())
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
+                .into(binding.ivAvatar);
         binding.tvLocation.setText(data.getLocation());
         //时间格式化
         String date = data.getCreated_at();//2011-12-29T04:45:11Z
