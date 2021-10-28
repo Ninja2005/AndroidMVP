@@ -62,7 +62,7 @@
                     android:layout_marginTop="45dp"
                     android:layout_toEndOf="@+id/iv_avatar"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/tv_joined_time"
@@ -73,7 +73,7 @@
                     android:layout_toEndOf="@+id/iv_avatar"
                     android:gravity="center_vertical"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14dp" />
 
             </RelativeLayout>
 
@@ -121,7 +121,7 @@
                         android:lines="1"
                         android:padding="8dp"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         tools:text="Name" />
 
                     <TextView
@@ -132,7 +132,7 @@
                         android:drawablePadding="16dp"
                         android:padding="8dp"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="16sp"
+                        android:textSize="16dp"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
@@ -145,7 +145,7 @@
                         android:drawablePadding="16dp"
                         android:padding="8dp"
                         android:textColor="?android:colorAccent"
-                        android:textSize="16sp"
+                        android:textSize="16dp"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
@@ -159,7 +159,7 @@
                         android:lines="1"
                         android:padding="8dp"
                         android:textColor="?android:colorAccent"
-                        android:textSize="16sp"
+                        android:textSize="16dp"
                         android:visibility="gone"
                         tools:visibility="visible" />
 

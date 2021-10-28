@@ -2,15 +2,12 @@ package com.hqumath.androidmvp.app;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.hqumath.androidmvp.BuildConfig;
 import com.hqumath.androidmvp.utils.CommonUtil;
 import com.hqumath.androidmvp.utils.Density;
-import com.hqumath.androidmvp.utils.LogUtil;
 
 /**
  * ****************************************************************
@@ -23,7 +20,8 @@ import com.hqumath.androidmvp.utils.LogUtil;
  * ****************************************************************
  */
 public class App extends Application {
-    private static Application sInstance;
+    //获取全局上下文  CommonUtil.getContext();
+    //private static Application sInstance;
 
     @Override
     public void onCreate() {
@@ -40,7 +38,7 @@ public class App extends Application {
     }
 
     public static synchronized void setApplication(@NonNull Application application) {
-        sInstance = application;
+        //sInstance = application;
         //注册监听每个activity的生命周期,便于堆栈式管理
         application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 
@@ -79,12 +77,12 @@ public class App extends Application {
     /**
      * 获得当前app运行的Application
      */
-    public static Application getInstance() {
+    /*public static Application getInstance() {
         if (sInstance == null) {
             throw new NullPointerException("please inherit BaseApplication or call setApplication.");
         }
         return sInstance;
-    }
+    }*/
 
     /*@Override
     protected void attachBaseContext(Context base) {
