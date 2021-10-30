@@ -21,7 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ProfileDetailActivity extends BaseActivity implements ProfileDetailContract {
+public class ProfileDetailActivity extends BaseActivity implements ProfileDetailPresenter.ProfileDetailContract {
     private ActivityProfileDetailBinding binding;
     private ProfileDetailPresenter mPresenter;
 
@@ -64,11 +64,11 @@ public class ProfileDetailActivity extends BaseActivity implements ProfileDetail
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
+        super.onDestroy();
     }
 
     @Override

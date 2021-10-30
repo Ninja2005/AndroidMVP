@@ -45,12 +45,12 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
         hideProgress();
+        super.onDestroy();
     }
 
     @Override

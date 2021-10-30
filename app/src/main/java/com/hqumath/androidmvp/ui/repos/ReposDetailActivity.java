@@ -32,7 +32,7 @@ import java.util.Locale;
  * 注意事项:
  * ****************************************************************
  */
-public class ReposDetailActivity extends BaseActivity implements ReposDetailContract {
+public class ReposDetailActivity extends BaseActivity implements ReposDetailPresenter.ReposDetailContract {
     private ActivityReposDetailBinding binding;
     private ReposDetailPresenter mPresenter;
     private MyRecyclerAdapters.CommitsRecyclerAdapter recyclerAdapter;
@@ -85,11 +85,11 @@ public class ReposDetailActivity extends BaseActivity implements ReposDetailCont
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
+        super.onDestroy();
     }
 
     @Override

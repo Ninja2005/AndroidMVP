@@ -14,8 +14,18 @@ import com.hqumath.androidmvp.repository.MyModel;
  * 版权声明:
  * ****************************************************************
  */
-public class LoginPresenter extends BasePresenter<LoginContract> {
+public class LoginPresenter extends BasePresenter<LoginPresenter.LoginContract> {
 
+    public interface LoginContract {
+        void showProgress();
+
+        void hideProgress();
+
+        void onLoginSuccess(Object object);
+
+        void onLoginError(String errorMsg, String code);
+    }
+    
     public LoginPresenter() {
         mModel = new MyModel();
     }

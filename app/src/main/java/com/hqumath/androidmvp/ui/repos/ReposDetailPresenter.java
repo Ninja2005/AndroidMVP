@@ -8,7 +8,17 @@ import com.hqumath.androidmvp.repository.MyModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReposDetailPresenter extends BasePresenter<ReposDetailContract> {
+public class ReposDetailPresenter extends BasePresenter<ReposDetailPresenter.ReposDetailContract> {
+
+    public interface ReposDetailContract {
+        void onGetReposInfoSuccess(Object object);
+
+        void onGetReposInfoError(String errorMsg, String code);
+
+        void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
+
+        void onGetListError(String errorMsg, String code, boolean isRefresh);
+    }
 
     private final static int pageSize = 10;//分页
     private long pageIndex;//索引

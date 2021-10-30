@@ -21,7 +21,7 @@ import com.hqumath.androidmvp.utils.CommonUtil;
  * 版权声明:
  * ****************************************************************
  */
-public class FollowersFragment extends BaseFragment implements FollowContract {
+public class FollowersFragment extends BaseFragment implements FollowPresenter.FollowContract {
 
     private FragmentFollowersBinding binding;
     private FollowPresenter mPresenter;
@@ -64,11 +64,11 @@ public class FollowersFragment extends BaseFragment implements FollowContract {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
+        super.onDestroy();
     }
 
     @Override

@@ -20,7 +20,13 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class FollowPresenter extends BasePresenter<FollowContract> {
+public class FollowPresenter extends BasePresenter<FollowPresenter.FollowContract> {
+
+    public interface FollowContract {
+        void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
+
+        void onGetListError(String errorMsg, String code, boolean isRefresh);
+    }
 
     private final static int pageSize = 10;//分页
     private long pageIndex;//索引

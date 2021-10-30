@@ -21,7 +21,7 @@ import com.hqumath.androidmvp.utils.CommonUtil;
  * 版权声明:
  * ****************************************************************
  */
-public class MyReposFragment extends BaseFragment implements ReposContract {
+public class MyReposFragment extends BaseFragment implements MyReposPresenter.ReposContract {
 
     private FragmentSwipeListBinding binding;
     private MyReposPresenter mPresenter;
@@ -64,11 +64,11 @@ public class MyReposFragment extends BaseFragment implements ReposContract {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
             mPresenter = null;
         }
+        super.onDestroy();
     }
 
     @Override

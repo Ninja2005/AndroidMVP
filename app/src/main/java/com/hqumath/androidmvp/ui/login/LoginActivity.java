@@ -26,7 +26,7 @@ import com.hqumath.androidmvp.utils.SPUtil;
  * 版权声明:
  * ****************************************************************
  */
-public class LoginActivity extends BaseActivity implements LoginContract {
+public class LoginActivity extends BaseActivity implements LoginPresenter.LoginContract {
 
     private ActivityLoginBinding binding;
     private LoginPresenter mPresenter;

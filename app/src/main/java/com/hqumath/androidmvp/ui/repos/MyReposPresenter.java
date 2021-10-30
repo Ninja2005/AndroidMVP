@@ -20,7 +20,13 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class MyReposPresenter extends BasePresenter<ReposContract> {
+public class MyReposPresenter extends BasePresenter<MyReposPresenter.ReposContract> {
+
+    public interface ReposContract {
+        void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
+
+        void onGetListError(String errorMsg, String code, boolean isRefresh);
+    }
 
     private final static int pageSize = 10;//分页
     private long pageIndex;//索引

@@ -4,7 +4,13 @@ import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.net.HttpListener;
 import com.hqumath.androidmvp.repository.MyModel;
 
-public class ProfileDetailPresenter extends BasePresenter<ProfileDetailContract> {
+public class ProfileDetailPresenter extends BasePresenter<ProfileDetailPresenter.ProfileDetailContract> {
+
+    public interface ProfileDetailContract {
+        void onGetUserInfoSuccess(Object object);
+
+        void onGetUserInfoError(String errorMsg, String code);
+    }
 
     public String userName;
 
