@@ -33,7 +33,11 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
         });
         binding.btnUpload.setOnClickListener(v -> {
             File file = FileUtil.getFileFromUrl(url);
-            mPresenter.upload("testFile", file);
+            if(file.exists()) {
+                mPresenter.upload("testFile", file);
+            } else {
+                CommonUtil.toast("文件不存在，请先下载");
+            }
         });
     }
 

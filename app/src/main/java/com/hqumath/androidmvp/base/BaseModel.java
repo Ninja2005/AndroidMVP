@@ -92,6 +92,6 @@ public class BaseModel {
 
     //解除所有订阅者
     protected void dispose() {
-        compositeDisposable.clear();
+        compositeDisposable.clear();//主动解除订阅
     }
 }
