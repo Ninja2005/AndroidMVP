@@ -11,13 +11,16 @@ import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.databinding.FragmentFollowersBinding;
 import com.hqumath.androidmvp.utils.CommonUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ****************************************************************
  * 文件名称: FollowersFragment
  * 作    者: Created by gyd
  * 创建时间: 2019/11/5 10:06
- * 文件描述:
- * 注意事项: 使用DiffUtil比对更新，减少刷新量
+ * 文件描述: 使用 Room 持久化存储列表数据
+ * 注意事项:
  * 版权声明:
  * ****************************************************************
  */
@@ -45,12 +48,21 @@ public class FollowersFragment extends BaseFragment implements FollowPresenter.F
         mPresenter = new FollowPresenter();
         mPresenter.attachView(this);
 
-        recyclerAdapter = new MyRecyclerAdapters.FollowRecyclerAdapter(mContext, mPresenter.mData);
+        recyclerAdapter = new MyRecyclerAdapters.FollowRecyclerAdapter(mContext, new ArrayList<>());
         recyclerAdapter.setOnItemClickListener((v, position) -> {
-            UserInfoEntity data = mPresenter.mData.get(position);
-            startActivity(ProfileDetailActivity.getStartIntent(mContext, data.getLogin()));
+            List<UserInfoEntity> list = mPresenter.mData.getValue();
+            if (list != null && list.size() > position) {
+                UserInfoEntity data = list.get(position);
+                startActivity(ProfileDetailActivity.getStartIntent(mContext, data.getLogin()));
+            }
         });
         binding.recyclerView.setAdapter(recyclerAdapter);
+        //根据数据库刷新列表
+        mPresenter.mData.observe(this, list -> {
+            recyclerAdapter.setData(list);
+            recyclerAdapter.notifyDataSetChanged();
+            binding.emptyLayout.llEmpty.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+        });
     }
 
     @Override
@@ -73,7 +85,6 @@ public class FollowersFragment extends BaseFragment implements FollowPresenter.F
 
     @Override
     public void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty) {
-        recyclerAdapter.notifyDataSetChanged();
         if (isRefresh) {
             if (isNewDataEmpty) {
                 binding.refreshLayout.finishRefreshWithNoMoreData();//上拉加载功能将显示没有更多数据
@@ -87,7 +98,6 @@ public class FollowersFragment extends BaseFragment implements FollowPresenter.F
                 binding.refreshLayout.finishLoadMore();
             }
         }
-        binding.emptyLayout.llEmpty.setVisibility(mPresenter.mData.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -98,6 +108,5 @@ public class FollowersFragment extends BaseFragment implements FollowPresenter.F
         } else {
             binding.refreshLayout.finishLoadMore(false);
         }
-        binding.emptyLayout.llEmpty.setVisibility(mPresenter.mData.isEmpty() ? View.VISIBLE : View.GONE);
     }
 }

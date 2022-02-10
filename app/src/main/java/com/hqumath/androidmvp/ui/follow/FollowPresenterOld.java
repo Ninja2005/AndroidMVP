@@ -1,16 +1,13 @@
 package com.hqumath.androidmvp.ui.follow;
 
-import androidx.lifecycle.LiveData;
-
-import com.hqumath.androidmvp.app.AppExecutors;
 import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.base.BasePresenter;
 import com.hqumath.androidmvp.bean.UserInfoEntity;
 import com.hqumath.androidmvp.net.HttpListener;
-import com.hqumath.androidmvp.repository.AppDatabase;
 import com.hqumath.androidmvp.repository.MyModel;
 import com.hqumath.androidmvp.utils.SPUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +15,12 @@ import java.util.List;
  * 文件名称: FollowPresenter
  * 作    者: Created by gyd
  * 创建时间: 2019/1/21 15:12
- * 文件描述: 使用 Room 持久化存储列表数据，Network => DB => LiveData => RecyclerView
- * 注意事项: 自动加载数据库中全部数据，不能逐渐加载
+ * 文件描述:
+ * 注意事项:
  * 版权声明:
  * ****************************************************************
  */
-public class FollowPresenter extends BasePresenter<FollowPresenter.FollowContract> {
+public class FollowPresenterOld extends BasePresenter<FollowPresenterOld.FollowContract> {
 
     public interface FollowContract {
         void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
@@ -33,17 +30,10 @@ public class FollowPresenter extends BasePresenter<FollowPresenter.FollowContrac
 
     private final static int pageSize = 10;//分页
     private long pageIndex;//索引
-    public LiveData<List<UserInfoEntity>> mData;//列表数据
+    public List<UserInfoEntity> mData = new ArrayList<>();//列表数据
 
-    public FollowPresenter() {
+    public FollowPresenterOld() {
         mModel = new MyModel();
-        mData = AppDatabase.getInstance().userInfoDao().loadAll();//UserInfoDao_Impl 内部做了线程切换
-    }
-
-    @Override
-    public void detachView() {
-        super.detachView();
-        AppDatabase.getInstance().close();//关闭数据库
     }
 
     /**
@@ -63,12 +53,10 @@ public class FollowPresenter extends BasePresenter<FollowPresenter.FollowContrac
                 if (mView == null) return;
                 List<UserInfoEntity> list = (List<UserInfoEntity>) object;
                 pageIndex++;//偏移量+1
-                AppExecutors.getInstance().workThread().execute(() -> {
-                    if (isRefresh) //下拉覆盖，上拉增量
-                        AppDatabase.getInstance().userInfoDao().deleteAll();
-                    if (!list.isEmpty())
-                        AppDatabase.getInstance().userInfoDao().insertAll(list);
-                });
+                if (isRefresh) //下拉覆盖，上拉增量
+                    mData.clear();
+                if (!list.isEmpty())
+                    mData.addAll(list);
                 mView.onGetListSuccess(isRefresh, list.isEmpty());
             }
 
