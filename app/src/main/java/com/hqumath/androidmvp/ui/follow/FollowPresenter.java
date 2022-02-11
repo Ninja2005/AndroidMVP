@@ -40,12 +40,6 @@ public class FollowPresenter extends BasePresenter<FollowPresenter.Contract> {
         mData = AppDatabase.getInstance().userInfoDao().loadAll();//UserInfoDao_Impl 内部做了线程切换
     }
 
-    @Override
-    public void detachView() {
-        super.detachView();
-        AppDatabase.getInstance().close();//关闭数据库
-    }
-
     /**
      * 获取列表
      *

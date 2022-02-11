@@ -14,7 +14,7 @@ import com.hqumath.androidmvp.utils.CommonUtil;
  * 作    者: Created by gyd
  * 创建时间: 2019/7/4 11:35
  * 文件描述: 数据库
- * 注意事项: onDestroy时关闭数据库
+ * 注意事项: 不再主动关闭数据库，减少性能消耗
  * 版权声明:
  * ****************************************************************
  */
@@ -32,6 +32,4 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract UserInfoDao userInfoDao();
-
-    //注意，onDestroy时关闭数据库 close();
 }
