@@ -24,7 +24,7 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class FollowersFragment extends BaseFragment implements FollowPresenter.FollowContract {
+public class FollowersFragment extends BaseFragment implements FollowPresenter.Contract {
 
     private FragmentFollowersBinding binding;
     private FollowPresenter mPresenter;

@@ -23,9 +23,9 @@ import java.util.List;
  * 版权声明:
  * ****************************************************************
  */
-public class FollowPresenter extends BasePresenter<FollowPresenter.FollowContract> {
+public class FollowPresenter extends BasePresenter<FollowPresenter.Contract> {
 
-    public interface FollowContract {
+    public interface Contract {
         void onGetListSuccess(boolean isRefresh, boolean isNewDataEmpty);
 
         void onGetListError(String errorMsg, String code, boolean isRefresh);

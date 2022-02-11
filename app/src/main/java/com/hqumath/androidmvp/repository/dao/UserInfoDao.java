@@ -42,6 +42,6 @@ public interface UserInfoDao {
     @Query("delete from user_info")
     void deleteAll();
 
-    @Query("SELECT MAX(indexInResponse) + 1 FROM user_info")
-    int getNextIndex();
+//    @Query("SELECT MAX(indexInResponse) + 1 FROM user_info")
+//    int getNextIndex();
 }

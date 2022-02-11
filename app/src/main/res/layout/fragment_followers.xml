@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="Followers"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
