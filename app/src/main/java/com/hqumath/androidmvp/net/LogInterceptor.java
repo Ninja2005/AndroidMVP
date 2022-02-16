@@ -15,6 +15,7 @@ import okhttp3.ResponseBody;
  * 打印日志
  */
 public class LogInterceptor implements Interceptor {
+    private final String TAG = "HTTPTag";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -23,7 +24,8 @@ public class LogInterceptor implements Interceptor {
         try {
             response = chain.proceed(request.newBuilder().build());
         } catch (Exception e) {
-            LogUtil.d("HTTP", "网络请求异常\n" + e);
+            LogUtil.d(TAG, "=====\n" + request.method() + ": "
+                    + request.url() + "\n" + e.getMessage(), false);
             throw e;
         }
         //response.body()调用后，response中的流会被关闭
@@ -33,8 +35,8 @@ public class LogInterceptor implements Interceptor {
         //JSONObject jsonObject = new JSONObject(content); //统一处理响应数据
 
         //打印出参
-        LogUtil.d("HTTP", "=====\n" + response.request().method() + ": "
-                + response.request().url() + "\n" + content);
+        LogUtil.d(TAG, "=====\n" + request.method() + ": "
+                + request.url() + "\n" + content, false);
         return response;
     }
 }
