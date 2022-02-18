@@ -23,7 +23,7 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
     private LayoutInflater mLayoutInflater;
-    private OnItemClickLitener mOnItemClickListener;
+    private OnItemClickListener mOnItemClickListener;
 
     protected List<T> mData;
     private int mLayoutId;
@@ -56,7 +56,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     /**
      * 该方法需要在setAdapter之前调用
      */
-    public BaseRecyclerAdapter<T> setOnItemClickListener(OnItemClickLitener mOnItemClickListener) {
+    public BaseRecyclerAdapter<T> setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
         return this;
     }
@@ -82,7 +82,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         mData.clear();
     }
 
-    public interface OnItemClickLitener {
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 }
