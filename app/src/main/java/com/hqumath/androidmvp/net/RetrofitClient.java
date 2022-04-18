@@ -29,7 +29,7 @@ public class RetrofitClient {
     private final static int writeTimeout = 6;//s,写超时
 
     private ApiService apiService;//api服务器
-    private ApiService downloadService;//下载服务器
+    //private ApiService downloadService;//下载服务器
 
     //获取单例
     public static RetrofitClient getInstance() {
@@ -69,22 +69,19 @@ public class RetrofitClient {
 
     //下载服务器
     public ApiService getDownloadService(DownloadListener listener) {
-        if (downloadService == null) {
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
-            builder.readTimeout(readTimeout, TimeUnit.SECONDS);
-            builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
-            builder.retryOnConnectionFailure(false);//出现错误时会重新发送请求
-            if (listener != null)
-                builder.addInterceptor(new DownloadInterceptor(listener));//下载拦截器（显示进度）
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(builder.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(Constant.downloadHost)
-                    .build();
-            downloadService = retrofit.create(ApiService.class);
-        }
-        return downloadService;
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+        builder.readTimeout(readTimeout, TimeUnit.SECONDS);
+        builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
+        builder.retryOnConnectionFailure(false);//出现错误时会重新发送请求
+        if (listener != null)
+            builder.addInterceptor(new DownloadInterceptor(listener));//下载拦截器（显示进度）
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(builder.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(Constant.downloadHost)
+                .build();
+        return retrofit.create(ApiService.class);
     }
 }
