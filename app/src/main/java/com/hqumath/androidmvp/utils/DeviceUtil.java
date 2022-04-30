@@ -76,7 +76,7 @@ public class DeviceUtil {
                 if (arrayOfByte == null || arrayOfByte.length == 0) {
                     continue;
                 }
-                return ByteUtil.byteToHex(arrayOfByte).toUpperCase();
+                return ByteUtil.bytesToHex(arrayOfByte).toUpperCase();
             }
         } catch (Exception e) {
             e.printStackTrace();
