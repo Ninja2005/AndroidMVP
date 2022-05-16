@@ -3,7 +3,7 @@
 /build
 /captures
 /local.properties
-/keystore.properties
+/hqumaths_keystore.properties
 /*.iml
 /*.rar
 /.DS_Store
