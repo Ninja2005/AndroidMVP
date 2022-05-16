@@ -3,6 +3,7 @@
 /build
 /captures
 /local.properties
+/keystore.properties
 /*.iml
 /*.rar
 /.DS_Store
