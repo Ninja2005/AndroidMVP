@@ -11,6 +11,9 @@ package com.hqumath.androidmvp.utils;
  * ****************************************************************
  */
 public class ByteUtil {
+    //无法运行的问题
+    //在.idea文件夹下的gradle.xml文件中<GradleProjectSettings>下添加<option name="delegatedBuild" value="false" />
+
     private static final String TAG = "ByteUtil1";
 
     public static void main(String[] args) {
@@ -44,7 +47,6 @@ public class ByteUtil {
         Integer.parseInt(1)
         System.out.println(hex);*/
     }
-
 
     /////////////////////////////数值类型转Hex///////////////////////////
 
@@ -162,7 +164,7 @@ public class ByteUtil {
      * @param hex 注意不要有空格
      */
     public static byte[] hexToBytes(String hex) {
-        //hex.replace(" ", "");
+        hex = hex.replace(" ", "");
         if (hex.length() % 2 == 1) {//每两个hex描述一个字节
             hex = "0" + hex;
         }
@@ -340,6 +342,20 @@ public class ByteUtil {
         System.arraycopy(bt2, 0, bt3, bt1.length, bt2.length);
         return bt3;
     }
+
+    /**
+     * 截取byte数组   不改变原数组
+     *
+     * @param b      原数组
+     * @param off    偏差值（索引）
+     * @param length 长度
+     * @return 截取后的数组
+     */
+    public static byte[] subByte(byte[] b, int off, int length) {
+        byte[] b1 = new byte[length];
+        System.arraycopy(b, off, b1, 0, length);
+        return b1;
+    }
     /////////////////////////////其它////////////////////////////////
 
     /**
@@ -354,5 +370,10 @@ public class ByteUtil {
             total += byte2Uint8(aByte);
         }
         return (byte) (total & 0xff);//取后8位
+    }
+
+    //报文前两字节长度
+    public static int getMessageLen(byte[] data) {
+        return (short) ((data[1] & 0xFF) | (data[0] << 8));
     }
 }
