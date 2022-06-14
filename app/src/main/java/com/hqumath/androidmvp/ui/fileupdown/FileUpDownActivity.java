@@ -1,14 +1,20 @@
 package com.hqumath.androidmvp.ui.fileupdown;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.hqumath.androidmvp.R;
 import com.hqumath.androidmvp.base.BaseActivity;
 import com.hqumath.androidmvp.databinding.ActivityFileupdownBinding;
 import com.hqumath.androidmvp.utils.CommonUtil;
 import com.hqumath.androidmvp.utils.FileUtil;
+import com.hqumath.androidmvp.utils.PermissionUtil;
 import com.hqumath.androidmvp.widget.DownloadingDialog;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.RequestExecutor;
 
 import java.io.File;
 
@@ -61,6 +67,9 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
     public void onDownloadSuccess(Object object) {
         String fileName = ((File) object).getName();
         CommonUtil.toast(fileName + "Download success.");
+        //安装
+        AndPermission.with(mContext).install().file((File) object).rationale(PermissionUtil::showInstallDialog)//授权安装app弹窗
+                .onGranted(null).onDenied(null).start();
     }
 
     @Override
@@ -111,4 +120,5 @@ public class FileUpDownActivity extends BaseActivity implements FileUpDownPresen
             }
         });
     }
+
 }
