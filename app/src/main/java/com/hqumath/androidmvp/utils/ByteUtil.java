@@ -17,35 +17,9 @@ public class ByteUtil {
     private static final String TAG = "ByteUtil1";
 
     public static void main(String[] args) {
-        /*//byte[] b1= {0,0,0,1};//1
-        byte[] b1 = {(byte) 0b10000000, 0, 0, 0};//2147483648
-        //byte[] b1= {(byte) 0x80,0};
-
-        //byte[] b2= {0,0,0,0,0,0,0,1};//1
-        byte[] b2 = { (byte) 0b10000000, 0, 0, 0, 0, 0, 0, 0};//2147483648
-        //byte[] b2 = { (byte) 0x80, 0, 0, 0, 0, 0, 0, 0};//2147483648
-
-        *//*int r1 = bytes2Int(b1, 0, false);
-        float r2 = bytes2Float(b1, 0, false);
-        long r3 = bytes2Long(b2, 0, false);
-        double r4 = bytes2Double(b2, 0, false);*//*
-        long r1 = bytes2Int64(b2,0,false);
-        float r2 = bytes2Float(b1,0,false);
-        double r3 = bytes2Double(b2,0,false);
-
-        System.out.println(r1);
-        System.out.println(r2);
-        System.out.println(r3);*/
-
-        //String uuid = "d04894a4-f658-8d7d-7405-15fff20b6377".replace("-", "");
-        /*String hex = Integer.toHexString(100);
-
-        //String 转 byte[]
-        byte[] data1 = "wintop".getBytes();
-        //16进制 转 byte[]
-        byte[] data2 = ByteUtil.hexToByteArray(hex);//2Hex 1Byte
-        Integer.parseInt(1)
-        System.out.println(hex);*/
+        byte[] b1= {0,0,0,1};
+        int b2 = ByteUtil.bytesToInt32(b1, 0, false);
+        System.out.println(b2 + "");
     }
 
     /////////////////////////////数值类型转Hex///////////////////////////
