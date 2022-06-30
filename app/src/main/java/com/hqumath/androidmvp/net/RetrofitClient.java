@@ -4,9 +4,11 @@ import com.hqumath.androidmvp.app.Constant;
 import com.hqumath.androidmvp.net.download.DownloadInterceptor;
 import com.hqumath.androidmvp.net.download.DownloadListener;
 
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -54,7 +56,8 @@ public class RetrofitClient {
             builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
             builder.readTimeout(readTimeout, TimeUnit.SECONDS);
             builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
-            builder.retryOnConnectionFailure(false);//出现错误时会重新发送请求
+            builder.protocols(Collections.singletonList(Protocol.HTTP_1_1));//不使用http/2
+            //builder.retryOnConnectionFailure(false);//出现错误时会重新发送请求
             builder.addInterceptor(new LogInterceptor());//自定义拦截器（token过期后刷新token，打印日志）
             Retrofit retrofit = new Retrofit.Builder()
                     .client(builder.build())
