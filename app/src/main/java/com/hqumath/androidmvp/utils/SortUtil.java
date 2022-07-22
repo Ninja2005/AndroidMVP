@@ -16,7 +16,7 @@ public class SortUtil {
     public static void main(String[] args) {
 
         int[] data = {1, 81, 3, 16, 8, 0, 32, 82, 6, 83, 10};
-        int[] data1 = SelectionSort(data);
+        int[] data1 = QuickSort(data);
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < data.length; i++) {
             sb.append(" " + data1[i]);
@@ -86,5 +86,52 @@ public class SortUtil {
             }
         }
         return arr;
+    }
+
+    /**
+     * 快速排序，找基准数，分区，递归前两步
+     * 时间复杂度 O(n^2)
+     */
+    public static int[] QuickSort(int[] sourceArray) {
+        int arr[] = Arrays.copyOf(sourceArray, sourceArray.length);
+        return quickSort(arr, 0, arr.length - 1);
+    }
+
+    private static int[] quickSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int partitionIndex = partition(arr, left, right);
+            quickSort(arr, left, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, right);
+        }
+        return arr;
+    }
+
+    /**
+     * 找基准数，分区
+     * 先从右边找小于等于它的a[n]补a[0]的坑，再从左边找大于它的补a[n]的坑，循环
+     */
+    private static int partition(int[] s, int l, int r) {
+        int i = l;
+        int j = r;
+        int x = s[l];//基准数
+        while (i < j) {
+            //从右边寻找小于x的值来填s[i]
+            while (i < j && s[j] < x)
+                j--;
+            if (i < j) {
+                s[i] = s[j];
+                i++;
+            }
+            //从左边寻找大于或等于x的数来填s[j]
+            while (i < j && s[i] >= x)
+                i++;
+            if (i < j) {
+                s[j] = s[i];
+                j--;
+            }
+        }
+        //退出时i=j, 填入x
+        s[i] = x;
+        return i;
     }
 }
