@@ -15,11 +15,12 @@ import java.util.Arrays;
 public class SortUtil {
     public static void main(String[] args) {
 
-        int[] data = {1, 81, 3, 16, 8, 0, 32, 82, 6, 83, 10};
-        int[] data1 = QuickSort(data);
+        int[] data = {1, 81, 3, 16, 8, 0, 32, 82, 6, 83, 10, 22, 45, 278, 98, 432, 17, 6, 4, 33, 68, 24, 987, 67, 85, 35};
+
+        QuickSort(data);
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < data.length; i++) {
-            sb.append(" " + data1[i]);
+            sb.append(" " + data[i]);
         }
         System.out.println(sb.toString());
     }
@@ -89,49 +90,32 @@ public class SortUtil {
     }
 
     /**
-     * 快速排序，找基准数，分区，递归前两步
+     * 快速排序，找基准数->分割成两部分->分别递归
      * 时间复杂度 O(n^2)
      */
-    public static int[] QuickSort(int[] sourceArray) {
-        int arr[] = Arrays.copyOf(sourceArray, sourceArray.length);
-        return quickSort(arr, 0, arr.length - 1);
+    public static void QuickSort(int[] arr) {
+        partition(arr, 0, arr.length - 1);
     }
 
-    private static int[] quickSort(int[] arr, int left, int right) {
+    private static void partition(int[] arr, int left, int right) {
         if (left < right) {
-            int partitionIndex = partition(arr, left, right);
-            quickSort(arr, left, partitionIndex - 1);
-            quickSort(arr, partitionIndex + 1, right);
-        }
-        return arr;
-    }
-
-    /**
-     * 找基准数，分区
-     * 先从右边找小于等于它的a[n]补a[0]的坑，再从左边找大于它的补a[n]的坑，循环
-     */
-    private static int partition(int[] s, int l, int r) {
-        int i = l;
-        int j = r;
-        int x = s[l];//基准数
-        while (i < j) {
-            //从右边寻找小于x的值来填s[i]
-            while (i < j && s[j] < x)
-                j--;
-            if (i < j) {
-                s[i] = s[j];
-                i++;
+            //找基准数的三个方法：固定位置 随机选取 三数取中
+            int pivot = arr[left];
+            int i = left;
+            int j = right;
+            while (i < j) {
+                while (i < j && arr[j] >= pivot)
+                    j--;
+                if (i < j)
+                    arr[i++] = arr[j];
+                while (i < j && arr[i] < pivot)
+                    i++;
+                if (i < j)
+                    arr[j--] = arr[i];
             }
-            //从左边寻找大于或等于x的数来填s[j]
-            while (i < j && s[i] >= x)
-                i++;
-            if (i < j) {
-                s[j] = s[i];
-                j--;
-            }
+            arr[i] = pivot;
+            partition(arr, left, i - 1);
+            partition(arr, i + 1, right);
         }
-        //退出时i=j, 填入x
-        s[i] = x;
-        return i;
     }
 }
